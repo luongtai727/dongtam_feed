@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
   ArrowRight, Leaf, Shield, Award, Factory, TrendingUp, Users,
-  ChevronRight, Star, Zap, Phone, CheckCircle2
+  ChevronRight, Star, Zap, Phone, CheckCircle2, X
 } from 'lucide-react';
 import './Home.css';
 
@@ -12,11 +12,14 @@ export default function Home() {
   const [products, setProducts] = useState([]);
   const [news, setNews] = useState([]);
   const [settings, setSettings] = useState({});
+  const [gallery, setGallery] = useState([]);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
     fetch(`${API}/api/products/featured`).then(r => r.json()).then(setProducts).catch(() => {});
     fetch(`${API}/api/news`).then(r => r.json()).then(d => setNews(d.slice(0, 3))).catch(() => {});
     fetch(`${API}/api/settings`).then(r => r.json()).then(setSettings).catch(() => {});
+    fetch(`${API}/api/gallery`).then(r => r.json()).then(setGallery).catch(() => {});
   }, []);
 
   const stats = [
@@ -267,6 +270,112 @@ export default function Home() {
               ))}
             </div>
           </div>
+        </section>
+      )}
+
+      {/* ==================== GALLERY ==================== */}
+      {gallery.length > 0 && (
+        <section className="section gallery-section" style={{ background: 'var(--surface-muted)' }}>
+          <div className="container">
+            <span className="section-label center">HÌNH ẢNH HOẠT ĐỘNG</span>
+            <h2 className="section-title">Thư viện ảnh</h2>
+            <div className="section-divider"></div>
+            <p className="section-subtitle">
+              Hình ảnh thực tế về cơ sở vật chất, nhà máy sản xuất và hoạt động của Đồng Tâm Feed
+            </p>
+
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+              gap: '1.5rem',
+              marginTop: '2rem'
+            }}>
+              {gallery.slice(0, 4).map(img => (
+                <div 
+                  key={img.id}
+                  onClick={() => setSelectedImage(img)}
+                  style={{
+                    borderRadius: 'var(--radius-lg)',
+                    overflow: 'hidden',
+                    cursor: 'pointer',
+                    boxShadow: 'var(--shadow-sm)',
+                    transition: 'all 0.3s ease',
+                    border: '1px solid var(--border-default)',
+                    background: 'var(--surface-card)',
+                    height: '240px',
+                    display: 'flex',
+                    flexDirection: 'column'
+                  }}
+                  className="gallery-hover-card"
+                >
+                  <div style={{ width: '100%', height: '180px', overflow: 'hidden', background: 'var(--surface-muted)' }}>
+                    <img 
+                      src={`${API}${img.image}`} 
+                      alt={img.title} 
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                    />
+                  </div>
+                  <div style={{ padding: '0.75rem 1rem', flex: 1, display: 'flex', alignItems: 'center' }}>
+                    <h4 style={{ margin: 0, fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-primary)' }}>{img.title}</h4>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div style={{ textAlign: 'center', marginTop: '2.5rem' }}>
+              <Link to="/gioi-thieu/hinh-anh" className="btn btn-outline">
+                Xem thêm hình ảnh <ArrowRight size={16} />
+              </Link>
+            </div>
+          </div>
+
+          {/* Lightbox Modal */}
+          {selectedImage && (
+            <div 
+              onClick={() => setSelectedImage(null)}
+              style={{
+                position: 'fixed',
+                inset: 0,
+                background: 'rgba(0,0,0,0.85)',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                zIndex: 9999,
+                padding: '2rem',
+                cursor: 'zoom-out'
+              }}
+            >
+              <div style={{ position: 'relative', maxWidth: '90%', maxHeight: '80%' }} onClick={e => e.stopPropagation()}>
+                <button 
+                  onClick={() => setSelectedImage(null)}
+                  style={{
+                    position: 'absolute',
+                    top: '-40px',
+                    right: '0',
+                    background: 'none',
+                    border: 'none',
+                    color: '#fff',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    fontWeight: '600'
+                  }}
+                >
+                  <X size={24} /> Đóng
+                </button>
+                <img 
+                  src={`${API}${selectedImage.image}`} 
+                  alt={selectedImage.title} 
+                  style={{ maxWidth: '100%', maxHeight: '75vh', objectFit: 'contain', borderRadius: 'var(--radius-md)', boxShadow: '0 10px 25px rgba(0,0,0,0.5)' }} 
+                />
+                <h3 style={{ color: '#fff', textAlign: 'center', marginTop: '1rem', fontWeight: '500', fontSize: '1.1rem' }}>
+                  {selectedImage.title}
+                </h3>
+              </div>
+            </div>
+          )}
         </section>
       )}
 
