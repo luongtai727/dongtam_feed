@@ -3,7 +3,7 @@ import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import {
   LayoutDashboard, Package, Newspaper, MessageSquare, Settings,
-  LogOut, Leaf, ChevronRight, Menu, X, BarChart3, Users, TrendingUp, Tag
+  LogOut, Leaf, ChevronRight, Menu, X, BarChart3, Users, TrendingUp, Tag, Image
 } from 'lucide-react';
 import './Admin.css';
 
@@ -34,6 +34,7 @@ export default function AdminDashboard() {
     { path: '/admin/news', label: 'Tin tức', icon: <Newspaper size={18} /> },
     { path: '/admin/categories', label: 'Danh mục', icon: <Tag size={18} /> },
     { path: '/admin/contacts', label: 'Liên hệ', icon: <MessageSquare size={18} />, badge: stats.newContacts },
+    { path: '/admin/gallery', label: 'Hình ảnh hoạt động', icon: <Image size={18} /> },
     { path: '/admin/settings', label: 'Cài đặt', icon: <Settings size={18} /> },
   ];
 

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Building2, Factory, Award, Eye, Target, Heart, Shield, CheckCircle2, ChevronRight } from 'lucide-react';
+import { Building2, Factory, Award, Eye, Target, Heart, Shield, CheckCircle2, ChevronRight, Image, X } from 'lucide-react';
 import './About.css';
 
 const API = import.meta.env.VITE_API_URL || 'http://localhost:5000';
@@ -8,7 +8,10 @@ const API = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 export default function About() {
   const { section } = useParams();
   const [settings, setSettings] = useState({});
-  const [activeTab, setActiveTab] = useState(section || 'cong-ty');
+  const [activeTab, setActiveTab] = useState('cong-ty');
+  const [gallery, setGallery] = useState([]);
+  const [loadingGallery, setLoadingGallery] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
     fetch(`${API}/api/settings`).then(r => r.json()).then(setSettings).catch(() => {});
@@ -18,10 +21,24 @@ export default function About() {
     if (section) setActiveTab(section);
   }, [section]);
 
+  useEffect(() => {
+    if (activeTab === 'hinh-anh') {
+      setLoadingGallery(true);
+      fetch(`${API}/api/gallery`)
+        .then(r => r.json())
+        .then(d => {
+          setGallery(d);
+          setLoadingGallery(false);
+        })
+        .catch(() => setLoadingGallery(false));
+    }
+  }, [activeTab]);
+
   const tabs = [
     { id: 'cong-ty', label: 'Về công ty', icon: <Building2 size={18} /> },
     { id: 'nha-may', label: 'Nhà máy', icon: <Factory size={18} /> },
     { id: 'chung-nhan', label: 'Chứng nhận', icon: <Award size={18} /> },
+    { id: 'hinh-anh', label: 'Hình ảnh hoạt động', icon: <Image size={18} /> },
   ];
 
   return (
@@ -177,6 +194,112 @@ export default function About() {
                   </div>
                 ))}
               </div>
+            </div>
+          )}
+
+          {/* Thư viện ảnh */}
+          {activeTab === 'hinh-anh' && (
+            <div className="about-content-section animate-fade-in-up">
+              <div className="certs-intro" style={{ marginBottom: '2rem' }}>
+                <span className="section-label">THƯ VIỆN ẢNH</span>
+                <h2>Hình ảnh <span className="text-green">hoạt động</span></h2>
+                <p>Xem các hình ảnh về cơ sở vật chất, dây chuyền sản xuất và các chứng nhận chất lượng của Đồng Tâm Feed.</p>
+              </div>
+
+              {loadingGallery ? (
+                <div style={{ display: 'flex', justifyContent: 'center', padding: '3rem' }}>
+                  <div className="spinner"></div>
+                </div>
+              ) : gallery.length === 0 ? (
+                <div style={{ textAlign: 'center', padding: '5rem 0', color: 'var(--text-muted)', background: 'var(--surface-card)', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border-default)' }}>
+                  Không có hình ảnh hoạt động nào.
+                </div>
+              ) : (
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+                  gap: '1.5rem'
+                }}>
+                  {gallery.map(img => (
+                    <div 
+                      key={img.id}
+                      onClick={() => setSelectedImage(img)}
+                      style={{
+                        borderRadius: 'var(--radius-lg)',
+                        overflow: 'hidden',
+                        cursor: 'pointer',
+                        boxShadow: 'var(--shadow-sm)',
+                        transition: 'all 0.3s ease',
+                        border: '1px solid var(--border-default)',
+                        background: 'var(--surface-card)',
+                        height: '240px',
+                        display: 'flex',
+                        flexDirection: 'column'
+                      }}
+                      className="gallery-hover-card"
+                    >
+                      <div style={{ width: '100%', height: '180px', overflow: 'hidden', background: 'var(--surface-muted)' }}>
+                        <img 
+                          src={`${API}${img.image}`} 
+                          alt={img.title} 
+                          style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                        />
+                      </div>
+                      <div style={{ padding: '0.75rem 1rem', flex: 1, display: 'flex', alignItems: 'center' }}>
+                        <h4 style={{ margin: 0, fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-primary)' }}>{img.title}</h4>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Lightbox Modal */}
+              {selectedImage && (
+                <div 
+                  onClick={() => setSelectedImage(null)}
+                  style={{
+                    position: 'fixed',
+                    inset: 0,
+                    background: 'rgba(0,0,0,0.85)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    zIndex: 9999,
+                    padding: '2rem',
+                    cursor: 'zoom-out'
+                  }}
+                >
+                  <div style={{ position: 'relative', maxWidth: '90%', maxHeight: '80%' }} onClick={e => e.stopPropagation()}>
+                    <button 
+                      onClick={() => setSelectedImage(null)}
+                      style={{
+                        position: 'absolute',
+                        top: '-40px',
+                        right: '0',
+                        background: 'none',
+                        border: 'none',
+                        color: '#fff',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                        fontWeight: '600'
+                      }}
+                    >
+                      <X size={24} /> Đóng
+                    </button>
+                    <img 
+                      src={`${API}${selectedImage.image}`} 
+                      alt={selectedImage.title} 
+                      style={{ maxWidth: '100%', maxHeight: '75vh', objectFit: 'contain', borderRadius: 'var(--radius-md)', boxShadow: '0 10px 25px rgba(0,0,0,0.5)' }} 
+                    />
+                    <h3 style={{ color: '#fff', textAlign: 'center', marginTop: '1rem', fontWeight: '500', fontSize: '1.1rem' }}>
+                      {selectedImage.title}
+                    </h3>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>

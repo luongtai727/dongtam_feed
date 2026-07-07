@@ -51,10 +51,10 @@
   --surface-elevated: #ffffff;
   --surface-muted: var(--gray-50);
   --surface-input: #ffffff;
-  --text-primary: var(--gray-800);
-  --text-secondary: var(--gray-600);
-  --text-muted: var(--gray-500);
-  --text-heading: var(--navy-900);
+  --text-primary: var(--gray-900);
+  --text-secondary: var(--gray-700);
+  --text-muted: var(--gray-600);
+  --text-heading: #090e14;
   --border-default: var(--gray-200);
   --border-light: var(--gray-100);
 

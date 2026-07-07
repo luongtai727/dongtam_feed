@@ -15,6 +15,7 @@ import ManageNews from './pages/admin/ManageNews';
 import ManageContacts from './pages/admin/ManageContacts';
 import ManageCategories from './pages/admin/ManageCategories';
 import ManageSettings from './pages/admin/ManageSettings';
+import ManageGallery from './pages/admin/ManageGallery';
 import { useEffect } from 'react';
 
 // Scroll to top on route change
@@ -72,6 +73,7 @@ function AppRoutes() {
           <Route path="news" element={<ManageNews />} />
           <Route path="categories" element={<ManageCategories />} />
           <Route path="contacts" element={<ManageContacts />} />
+          <Route path="gallery" element={<ManageGallery />} />
           <Route path="settings" element={<ManageSettings />} />
         </Route>
 

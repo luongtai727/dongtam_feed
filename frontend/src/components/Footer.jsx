@@ -50,6 +50,7 @@ export default function Footer() {
               <ul className="footer-links">
                 <li><Link to="/">Trang chủ</Link></li>
                 <li><Link to="/gioi-thieu/cong-ty">Về công ty</Link></li>
+                <li><Link to="/gioi-thieu/hinh-anh">Thư viện ảnh</Link></li>
                 <li><Link to="/san-pham">Sản phẩm</Link></li>
                 <li><Link to="/tin-tuc">Tin tức</Link></li>
                 <li><Link to="/lien-he">Liên hệ</Link></li>

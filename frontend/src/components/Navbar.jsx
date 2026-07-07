@@ -91,6 +91,7 @@ export default function Navbar() {
                 <li><Link to="/gioi-thieu/cong-ty" className="dropdown-item">Về công ty</Link></li>
                 <li><Link to="/gioi-thieu/nha-may" className="dropdown-item">Nhà máy</Link></li>
                 <li><Link to="/gioi-thieu/chung-nhan" className="dropdown-item">Chứng nhận</Link></li>
+                <li><Link to="/gioi-thieu/hinh-anh" className="dropdown-item">Thư viện ảnh</Link></li>
               </ul>
             </li>
             <li className={`nav-item ${location.pathname.startsWith('/san-pham') ? 'active' : ''}`}>
@@ -127,6 +128,7 @@ export default function Navbar() {
             <Link to="/gioi-thieu/cong-ty" className="mobile-link sub">Về công ty</Link>
             <Link to="/gioi-thieu/nha-may" className="mobile-link sub">Nhà máy</Link>
             <Link to="/gioi-thieu/chung-nhan" className="mobile-link sub">Chứng nhận</Link>
+            <Link to="/gioi-thieu/hinh-anh" className="mobile-link sub">Thư viện ảnh</Link>
           </div>
           <Link to="/san-pham" className={`mobile-link ${location.pathname.startsWith('/san-pham') ? 'active' : ''}`}>Sản phẩm</Link>
           <Link to="/tin-tuc" className={`mobile-link ${location.pathname.startsWith('/tin-tuc') ? 'active' : ''}`}>Tin tức</Link>

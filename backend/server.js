@@ -477,6 +477,67 @@ app.delete('/api/news/:id', authMiddleware, (req, res) => {
 });
 
 // ============================================================
+// GALLERY ROUTES
+// ============================================================
+
+// GET gallery (public)
+app.get('/api/gallery', (req, res) => {
+  try {
+    const gallery = readData('gallery.json');
+    res.json(gallery);
+  } catch (err) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// POST add gallery image (admin)
+app.post('/api/gallery', authMiddleware, upload.single('image'), (req, res) => {
+  try {
+    const { title } = req.body;
+    if (!title || !title.trim()) {
+      return res.status(400).json({ error: 'Tiêu đề ảnh không được để trống' });
+    }
+    if (!req.file) {
+      return res.status(400).json({ error: 'Vui lòng chọn ảnh để tải lên' });
+    }
+
+    const gallery = readData('gallery.json');
+    const newImage = {
+      id: `img-${Date.now()}`,
+      title: title.trim(),
+      image: `/uploads/${req.file.filename}`,
+      createdAt: new Date().toISOString()
+    };
+
+    gallery.unshift(newImage);
+    writeData('gallery.json', gallery);
+    res.json(newImage);
+  } catch (err) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// DELETE gallery image (admin)
+app.delete('/api/gallery/:id', authMiddleware, (req, res) => {
+  try {
+    let gallery = readData('gallery.json');
+    const imageItem = gallery.find(g => g.id === req.params.id);
+    if (!imageItem) return res.status(404).json({ error: 'Image not found' });
+
+    if (imageItem.image) {
+      const imgPath = path.join(__dirname, imageItem.image);
+      if (fs.existsSync(imgPath)) fs.unlinkSync(imgPath);
+    }
+
+    gallery = gallery.filter(g => g.id !== req.params.id);
+    writeData('gallery.json', gallery);
+    res.json({ message: 'Image deleted' });
+  } catch (err) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// ============================================================
 // SETTINGS ROUTES
 // ============================================================
 
