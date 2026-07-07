@@ -116,10 +116,18 @@ export default function About() {
                 </div>
                 <div className="about-col-image">
                   <div className="about-img-box">
-                    <div className="about-img-placeholder">
-                      <Building2 size={64} strokeWidth={1} />
-                      <span>Trụ sở Đồng Tâm Feed</span>
-                    </div>
+                    {settings.officeImage ? (
+                      <img 
+                        src={`${API}${settings.officeImage}`} 
+                        alt="Trụ sở Đồng Tâm Feed" 
+                        style={{ width: '100%', height: '350px', objectFit: 'cover' }} 
+                      />
+                    ) : (
+                      <div className="about-img-placeholder">
+                        <Building2 size={64} strokeWidth={1} />
+                        <span>Trụ sở Đồng Tâm Feed</span>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -132,10 +140,18 @@ export default function About() {
               <div className="about-two-col">
                 <div className="about-col-image">
                   <div className="about-img-box">
-                    <div className="about-img-placeholder">
-                      <Factory size={64} strokeWidth={1} />
-                      <span>Nhà máy Đồng Tâm Feed</span>
-                    </div>
+                    {settings.factoryImage ? (
+                      <img 
+                        src={`${API}${settings.factoryImage}`} 
+                        alt="Nhà máy Đồng Tâm Feed" 
+                        style={{ width: '100%', height: '350px', objectFit: 'cover' }} 
+                      />
+                    ) : (
+                      <div className="about-img-placeholder">
+                        <Factory size={64} strokeWidth={1} />
+                        <span>Nhà máy Đồng Tâm Feed</span>
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className="about-col-text">
@@ -215,38 +231,21 @@ export default function About() {
                   Không có hình ảnh hoạt động nào.
                 </div>
               ) : (
-                <div style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-                  gap: '1.5rem'
-                }}>
+                <div className="about-gallery-masonry">
                   {gallery.map(img => (
                     <div 
                       key={img.id}
                       onClick={() => setSelectedImage(img)}
-                      style={{
-                        borderRadius: 'var(--radius-lg)',
-                        overflow: 'hidden',
-                        cursor: 'pointer',
-                        boxShadow: 'var(--shadow-sm)',
-                        transition: 'all 0.3s ease',
-                        border: '1px solid var(--border-default)',
-                        background: 'var(--surface-card)',
-                        height: '240px',
-                        display: 'flex',
-                        flexDirection: 'column'
-                      }}
-                      className="gallery-hover-card"
+                      className="about-gallery-card"
                     >
-                      <div style={{ width: '100%', height: '180px', overflow: 'hidden', background: 'var(--surface-muted)' }}>
+                      <div className="about-gallery-img-wrapper">
                         <img 
                           src={`${API}${img.image}`} 
                           alt={img.title} 
-                          style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
                         />
                       </div>
-                      <div style={{ padding: '0.75rem 1rem', flex: 1, display: 'flex', alignItems: 'center' }}>
-                        <h4 style={{ margin: 0, fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-primary)' }}>{img.title}</h4>
+                      <div className="about-gallery-info">
+                        <h4>{img.title}</h4>
                       </div>
                     </div>
                   ))}

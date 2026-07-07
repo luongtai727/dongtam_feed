@@ -31,6 +31,24 @@ export default function ManageSettings() {
     setSaving(false);
   };
 
+  const handleImageUpload = async (key, file) => {
+    if (!file) return;
+    const formData = new FormData();
+    formData.append('image', file);
+    try {
+      const res = await fetch(`${API}/api/upload`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData
+      });
+      if (!res.ok) throw new Error('Upload error');
+      const data = await res.json();
+      update(key, data.url);
+    } catch {
+      alert('Lỗi khi tải ảnh lên');
+    }
+  };
+
   const update = (key, value) => setSettings(prev => ({ ...prev, [key]: value }));
 
   return (
@@ -122,6 +140,64 @@ export default function ManageSettings() {
             <div className="form-group">
               <label className="form-label">Zalo</label>
               <input className="form-input" value={settings.zalo || ''} onChange={e => update('zalo', e.target.value)} />
+            </div>
+          </div>
+        </div>
+
+        <div className="settings-section">
+          <h3>Hình ảnh giới thiệu công ty</h3>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '1.25rem' }}>Các hình ảnh này sẽ hiển thị tại trang Giới thiệu (Về công ty và Nhà máy).</p>
+          <div className="form-row">
+            <div className="form-group">
+              <label className="form-label">Ảnh trụ sở văn phòng</label>
+              <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                {settings.officeImage ? (
+                  <img 
+                    src={`${API}${settings.officeImage}`} 
+                    alt="Office Preview" 
+                    style={{ width: '80px', height: '60px', objectFit: 'cover', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-default)' }} 
+                  />
+                ) : (
+                  <div style={{ width: '80px', height: '60px', background: 'var(--surface-muted)', borderRadius: 'var(--radius-sm)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', color: 'var(--text-muted)' }}>Không có ảnh</div>
+                )}
+                <input 
+                  type="file" 
+                  accept="image/*" 
+                  id="office-img-file"
+                  style={{ display: 'none' }} 
+                  onChange={e => handleImageUpload('officeImage', e.target.files[0])} 
+                />
+                <label htmlFor="office-img-file" className="btn btn-outline btn-sm">Chọn ảnh</label>
+                {settings.officeImage && (
+                  <button type="button" className="btn btn-sm" style={{ color: 'var(--danger)', background: 'none', cursor: 'pointer' }} onClick={() => update('officeImage', '')}>Xóa</button>
+                )}
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">Ảnh nhà máy sản xuất</label>
+              <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                {settings.factoryImage ? (
+                  <img 
+                    src={`${API}${settings.factoryImage}`} 
+                    alt="Factory Preview" 
+                    style={{ width: '80px', height: '60px', objectFit: 'cover', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-default)' }} 
+                  />
+                ) : (
+                  <div style={{ width: '80px', height: '60px', background: 'var(--surface-muted)', borderRadius: 'var(--radius-sm)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', color: 'var(--text-muted)' }}>Không có ảnh</div>
+                )}
+                <input 
+                  type="file" 
+                  accept="image/*" 
+                  id="factory-img-file"
+                  style={{ display: 'none' }} 
+                  onChange={e => handleImageUpload('factoryImage', e.target.files[0])} 
+                />
+                <label htmlFor="factory-img-file" className="btn btn-outline btn-sm">Chọn ảnh</label>
+                {settings.factoryImage && (
+                  <button type="button" className="btn btn-sm" style={{ color: 'var(--danger)', background: 'none', cursor: 'pointer' }} onClick={() => update('factoryImage', '')}>Xóa</button>
+                )}
+              </div>
             </div>
           </div>
         </div>

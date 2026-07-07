@@ -371,3 +371,90 @@
 [data-theme="dark"] .about-img-placeholder {
   background: linear-gradient(135deg, var(--green-100), var(--navy-100));
 }
+
+/* ============================================================
+   MODERN GALLERY MASONRY & IMAGE STYLES
+   ============================================================ */
+.about-gallery-masonry {
+  column-count: 3;
+  column-gap: 1.5rem;
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  .about-gallery-masonry {
+    column-count: 2;
+  }
+}
+
+@media (max-width: 600px) {
+  .about-gallery-masonry {
+    column-count: 1;
+  }
+}
+
+.about-gallery-card {
+  break-inside: avoid;
+  margin-bottom: 1.5rem;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--border-default);
+  background: var(--surface-card);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  display: inline-block;
+  width: 100%;
+}
+
+.about-gallery-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--green-400);
+}
+
+.about-gallery-img-wrapper {
+  width: 100%;
+  overflow: hidden;
+  background: var(--surface-muted);
+  display: flex;
+}
+
+.about-gallery-img-wrapper img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.about-gallery-card:hover .about-gallery-img-wrapper img {
+  transform: scale(1.05);
+}
+
+.about-gallery-info {
+  padding: 1rem;
+  border-top: 1px solid var(--border-light);
+}
+
+.about-gallery-info h4 {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+/* ABOUT IMAGE HOVER ZOOM */
+.about-img-box {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.about-img-box img {
+  transition: transform 0.5s ease;
+}
+
+.about-img-box:hover img {
+  transform: scale(1.04);
+}
+
