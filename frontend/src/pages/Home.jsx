@@ -56,7 +56,7 @@ export default function Home() {
               <span className="hero-highlight">chăn nuôi chất lượng cao</span>
             </h1>
             <p className="hero-desc">
-              Đồng Tâm Feed Solutions chuyên cung cấp nguyên liệu thức ăn chăn nuôi và thủy sản
+              Giải Pháp Dinh Dưỡng Đồng Tâm chuyên cung cấp nguyên liệu thức ăn chăn nuôi và thủy sản
               từ phụ phẩm thủy sản tự nhiên. Đối tác tin cậy của hàng trăm doanh nghiệp trên cả nước.
             </p>
             <div className="hero-actions">

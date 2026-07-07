@@ -98,7 +98,7 @@ export default function Footer() {
       {/* Bottom Bar */}
       <div className="footer-bottom">
         <div className="container footer-bottom-inner">
-          <p>© {new Date().getFullYear()} Đồng Tâm Feed Solutions. Tất cả quyền được bảo lưu.</p>
+          <p>© {new Date().getFullYear()} Công ty TNHH Giải pháp Dinh dưỡng Đồng Tâm. Tất cả quyền được bảo lưu.</p>
           <p className="footer-credit">
             Thiết kế với <Heart size={12} fill="var(--green-400)" color="var(--green-400)" /> bởi Đồng Tâm Team
           </p>

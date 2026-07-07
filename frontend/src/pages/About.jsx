@@ -52,7 +52,7 @@ export default function About() {
             <span>Giới thiệu</span>
           </div>
           <h1 className="page-title">Giới thiệu</h1>
-          <p className="page-desc">Tìm hiểu về Đồng Tâm Feed Solutions - Đối tác tin cậy của ngành chăn nuôi</p>
+          <p className="page-desc">Tìm hiểu về Giải Pháp Dinh Dưỡng Đồng Tâm - Đối tác tin cậy của ngành chăn nuôi</p>
         </div>
       </div>
 
