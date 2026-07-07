@@ -125,10 +125,18 @@ export default function Home() {
           <div className="about-grid">
             <div className="about-image-wrapper animate-fade-in-left">
               <div className="about-image-card">
-                <div className="about-image-placeholder">
-                  <Factory size={64} strokeWidth={1} />
-                  <span>Nhà máy Đồng Tâm Feed</span>
-                </div>
+                {settings.homeAboutImage ? (
+                  <img 
+                    src={`${API}${settings.homeAboutImage}`} 
+                    alt="Về Đồng Tâm Feed" 
+                    style={{ width: '100%', height: '350px', objectFit: 'cover', borderRadius: 'var(--radius-lg)' }} 
+                  />
+                ) : (
+                  <div className="about-image-placeholder">
+                    <Factory size={64} strokeWidth={1} />
+                    <span>Nhà máy Đồng Tâm Feed</span>
+                  </div>
+                )}
               </div>
               <div className="about-image-accent"></div>
             </div>

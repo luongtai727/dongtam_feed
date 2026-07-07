@@ -146,7 +146,7 @@ export default function ManageSettings() {
 
         <div className="settings-section">
           <h3>Hình ảnh giới thiệu công ty</h3>
-          <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '1.25rem' }}>Các hình ảnh này sẽ hiển thị tại trang Giới thiệu (Về công ty và Nhà máy).</p>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '1.25rem' }}>Các hình ảnh này sẽ hiển thị tại trang Giới thiệu (Về công ty, Nhà máy) và phần Giới thiệu ở Trang chủ.</p>
           <div className="form-row">
             <div className="form-group">
               <label className="form-label">Ảnh trụ sở văn phòng</label>
@@ -196,6 +196,34 @@ export default function ManageSettings() {
                 <label htmlFor="factory-img-file" className="btn btn-outline btn-sm">Chọn ảnh</label>
                 {settings.factoryImage && (
                   <button type="button" className="btn btn-sm" style={{ color: 'var(--danger)', background: 'none', cursor: 'pointer' }} onClick={() => update('factoryImage', '')}>Xóa</button>
+                )}
+              </div>
+            </div>
+          </div>
+          
+          <div className="form-row" style={{ marginTop: '1.5rem' }}>
+            <div className="form-group">
+              <label className="form-label">Ảnh phần Giới thiệu ở Trang chủ</label>
+              <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                {settings.homeAboutImage ? (
+                  <img 
+                    src={`${API}${settings.homeAboutImage}`} 
+                    alt="Home About Preview" 
+                    style={{ width: '80px', height: '60px', objectFit: 'cover', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-default)' }} 
+                  />
+                ) : (
+                  <div style={{ width: '80px', height: '60px', background: 'var(--surface-muted)', borderRadius: 'var(--radius-sm)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', color: 'var(--text-muted)' }}>Không có ảnh</div>
+                )}
+                <input 
+                  type="file" 
+                  accept="image/*" 
+                  id="home-about-img-file"
+                  style={{ display: 'none' }} 
+                  onChange={e => handleImageUpload('homeAboutImage', e.target.files[0])} 
+                />
+                <label htmlFor="home-about-img-file" className="btn btn-outline btn-sm">Chọn ảnh</label>
+                {settings.homeAboutImage && (
+                  <button type="button" className="btn btn-sm" style={{ color: 'var(--danger)', background: 'none', cursor: 'pointer' }} onClick={() => update('homeAboutImage', '')}>Xóa</button>
                 )}
               </div>
             </div>
