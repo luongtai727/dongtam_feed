@@ -281,8 +281,8 @@ export default function Home() {
             <Link to="/lien-he" className="btn btn-white btn-lg">
               Gửi yêu cầu báo giá
             </Link>
-            <a href={`tel:${settings.hotline || '0901234567'}`} className="btn btn-outline btn-lg" style={{ borderColor: 'white', color: 'white' }}>
-              <Phone size={18} /> {settings.hotline || '0901 234 567'}
+            <a href={`tel:${settings.hotline || '0703295692'}`} className="btn btn-outline btn-lg" style={{ borderColor: 'white', color: 'white' }}>
+              <Phone size={18} /> {settings.hotline || '0703 295 692'}
             </a>
           </div>
         </div>

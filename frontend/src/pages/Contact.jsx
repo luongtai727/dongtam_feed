@@ -71,15 +71,15 @@ export default function Contact() {
                   <div className="cc-icon"><MapPin size={22} /></div>
                   <div>
                     <h4>Văn phòng</h4>
-                    <p>{settings.address || 'KCN Suối Dầu, Cam Lâm, Khánh Hòa'}</p>
+                    <p>{settings.address || '159/15/7 Đường số 11, KP10, Phường Trường Thọ, Thành phố Thủ Đức, Thành phố Hồ Chí Minh'}</p>
                   </div>
                 </div>
                 <div className="contact-card">
                   <div className="cc-icon"><Phone size={22} /></div>
                   <div>
                     <h4>Điện thoại</h4>
-                    <p>{settings.phone || '0258 3 123 456'}</p>
-                    <p>Hotline: <strong>{settings.hotline || '0901 234 567'}</strong></p>
+                    <p>{settings.phone || '0703295692'}</p>
+                    <p>Hotline: <strong>{settings.hotline || '0703295692'}</strong></p>
                   </div>
                 </div>
                 <div className="contact-card">

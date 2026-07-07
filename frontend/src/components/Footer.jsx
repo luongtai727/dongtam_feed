@@ -27,21 +27,8 @@ export default function Footer() {
             {/* Column 1: Company Info */}
             <div className="footer-col">
               <div className="footer-brand">
-                <div className="footer-logo">
-                  <svg width="36" height="36" viewBox="0 0 40 40" fill="none">
-                    <rect width="40" height="40" rx="10" fill="url(#footerLogoGrad)"/>
-                    <path d="M12 28V16L20 10L28 16V28H22V22H18V28H12Z" fill="white" fillOpacity="0.9"/>
-                    <defs>
-                      <linearGradient id="footerLogoGrad" x1="0" y1="0" x2="40" y2="40">
-                        <stop stopColor="#34d399"/>
-                        <stop offset="1" stopColor="#059669"/>
-                      </linearGradient>
-                    </defs>
-                  </svg>
-                  <div>
-                    <span className="footer-brand-name">ĐỒNG TÂM</span>
-                    <span className="footer-brand-sub">FEED SOLUTIONS</span>
-                  </div>
+                <div className="footer-logo" style={{ display: 'flex', alignItems: 'center' }}>
+                  <img src="/logo.png" alt="Đồng Tâm Feed Logo" style={{ height: '48px', width: 'auto', objectFit: 'contain', background: '#fff', padding: '4px', borderRadius: 'var(--radius-sm)' }} />
                 </div>
               </div>
               <p className="footer-desc">
@@ -87,11 +74,11 @@ export default function Footer() {
               <div className="footer-contact-list">
                 <div className="footer-contact-item">
                   <MapPin size={16} className="footer-contact-icon" />
-                  <span>{settings.address || 'KCN Suối Dầu, Cam Lâm, Khánh Hòa'}</span>
+                  <span>{settings.address || '159/15/7 Đường số 11, KP10, Phường Trường Thọ, Thành phố Thủ Đức, Thành phố Hồ Chí Minh'}</span>
                 </div>
                 <div className="footer-contact-item">
                   <Phone size={16} className="footer-contact-icon" />
-                  <span>{settings.hotline || '0901 234 567'}</span>
+                  <span>{settings.hotline || '0703 295 692'}</span>
                 </div>
                 <div className="footer-contact-item">
                   <Mail size={16} className="footer-contact-icon" />

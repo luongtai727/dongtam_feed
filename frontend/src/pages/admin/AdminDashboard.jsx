@@ -49,8 +49,8 @@ export default function AdminDashboard() {
       {/* Sidebar */}
       <aside className={`admin-sidebar ${sidebarOpen ? 'open' : ''}`}>
         <div className="admin-sidebar-header">
-          <Link to="/admin" className="admin-sidebar-brand">
-            <div className="admin-logo-sm"><Leaf size={20} /></div>
+          <Link to="/admin" className="admin-sidebar-brand" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <img src="/logo.png" alt="Logo" style={{ height: '32px', width: 'auto', objectFit: 'contain', background: '#fff', padding: '2px', borderRadius: 'var(--radius-sm)' }} />
             <span>Admin Panel</span>
           </Link>
           <button className="sidebar-close" onClick={() => setSidebarOpen(false)}>

@@ -49,7 +49,7 @@ export default function Navbar() {
           <div className="topbar-left">
             <span className="topbar-item">
               <Phone size={13} />
-              <span>Hotline: {settings.hotline || '0901 234 567'}</span>
+              <span>Hotline: {settings.hotline || '0703 295 692'}</span>
             </span>
             <span className="topbar-item">
               <Mail size={13} />
@@ -69,24 +69,8 @@ export default function Navbar() {
       <nav className={`navbar ${scrolled ? 'navbar-scrolled' : ''}`}>
         <div className="container navbar-inner">
           {/* Logo */}
-          <Link to="/" className="navbar-brand">
-            <div className="logo-icon">
-              <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-                <rect width="40" height="40" rx="10" fill="url(#logoGrad)"/>
-                <path d="M12 28V16L20 10L28 16V28H22V22H18V28H12Z" fill="white" fillOpacity="0.9"/>
-                <path d="M17 18H23V20H17V18Z" fill="rgba(5,150,105,0.5)"/>
-                <defs>
-                  <linearGradient id="logoGrad" x1="0" y1="0" x2="40" y2="40">
-                    <stop stopColor="#059669"/>
-                    <stop offset="1" stopColor="#102a43"/>
-                  </linearGradient>
-                </defs>
-              </svg>
-            </div>
-            <div className="brand-text">
-              <span className="brand-name">ĐỒNG TÂM</span>
-              <span className="brand-sub">FEED SOLUTIONS</span>
-            </div>
+          <Link to="/" className="navbar-brand" style={{ display: 'flex', alignItems: 'center' }}>
+            <img src="/logo.png" alt="Đồng Tâm Feed Logo" style={{ height: '48px', width: 'auto', objectFit: 'contain', background: '#fff', padding: '3px', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-light)' }} />
           </Link>
 
           {/* Desktop Nav */}
@@ -123,7 +107,7 @@ export default function Navbar() {
           {/* CTA */}
           <div className="nav-cta">
             <ThemeToggle />
-            <a href={`tel:${settings.hotline || '0901234567'}`} className="btn btn-primary btn-sm">
+            <a href={`tel:${settings.hotline || '0703295692'}`} className="btn btn-primary btn-sm">
               <Phone size={16} />
               Liên hệ ngay
             </a>
@@ -148,8 +132,8 @@ export default function Navbar() {
           <Link to="/tin-tuc" className={`mobile-link ${location.pathname.startsWith('/tin-tuc') ? 'active' : ''}`}>Tin tức</Link>
           <Link to="/lien-he" className={`mobile-link ${isActive('/lien-he') ? 'active' : ''}`}>Liên hệ</Link>
           <div className="mobile-contact">
-            <a href={`tel:${settings.hotline || '0901234567'}`} className="btn btn-primary" style={{width:'100%'}}>
-              <Phone size={16} /> Gọi ngay: {settings.hotline || '0901 234 567'}
+            <a href={`tel:${settings.hotline || '0703295692'}`} className="btn btn-primary" style={{width:'100%'}}>
+              <Phone size={16} /> Gọi ngay: {settings.hotline || '0703 295 692'}
             </a>
           </div>
         </div>

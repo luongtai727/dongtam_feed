@@ -29,8 +29,8 @@ export default function AdminLogin() {
     <div className="admin-login-page">
       <div className="admin-login-card">
         <div className="admin-login-header">
-          <div className="admin-logo">
-            <Leaf size={28} />
+          <div className="admin-logo" style={{ background: '#fff', border: '1px solid var(--border-light)', padding: '4px' }}>
+            <img src="/logo.png" alt="Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
           </div>
           <h1>Đồng Tâm Feed</h1>
           <p>Đăng nhập trang quản trị</p>
