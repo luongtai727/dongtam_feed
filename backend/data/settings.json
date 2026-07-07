@@ -1,0 +1,31 @@
+{
+  "companyName": "Công ty TNHH Giải pháp Dinh dưỡng Đồng Tâm",
+  "companyNameEn": "Dong Tam Nutrition Solutions Co., Ltd",
+  "tagline": "Giải pháp dinh dưỡng bền vững cho ngành chăn nuôi Việt Nam",
+  "phone": "0258 3 123 456",
+  "hotline": "0901 234 567",
+  "email": "info@dongtamfeed.vn",
+  "address": "Lô A12, KCN Suối Dầu, Cam Lâm, Khánh Hòa, Việt Nam",
+  "factoryAddress": "Lô B5-B7, KCN Suối Dầu, Cam Lâm, Khánh Hòa, Việt Nam",
+  "taxCode": "4200123456",
+  "mapEmbed": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3898.123456!2d109.0!3d12.1!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTLCsDA2JzAwLjAiTiAxMDnCsDAwJzAwLjAiRQ!5e0!3m2!1svi!2svn!4v1",
+  "facebook": "https://facebook.com/dongtamfeed",
+  "zalo": "0901234567",
+  "workingHours": "Thứ 2 - Thứ 7: 7:30 - 17:00",
+  "aboutCompany": "Công ty TNHH Giải pháp Dinh dưỡng Đồng Tâm được thành lập năm 2015, chuyên nghiên cứu, sản xuất và cung cấp các nguyên liệu thức ăn chăn nuôi chất lượng cao từ phụ phẩm thủy sản. Với hơn 10 năm kinh nghiệm trong ngành, chúng tôi tự hào là đối tác tin cậy của hàng trăm doanh nghiệp sản xuất thức ăn chăn nuôi trên cả nước.",
+  "vision": "Trở thành doanh nghiệp hàng đầu Việt Nam trong lĩnh vực cung cấp nguyên liệu thức ăn chăn nuôi từ nguồn thủy sản bền vững, vươn tầm xuất khẩu ra thị trường quốc tế.",
+  "mission": "Cung cấp các giải pháp dinh dưỡng chất lượng cao, an toàn và bền vững cho ngành chăn nuôi, góp phần nâng cao hiệu quả sản xuất và bảo vệ môi trường.",
+  "coreValues": [
+    "Chất lượng là nền tảng",
+    "Khách hàng là trọng tâm",
+    "Sáng tạo không ngừng",
+    "Phát triển bền vững"
+  ],
+  "certifications": [
+    "ISO 9001:2015 - Hệ thống quản lý chất lượng",
+    "ISO 22000:2018 - An toàn thực phẩm",
+    "GMP - Thực hành sản xuất tốt",
+    "HACCP - Phân tích mối nguy và kiểm soát điểm tới hạn"
+  ],
+  "factoryInfo": "Nhà máy Đồng Tâm Feed tọa lạc tại KCN Suối Dầu, Cam Lâm, Khánh Hòa với tổng diện tích 5.000m². Nhà máy được trang bị hệ thống sấy công nghiệp công suất 50 tấn/ngày, dây chuyền nghiền và đóng gói tự động, phòng kiểm nghiệm hiện đại đạt chuẩn ISO 17025."
+}

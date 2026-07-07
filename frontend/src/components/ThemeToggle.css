@@ -1,0 +1,73 @@
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.theme-toggle-track {
+  position: relative;
+  width: 52px;
+  height: 28px;
+  background: var(--toggle-track-bg, var(--gray-200));
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  padding: 0 4px;
+  transition: background var(--transition-normal);
+}
+
+[data-theme="dark"] .theme-toggle-track {
+  background: var(--navy-700);
+}
+
+.theme-toggle-thumb {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  background: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.18);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s ease;
+  z-index: 1;
+}
+
+.theme-toggle-thumb.light {
+  transform: translateX(0);
+  color: var(--accent-gold);
+}
+
+.theme-toggle-thumb.dark {
+  transform: translateX(24px);
+  background: var(--navy-800);
+  color: var(--green-300);
+}
+
+.track-icon {
+  position: absolute;
+  opacity: 0.4;
+}
+
+.track-sun {
+  left: 7px;
+  color: var(--accent-gold);
+}
+
+.track-moon {
+  right: 7px;
+  color: var(--navy-300);
+}
+
+[data-theme="dark"] .track-sun {
+  opacity: 0.2;
+}
+
+[data-theme="dark"] .track-moon {
+  opacity: 0.6;
+  color: var(--green-300);
+}
