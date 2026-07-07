@@ -82,7 +82,7 @@ function AppRoutes() {
   );
 }
 
-import { applyCustomThemeColor } from './utils/theme';
+import { applyCustomTheme } from './utils/theme';
 
 export default function App() {
   useEffect(() => {
@@ -90,12 +90,7 @@ export default function App() {
     fetch(`${API}/api/settings`)
       .then(r => r.json())
       .then(settings => {
-        if (settings.themeColorGreen) {
-          applyCustomThemeColor(settings.themeColorGreen, 'primary', 'green');
-        }
-        if (settings.themeColorNavy) {
-          applyCustomThemeColor(settings.themeColorNavy, 'secondary', 'navy');
-        }
+        applyCustomTheme(settings);
       })
       .catch(() => {});
   }, []);

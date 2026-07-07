@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { Save, CheckCircle } from 'lucide-react';
-import { applyCustomThemeColor } from '../../utils/theme';
+import { Save, CheckCircle, RotateCcw } from 'lucide-react';
+import { applyCustomTheme } from '../../utils/theme';
 
 const API = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
@@ -16,7 +16,7 @@ export default function ManageSettings() {
   }, []);
 
   const handleSave = async (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
     setSaving(true);
     try {
       await fetch(`${API}/api/settings`, {
@@ -24,16 +24,37 @@ export default function ManageSettings() {
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify(settings)
       });
-      if (settings.themeColorGreen) {
-        applyCustomThemeColor(settings.themeColorGreen, 'primary', 'green');
-      }
-      if (settings.themeColorNavy) {
-        applyCustomThemeColor(settings.themeColorNavy, 'secondary', 'navy');
-      }
+      applyCustomTheme(settings);
       setSaved(true);
       setTimeout(() => setSaved(false), 3000);
     } catch {
       alert('Lỗi khi lưu cài đặt');
+    }
+    setSaving(false);
+  };
+
+  const handleResetDefaults = async () => {
+    if (!confirm('Bạn có chắc muốn khôi phục tất cả màu sắc về mặc định ban đầu?')) return;
+    setSaving(true);
+    const updatedSettings = {
+      ...settings,
+      themeColorGreen: '#1e7d52',
+      themeColorNavy: '#21354d',
+      textColorLight: '#272d37',
+      textColorDark: '#dce2e8'
+    };
+    try {
+      await fetch(`${API}/api/settings`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify(updatedSettings)
+      });
+      setSettings(updatedSettings);
+      applyCustomTheme(updatedSettings);
+      setSaved(true);
+      setTimeout(() => setSaved(false), 3000);
+    } catch {
+      alert('Lỗi khi khôi phục cài đặt mặc định');
     }
     setSaving(false);
   };
@@ -143,7 +164,7 @@ export default function ManageSettings() {
               <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 Tông màu chủ đạo (Màu chính)
                 <span style={{ fontSize: '0.8rem', color: 'var(--gray-400)', fontWeight: 'normal' }}>
-                  (Mặc định: xanh lá cây #1e7d52)
+                  (Mặc định: #1e7d52)
                 </span>
               </label>
               <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
@@ -155,7 +176,7 @@ export default function ManageSettings() {
               <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 Tông màu phụ (Màu navy)
                 <span style={{ fontSize: '0.8rem', color: 'var(--gray-400)', fontWeight: 'normal' }}>
-                  (Mặc định: xanh navy #21354d)
+                  (Mặc định: #21354d)
                 </span>
               </label>
               <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
@@ -164,11 +185,41 @@ export default function ManageSettings() {
               </div>
             </div>
           </div>
+
+          <div className="form-row" style={{ marginTop: '1rem' }}>
+            <div className="form-group">
+              <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                Tông màu chữ Light Mode
+                <span style={{ fontSize: '0.8rem', color: 'var(--gray-400)', fontWeight: 'normal' }}>
+                  (Mặc định: #272d37)
+                </span>
+              </label>
+              <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                <input type="color" style={{ width: '60px', height: '40px', padding: '2px', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)', cursor: 'pointer', background: 'none' }} value={settings.textColorLight || '#272d37'} onChange={e => update('textColorLight', e.target.value)} />
+                <input type="text" className="form-input" style={{ flex: 1 }} value={settings.textColorLight || '#272d37'} onChange={e => update('textColorLight', e.target.value)} placeholder="#272d37" />
+              </div>
+            </div>
+            <div className="form-group">
+              <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                Tông màu chữ Dark Mode
+                <span style={{ fontSize: '0.8rem', color: 'var(--gray-400)', fontWeight: 'normal' }}>
+                  (Mặc định: #dce2e8)
+                </span>
+              </label>
+              <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                <input type="color" style={{ width: '60px', height: '40px', padding: '2px', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)', cursor: 'pointer', background: 'none' }} value={settings.textColorDark || '#dce2e8'} onChange={e => update('textColorDark', e.target.value)} />
+                <input type="text" className="form-input" style={{ flex: 1 }} value={settings.textColorDark || '#dce2e8'} onChange={e => update('textColorDark', e.target.value)} placeholder="#dce2e8" />
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div style={{ marginTop: '2rem' }}>
+        <div style={{ marginTop: '2rem', display: 'flex', gap: '1rem' }}>
           <button type="submit" className="btn btn-primary btn-lg" disabled={saving}>
             <Save size={18} /> {saving ? 'Đang lưu...' : 'Lưu cài đặt'}
+          </button>
+          <button type="button" className="btn btn-outline btn-lg" style={{ borderColor: 'var(--danger)', color: 'var(--danger)', display: 'flex', alignItems: 'center', gap: '8px' }} onClick={handleResetDefaults} disabled={saving}>
+            <RotateCcw size={18} /> Khôi phục mặc định
           </button>
         </div>
       </form>

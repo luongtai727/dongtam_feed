@@ -21,37 +21,81 @@ export function adjustColorBrightness(hex, percent) {
   return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
 }
 
-export function applyCustomThemeColor(hexColor, name, prefix) {
-  if (!hexColor) return;
-  const root = document.documentElement;
-
-  // Set the primary/secondary names
-  root.style.setProperty(`--${name}`, hexColor);
-  root.style.setProperty(`--${name}-light`, adjustColorBrightness(hexColor, 30));
-  root.style.setProperty(`--${name}-dark`, adjustColorBrightness(hexColor, -20));
-
-  // Set the shades
-  if (prefix === 'green') {
-    root.style.setProperty('--green-600', hexColor);
-    root.style.setProperty('--green-700', adjustColorBrightness(hexColor, -15));
-    root.style.setProperty('--green-800', adjustColorBrightness(hexColor, -30));
-    root.style.setProperty('--green-900', adjustColorBrightness(hexColor, -45));
-    root.style.setProperty('--green-500', adjustColorBrightness(hexColor, 15));
-    root.style.setProperty('--green-400', adjustColorBrightness(hexColor, 30));
-    root.style.setProperty('--green-300', adjustColorBrightness(hexColor, 45));
-    root.style.setProperty('--green-200', adjustColorBrightness(hexColor, 60));
-    root.style.setProperty('--green-100', adjustColorBrightness(hexColor, 75));
-    root.style.setProperty('--green-50', adjustColorBrightness(hexColor, 90));
-  } else if (prefix === 'navy') {
-    root.style.setProperty('--navy-800', hexColor);
-    root.style.setProperty('--navy-900', adjustColorBrightness(hexColor, -20));
-    root.style.setProperty('--navy-700', adjustColorBrightness(hexColor, 15));
-    root.style.setProperty('--navy-600', adjustColorBrightness(hexColor, 30));
-    root.style.setProperty('--navy-500', adjustColorBrightness(hexColor, 45));
-    root.style.setProperty('--navy-400', adjustColorBrightness(hexColor, 60));
-    root.style.setProperty('--navy-300', adjustColorBrightness(hexColor, 70));
-    root.style.setProperty('--navy-200', adjustColorBrightness(hexColor, 80));
-    root.style.setProperty('--navy-100', adjustColorBrightness(hexColor, 85));
-    root.style.setProperty('--navy-50', adjustColorBrightness(hexColor, 92));
+export function applyCustomTheme(settings) {
+  if (!settings) return;
+  
+  let styleTag = document.getElementById('dynamic-theme-styles');
+  if (!styleTag) {
+    styleTag = document.createElement('style');
+    styleTag.id = 'dynamic-theme-styles';
+    document.head.appendChild(styleTag);
   }
+
+  const primaryLight = settings.themeColorGreen || '#1e7d52';
+  const secondaryLight = settings.themeColorNavy || '#21354d';
+  const textLight = settings.textColorLight || '#272d37';
+  const textDark = settings.textColorDark || '#dce2e8';
+
+  const primaryDark = adjustColorBrightness(primaryLight, 15); // Lighter shade for dark mode visibility
+
+  const css = `
+    :root {
+      --primary: ${primaryLight};
+      --primary-light: ${adjustColorBrightness(primaryLight, 30)};
+      --primary-dark: ${adjustColorBrightness(primaryLight, -20)};
+      --secondary: ${secondaryLight};
+      --secondary-light: ${adjustColorBrightness(secondaryLight, 30)};
+      --secondary-dark: ${adjustColorBrightness(secondaryLight, -20)};
+      
+      --green-600: ${primaryLight};
+      --green-700: ${adjustColorBrightness(primaryLight, -15)};
+      --green-800: ${adjustColorBrightness(primaryLight, -30)};
+      --green-900: ${adjustColorBrightness(primaryLight, -45)};
+      --green-500: ${adjustColorBrightness(primaryLight, 15)};
+      --green-400: ${adjustColorBrightness(primaryLight, 30)};
+      --green-300: ${adjustColorBrightness(primaryLight, 45)};
+      --green-200: ${adjustColorBrightness(primaryLight, 60)};
+      --green-100: ${adjustColorBrightness(primaryLight, 75)};
+      --green-50: ${adjustColorBrightness(primaryLight, 90)};
+
+      --navy-800: ${secondaryLight};
+      --navy-900: ${adjustColorBrightness(secondaryLight, -20)};
+      --navy-700: ${adjustColorBrightness(secondaryLight, 15)};
+      --navy-600: ${adjustColorBrightness(secondaryLight, 30)};
+      --navy-500: ${adjustColorBrightness(secondaryLight, 45)};
+      --navy-400: ${adjustColorBrightness(secondaryLight, 60)};
+      --navy-300: ${adjustColorBrightness(secondaryLight, 70)};
+      --navy-200: ${adjustColorBrightness(secondaryLight, 80)};
+      --navy-100: ${adjustColorBrightness(secondaryLight, 85)};
+      --navy-50: ${adjustColorBrightness(secondaryLight, 92)};
+
+      --text-primary: ${textLight};
+      --text-secondary: ${adjustColorBrightness(textLight, 30)};
+      --text-muted: ${adjustColorBrightness(textLight, 50)};
+      --text-heading: ${adjustColorBrightness(textLight, -15)};
+    }
+
+    [data-theme="dark"] {
+      --primary: ${primaryDark};
+      --primary-light: ${adjustColorBrightness(primaryDark, 30)};
+      --primary-dark: ${adjustColorBrightness(primaryDark, -20)};
+
+      --green-600: ${primaryDark};
+      --green-700: ${adjustColorBrightness(primaryDark, -15)};
+      --green-800: ${adjustColorBrightness(primaryDark, -30)};
+      --green-900: ${adjustColorBrightness(primaryDark, -45)};
+      --green-500: ${adjustColorBrightness(primaryDark, 15)};
+      --green-400: ${adjustColorBrightness(primaryDark, 30)};
+      --green-300: ${adjustColorBrightness(primaryDark, 45)};
+      --green-200: ${adjustColorBrightness(primaryDark, 60)};
+      --green-100: ${adjustColorBrightness(primaryDark, 75)};
+      --green-50: ${adjustColorBrightness(primaryDark, 90)};
+
+      --text-primary: ${textDark};
+      --text-secondary: ${adjustColorBrightness(textDark, -15)};
+      --text-muted: ${adjustColorBrightness(textDark, -30)};
+      --text-heading: ${adjustColorBrightness(textDark, 10)};
+    }
+  `;
+  styleTag.innerHTML = css;
 }
