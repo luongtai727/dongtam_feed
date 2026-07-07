@@ -82,19 +82,7 @@ function AppRoutes() {
   );
 }
 
-import { applyCustomTheme } from './utils/theme';
-
 export default function App() {
-  useEffect(() => {
-    const API = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-    fetch(`${API}/api/settings`)
-      .then(r => r.json())
-      .then(settings => {
-        applyCustomTheme(settings);
-      })
-      .catch(() => {});
-  }, []);
-
   return (
     <BrowserRouter>
       <AuthProvider>
