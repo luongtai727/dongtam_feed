@@ -82,7 +82,24 @@ function AppRoutes() {
   );
 }
 
+import { applyCustomThemeColor } from './utils/theme';
+
 export default function App() {
+  useEffect(() => {
+    const API = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+    fetch(`${API}/api/settings`)
+      .then(r => r.json())
+      .then(settings => {
+        if (settings.themeColorGreen) {
+          applyCustomThemeColor(settings.themeColorGreen, 'primary', 'green');
+        }
+        if (settings.themeColorNavy) {
+          applyCustomThemeColor(settings.themeColorNavy, 'secondary', 'navy');
+        }
+      })
+      .catch(() => {});
+  }, []);
+
   return (
     <BrowserRouter>
       <AuthProvider>

@@ -261,7 +261,9 @@ app.get('/api/products/:slug', (req, res) => {
 app.post('/api/products', authMiddleware, upload.single('image'), (req, res) => {
   try {
     const products = readData('products.json');
-    const { name, slug, category, shortDesc, description, specs, usage, packaging, storage: storageInfo, featured } = req.body;
+    const { name, slug, category, shortDesc, description, specs, usage, packaging, storage: storageInfo, featured,
+      highlights, uses, targets, ingredients, sensorySpecs, qualitySpecs, usageNote, weight, shelfLife, shippingStandard, qualityCommitment
+    } = req.body;
 
     if (!name || !name.trim()) {
       return res.status(400).json({ error: 'Tên sản phẩm không được để trống' });
@@ -280,6 +282,17 @@ app.post('/api/products', authMiddleware, upload.single('image'), (req, res) => 
       storage: storageInfo || '',
       image: req.file ? `/uploads/${req.file.filename}` : '',
       featured: featured === 'true' || featured === true,
+      highlights: highlights ? (typeof highlights === 'string' ? JSON.parse(highlights) : highlights) : [],
+      uses: uses ? (typeof uses === 'string' ? JSON.parse(uses) : uses) : [],
+      targets: targets ? (typeof targets === 'string' ? JSON.parse(targets) : targets) : [],
+      ingredients: ingredients || '',
+      sensorySpecs: sensorySpecs ? (typeof sensorySpecs === 'string' ? JSON.parse(sensorySpecs) : sensorySpecs) : [],
+      qualitySpecs: qualitySpecs ? (typeof qualitySpecs === 'string' ? JSON.parse(qualitySpecs) : qualitySpecs) : [],
+      usageNote: usageNote || '',
+      weight: weight || '',
+      shelfLife: shelfLife || '',
+      shippingStandard: shippingStandard || '',
+      qualityCommitment: qualityCommitment || '',
       createdAt: new Date().toISOString()
     };
 
@@ -298,8 +311,9 @@ app.put('/api/products/:id', authMiddleware, upload.single('image'), (req, res) 
     const products = readData('products.json');
     const idx = products.findIndex(p => p.id === req.params.id);
     if (idx === -1) return res.status(404).json({ error: 'Product not found' });
-
-    const { name, slug, category, shortDesc, description, specs, usage, packaging, storage: storageInfo, featured } = req.body;
+    const { name, slug, category, shortDesc, description, specs, usage, packaging, storage: storageInfo, featured,
+      highlights, uses, targets, ingredients, sensorySpecs, qualitySpecs, usageNote, weight, shelfLife, shippingStandard, qualityCommitment
+    } = req.body;
 
     if (name !== undefined) products[idx].name = name;
     if (slug !== undefined) products[idx].slug = slug;
@@ -311,6 +325,19 @@ app.put('/api/products/:id', authMiddleware, upload.single('image'), (req, res) 
     if (packaging !== undefined) products[idx].packaging = packaging;
     if (storageInfo !== undefined) products[idx].storage = storageInfo;
     if (featured !== undefined) products[idx].featured = featured === 'true' || featured === true;
+    
+    if (highlights !== undefined) products[idx].highlights = typeof highlights === 'string' ? JSON.parse(highlights) : highlights;
+    if (uses !== undefined) products[idx].uses = typeof uses === 'string' ? JSON.parse(uses) : uses;
+    if (targets !== undefined) products[idx].targets = typeof targets === 'string' ? JSON.parse(targets) : targets;
+    if (ingredients !== undefined) products[idx].ingredients = ingredients;
+    if (sensorySpecs !== undefined) products[idx].sensorySpecs = typeof sensorySpecs === 'string' ? JSON.parse(sensorySpecs) : sensorySpecs;
+    if (qualitySpecs !== undefined) products[idx].qualitySpecs = typeof qualitySpecs === 'string' ? JSON.parse(qualitySpecs) : qualitySpecs;
+    if (usageNote !== undefined) products[idx].usageNote = usageNote;
+    if (weight !== undefined) products[idx].weight = weight;
+    if (shelfLife !== undefined) products[idx].shelfLife = shelfLife;
+    if (shippingStandard !== undefined) products[idx].shippingStandard = shippingStandard;
+    if (qualityCommitment !== undefined) products[idx].qualityCommitment = qualityCommitment;
+
     if (req.file) {
       // Delete old image if exists
       if (products[idx].image) {

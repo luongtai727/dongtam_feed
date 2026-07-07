@@ -114,21 +114,51 @@
     "name": "Xác Mắm Khô",
     "slug": "xac-mam-kho",
     "category": "Phụ phẩm thủy sản",
-    "shortDesc": "Phụ phẩm từ quá trình sản xuất nước mắm truyền thống, giàu đạm và khoáng chất, chi phí thấp cho ngành chăn nuôi.",
-    "description": "Xác mắm khô là phụ phẩm được thu hồi từ quá trình sản xuất nước mắm truyền thống, qua sấy khô và nghiền. Sản phẩm vẫn giữ lại hàm lượng Protein cao (≥ 40%), giàu khoáng chất (Canxi, Photpho, Natri) và có mùi đặc trưng kích thích ăn. Đây là nguồn nguyên liệu có chi phí cạnh tranh, phù hợp cho sản xuất thức ăn chăn nuôi gia súc, gia cầm quy mô lớn.",
+    "shortDesc": "Nguyên liệu dẫn dụ tự nhiên giàu protein và khoáng chất từ xác mắm tươi Bình Thuận, giải pháp tối ưu chi phí thức ăn chăn nuôi.",
+    "description": "Xác Mắm Khô là nguyên liệu thức ăn chăn nuôi được sản xuất từ xác mắm tươi thu gom tại các cơ sở chế biến thủy sản ở Bình Thuận. Với quy trình sản xuất được kiểm soát chặt chẽ từ khâu tiếp nhận nguyên liệu, chế biến đến đóng gói, sản phẩm giữ được mùi thơm đặc trưng, hàm lượng dinh dưỡng ổn định và đáp ứng các yêu cầu về an toàn trong sản xuất thức ăn chăn nuôi và thức ăn thủy sản. Sản phẩm được sử dụng rộng rãi như một nguyên liệu dẫn dụ tự nhiên, giúp kích thích khả năng bắt mồi, cải thiện lượng thức ăn tiêu thụ và bổ sung nguồn protein trong công thức phối trộn.",
     "specs": {
-      "protein": "≥ 40%",
+      "protein": "≥ 30%",
       "moisture": "≤ 12%",
       "salt": "≤ 15%",
-      "ash": "≤ 30%",
-      "sand": "≤ 2%",
-      "cadmium": "< 2 mg/kg"
+      "sand": "≤ 2%"
     },
-    "usage": "Phối trộn 5-10% trong thức ăn gia súc, gia cầm. Sử dụng làm nguyên liệu bổ sung đạm và khoáng trong khẩu phần ăn.",
-    "packaging": "Bao PP 50kg.",
-    "storage": "Bảo quản nơi khô ráo, thông thoáng. Hạn sử dụng: 12 tháng.",
+    "highlights": [
+      "Nguồn nguyên liệu thủy sản ổn định, được lựa chọn và kiểm soát chất lượng từ gốc.",
+      "Mùi thơm đặc trưng của mắm tự nhiên giúp tăng tính dẫn dụ và kích thích bắt mồi rất tốt.",
+      "Giá thành cạnh tranh, giúp tối ưu chi phí công thức thức ăn chăn nuôi và thủy sản."
+    ],
+    "uses": [
+      "Tăng tính dẫn dụ và kích thích khả năng bắt mồi của vật nuôi.",
+      "Cung cấp protein tự nhiên và các acid amin thiết yếu dễ tiêu hóa.",
+      "Cải thiện lượng thức ăn tiêu thụ hàng ngày của gia súc, gia cầm và thủy sản."
+    ],
+    "targets": [
+      "Nhà máy chế biến thức ăn chăn nuôi gia súc, gia cầm.",
+      "Cơ sở sản xuất thức ăn thủy sản (tôm, cá).",
+      "Trang trại phối trộn thức ăn tự chế."
+    ],
+    "ingredients": "100% Xác mắm tươi thu gom từ các cơ sở sản xuất nước mắm truyền thống tại Bình Thuận, được xử lý nhiệt, sấy khô và nghiền mịn.",
+    "sensorySpecs": [
+      { "indicator": "Trạng thái", "requirement": "Chất bột, xay mịn, không vón cục, không có tạp chất lạ mắt thường nhìn thấy." },
+      { "indicator": "Màu sắc", "requirement": "Màu nâu đất đến nâu đậm đặc trưng." },
+      { "indicator": "Mùi", "requirement": "Mùi thơm đặc trưng của mắm, không có mùi lạ (mùi mốc, mùi khét, mùi ôi thiu)." }
+    ],
+    "qualitySpecs": [
+      { "indicator": "Đạm thô (Protein)", "unit": "%", "value": "≥ 30,0" },
+      { "indicator": "Độ ẩm", "unit": "%", "value": "≤ 12,0" },
+      { "indicator": "Muối (NaCl)", "unit": "%", "value": "≤ 15,0" },
+      { "indicator": "Cát sạn (Tro không tan trong axit)", "unit": "%", "value": "≤ 2,0" }
+    ],
+    "usage": "Khuyến nghị tỷ lệ phối trộn vào thức ăn chăn nuôi:\n- Thức ăn gia súc (heo, bò): 3% - 5% tùy giai đoạn.\n- Thức ăn gia cầm (gà, vịt): 2% - 4%.\n- Thức ăn thủy sản: 3% - 8% để tăng tính dẫn dụ.",
+    "usageNote": "Vì sản phẩm có chứa hàm lượng muối tự nhiên khoảng 10% - 15%, người phối trộn cần tính toán giảm lượng muối bổ sung trực tiếp trong công thức thức ăn để tránh dư thừa muối cho vật nuôi.",
+    "packaging": "Đóng bao PP màu trắng trơn hoặc bao có in logo thương hiệu, có lót lớp PE bên trong để chống hút ẩm.",
+    "weight": "50 kg/bao",
+    "storage": "Bảo quản tại kho khô ráo, sạch sẽ, thoáng mát, có bục kê cách nền và cách tường tối thiểu 20cm. Tránh ánh nắng mặt trời chiếu trực tiếp.",
+    "shelfLife": "06 tháng kể từ ngày sản xuất",
+    "shippingStandard": "Phương tiện vận chuyển phải sạch sẽ, khô ráo, có mái che hoặc bạt phủ kín chống mưa nắng, đảm bảo không nhiễm bẩn hoặc ẩm ướt trong suốt quá trình vận chuyển.",
+    "qualityCommitment": "Đồng Tâm cam kết cung cấp sản phẩm Xác Mắm Khô có nguồn gốc rõ ràng, đạt chuẩn an toàn vệ sinh và chất lượng dinh dưỡng ổn định theo từng lô hàng giao.",
     "image": "",
-    "featured": false,
+    "featured": true,
     "createdAt": "2026-04-01T00:00:00.000Z"
   }
 ]

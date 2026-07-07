@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { Save, CheckCircle } from 'lucide-react';
+import { applyCustomThemeColor } from '../../utils/theme';
 
 const API = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
@@ -23,6 +24,12 @@ export default function ManageSettings() {
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify(settings)
       });
+      if (settings.themeColorGreen) {
+        applyCustomThemeColor(settings.themeColorGreen, 'primary', 'green');
+      }
+      if (settings.themeColorNavy) {
+        applyCustomThemeColor(settings.themeColorNavy, 'secondary', 'navy');
+      }
       setSaved(true);
       setTimeout(() => setSaved(false), 3000);
     } catch {
@@ -122,6 +129,39 @@ export default function ManageSettings() {
             <div className="form-group">
               <label className="form-label">Zalo</label>
               <input className="form-input" value={settings.zalo || ''} onChange={e => update('zalo', e.target.value)} />
+            </div>
+          </div>
+        </div>
+
+        <div className="settings-section">
+          <h3>Giao diện & Tông màu</h3>
+          <p style={{ fontSize: '0.85rem', color: 'var(--gray-500)', marginBottom: '1.25rem' }}>
+            Tùy chỉnh màu sắc nhận diện thương hiệu cho toàn bộ website. Màu sắc mới sẽ tự động được áp dụng trên cả trang quản trị và trang giao diện khách hàng.
+          </p>
+          <div className="form-row">
+            <div className="form-group">
+              <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                Tông màu chủ đạo (Màu chính)
+                <span style={{ fontSize: '0.8rem', color: 'var(--gray-400)', fontWeight: 'normal' }}>
+                  (Mặc định: xanh lá cây #1e7d52)
+                </span>
+              </label>
+              <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                <input type="color" style={{ width: '60px', height: '40px', padding: '2px', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)', cursor: 'pointer', background: 'none' }} value={settings.themeColorGreen || '#1e7d52'} onChange={e => update('themeColorGreen', e.target.value)} />
+                <input type="text" className="form-input" style={{ flex: 1 }} value={settings.themeColorGreen || '#1e7d52'} onChange={e => update('themeColorGreen', e.target.value)} placeholder="#1e7d52" />
+              </div>
+            </div>
+            <div className="form-group">
+              <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                Tông màu phụ (Màu navy)
+                <span style={{ fontSize: '0.8rem', color: 'var(--gray-400)', fontWeight: 'normal' }}>
+                  (Mặc định: xanh navy #21354d)
+                </span>
+              </label>
+              <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                <input type="color" style={{ width: '60px', height: '40px', padding: '2px', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-sm)', cursor: 'pointer', background: 'none' }} value={settings.themeColorNavy || '#21354d'} onChange={e => update('themeColorNavy', e.target.value)} />
+                <input type="text" className="form-input" style={{ flex: 1 }} value={settings.themeColorNavy || '#21354d'} onChange={e => update('themeColorNavy', e.target.value)} placeholder="#21354d" />
+              </div>
             </div>
           </div>
         </div>
