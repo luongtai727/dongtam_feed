@@ -139,7 +139,7 @@ export default function ManageProducts() {
   };
 
   const handleDelete = async (id) => {
-    if (!confirm('Bạn có chắc muốn xóa sản phẩm này?')) return;
+    if (!window.confirm('Bạn có chắc muốn xóa sản phẩm này?')) return;
     try {
       await fetch(`${API}/api/products/${id}`, {
         method: 'DELETE',

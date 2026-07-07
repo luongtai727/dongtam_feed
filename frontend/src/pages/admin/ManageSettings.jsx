@@ -34,7 +34,7 @@ export default function ManageSettings() {
   };
 
   const handleResetDefaults = async () => {
-    if (!confirm('Bạn có chắc muốn khôi phục tất cả màu sắc về mặc định ban đầu?')) return;
+    if (!window.confirm('Bạn có chắc muốn khôi phục tất cả màu sắc về mặc định ban đầu?')) return;
     setSaving(true);
     const updatedSettings = {
       ...settings,
