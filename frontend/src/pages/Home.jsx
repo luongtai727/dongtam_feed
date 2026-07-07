@@ -307,24 +307,19 @@ export default function Home() {
                     overflow: 'hidden',
                     cursor: 'pointer',
                     boxShadow: 'var(--shadow-sm)',
-                    transition: 'all 0.3s ease',
+                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                     border: '1px solid var(--border-default)',
                     background: 'var(--surface-card)',
-                    height: '240px',
-                    display: 'flex',
-                    flexDirection: 'column'
+                    height: '240px'
                   }}
-                  className="gallery-hover-card"
+                  className="about-gallery-card"
                 >
-                  <div style={{ width: '100%', height: '180px', overflow: 'hidden', background: 'var(--surface-muted)' }}>
+                  <div style={{ width: '100%', height: '100%', overflow: 'hidden' }} className="about-gallery-img-wrapper">
                     <img 
                       src={`${API}${img.image}`} 
                       alt={img.title} 
                       style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
                     />
-                  </div>
-                  <div style={{ padding: '0.75rem 1rem', flex: 1, display: 'flex', alignItems: 'center' }}>
-                    <h4 style={{ margin: 0, fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-primary)' }}>{img.title}</h4>
                   </div>
                 </div>
               ))}

@@ -244,9 +244,6 @@ export default function About() {
                           alt={img.title} 
                         />
                       </div>
-                      <div className="about-gallery-info">
-                        <h4>{img.title}</h4>
-                      </div>
                     </div>
                   ))}
                 </div>
