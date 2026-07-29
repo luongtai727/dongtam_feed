@@ -45,18 +45,6 @@ export default function Products() {
 
   return (
     <div className="products-page">
-      <div className="page-header">
-        <div className="container">
-          <div className="breadcrumb">
-            <Link to="/">Trang chủ</Link>
-            <ChevronRight size={14} />
-            <span>Sản phẩm</span>
-          </div>
-          <h1 className="page-title">GIẢI PHÁP & SẢN PHẨM</h1>
-          <p className="page-desc">Nguồn nguyên liệu thức ăn chăn nuôi & thủy sản chất lượng cao từ phụ phẩm sinh học</p>
-        </div>
-      </div>
-
       <section className="section" style={{ paddingTop: '2rem' }}>
         <div className="container">
           {/* Filter Bar */}

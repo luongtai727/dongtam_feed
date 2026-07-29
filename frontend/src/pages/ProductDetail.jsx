@@ -89,18 +89,6 @@ export default function ProductDetail() {
 
   return (
     <div className="product-detail-page">
-      <div className="page-header" style={{ padding: '5rem 0 2.5rem' }}>
-        <div className="container">
-          <div className="breadcrumb">
-            <Link to="/">Trang chủ</Link>
-            <ChevronRight size={14} />
-            <Link to="/san-pham">Sản phẩm</Link>
-            <ChevronRight size={14} />
-            <span>{product.name}</span>
-          </div>
-        </div>
-      </div>
-
       <section className="section" style={{ paddingTop: '2rem' }}>
         <div className="container">
           <div className="pd-grid">
