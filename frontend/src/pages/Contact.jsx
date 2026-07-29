@@ -78,8 +78,8 @@ export default function Contact() {
                   <div className="cc-icon"><Phone size={22} /></div>
                   <div>
                     <h4>Điện thoại</h4>
-                    <p>{settings.phone || '0703295692'}</p>
-                    <p>Hotline: <strong>{settings.hotline || '0703295692'}</strong></p>
+                    <p>{settings.phone || '0703 295 692'}</p>
+                    <p>Hotline: <strong>{settings.hotline || '0703 295 692'}</strong></p>
                   </div>
                 </div>
                 <div className="contact-card">

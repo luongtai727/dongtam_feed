@@ -601,15 +601,23 @@ app.post('/api/contacts', (req, res) => {
       return res.status(400).json({ error: 'Name, phone and message are required' });
     }
 
+    // Format phone number cleanly (e.g. 0703 295 692 or 0901 234 567)
+    let formattedPhone = phone.trim().replace(/[\s\-\.]/g, '');
+    if (/^\d{10}$/.test(formattedPhone)) {
+      formattedPhone = `${formattedPhone.slice(0, 4)} ${formattedPhone.slice(4, 7)} ${formattedPhone.slice(7)}`;
+    } else if (/^\d{11}$/.test(formattedPhone)) {
+      formattedPhone = `${formattedPhone.slice(0, 4)} ${formattedPhone.slice(4, 7)} ${formattedPhone.slice(7)}`;
+    }
+
     const newContact = {
       id: `contact-${uuidv4().slice(0, 8)}`,
-      name,
-      email: email || '',
-      phone,
-      company: company || '',
-      subject: subject || '',
-      message,
-      status: 'new',
+      name: name.trim(),
+      email: email ? email.trim() : '',
+      phone: formattedPhone,
+      company: company ? company.trim() : '',
+      subject: subject ? subject.trim() : '',
+      message: message.trim(),
+      status: 'unread',
       createdAt: new Date().toISOString()
     };
 
@@ -672,14 +680,14 @@ app.get('/api/dashboard', authMiddleware, (req, res) => {
   const news = readData('news.json');
   const contacts = readData('contacts.json');
   const categories = readData('categories.json');
-  const newContacts = contacts.filter(c => c.status === 'new');
+  const unreadContacts = contacts.filter(c => c.status === 'unread' || c.status === 'new');
 
   res.json({
     totalProducts: products.length,
     totalNews: news.length,
     totalContacts: contacts.length,
     totalCategories: categories.length,
-    newContacts: newContacts.length
+    newContacts: unreadContacts.length
   });
 });
 

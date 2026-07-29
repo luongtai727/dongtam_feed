@@ -1,1 +1,24 @@
-[]
+[
+  {
+    "id": "ct-001",
+    "name": "Nguyễn Văn Hùng",
+    "phone": "0912 345 678",
+    "email": "hung.nguyen@agrifeed.vn",
+    "company": "Công ty Thức ăn Chăn nuôi AgriFeed",
+    "subject": "Tư vấn báo giá Bột Nội Tạng Mực",
+    "message": "Chào Đồng Tâm Feed, công ty chúng tôi đang cần tìm nhà cung cấp Bột Nội Tạng Mực với số lượng 10 tấn/tháng. Rất mong nhận được báo giá và mẫu dùng thử.",
+    "status": "unread",
+    "createdAt": "2026-07-28T14:30:00.000Z"
+  },
+  {
+    "id": "ct-002",
+    "name": "Trần Thị Mai",
+    "phone": "0987 654 321",
+    "email": "maitran@aquatech.com",
+    "company": "AquaTech Bình Thuận",
+    "subject": "Hỏi thông tin Xác Mắm Khô",
+    "message": "Tôi muốn tư vấn về tỷ lệ phối trộn Xác Mắm Khô trong thức ăn cho tôm thẻ chân trắng.",
+    "status": "contacted",
+    "createdAt": "2026-07-27T09:15:00.000Z"
+  }
+]
