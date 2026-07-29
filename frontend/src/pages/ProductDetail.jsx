@@ -89,6 +89,13 @@ export default function ProductDetail() {
 
   return (
     <div className="product-detail-page">
+      <div className="page-header" style={{ padding: '3.5rem 0 2rem' }}>
+        <div className="container">
+          <h1 className="page-title">{product.name}</h1>
+          <p className="page-desc">{product.category}</p>
+        </div>
+      </div>
+
       <section className="section" style={{ paddingTop: '2rem' }}>
         <div className="container">
           <div className="pd-grid">
