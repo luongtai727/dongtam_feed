@@ -1,121 +1,264 @@
 [
   {
-    "id": "prod-001",
-    "name": "Bột Vỏ Đầu Tôm",
-    "slug": "bot-vo-dau-tom",
-    "category": "Bột thủy sản",
-    "shortDesc": "Nguyên liệu giàu Protein, Chitin và khoáng chất từ vỏ & đầu tôm tự nhiên, ứng dụng rộng rãi trong chăn nuôi gia súc, gia cầm và thủy sản.",
-    "description": "Bột vỏ đầu tôm là sản phẩm được chế biến từ vỏ và đầu tôm tươi, sấy khô và nghiền mịn. Sản phẩm giàu Protein thô (≥45%), Chitin tự nhiên và các khoáng chất thiết yếu như Canxi, Photpho. Đặc biệt phù hợp làm nguyên liệu bổ sung trong thức ăn chăn nuôi gia súc, gia cầm, và thức ăn thủy sản, giúp tăng cường sức đề kháng, cải thiện tốc độ tăng trưởng và chất lượng thịt.",
+    "id": "prod-005",
+    "name": "Bột Nội Tạng Mực",
+    "slug": "bot-noi-tang-muc",
+    "category": "Amino Acid Biển Sâu - Phụ Phẩm Từ Mực Biển",
+    "shortDesc": "Dạng bột, cung cấp dẫn dụ và đạm cho vật nuôi đặc biệt là tôm cá. Bột nội tạng mực 100% đánh bắt từ biển.",
+    "description": "Bột nội tạng mực là sản phẩm được chế biến từ toàn bộ nội tạng mực (bao gồm gan, ruột, tuyến sinh dục) qua quy trình sấy khô và nghiền mịn. Sản phẩm giàu Protein thô (≥ 55%), enzyme tiêu hóa tự nhiên (Protease, Lipase) và các acid amin thiết yếu.",
     "specs": {
-      "protein": "≥ 45%",
+      "protein": "≥ 55%",
       "moisture": "≤ 10%",
-      "fat": "≤ 5%",
-      "ash": "≤ 25%",
-      "chitin": "15 - 20%",
-      "cadmium": "< 2 mg/kg"
+      "fat": "≤ 15%",
+      "ash": "≤ 12%"
     },
-    "usage": "Phối trộn 3-8% trong khẩu phần thức ăn chăn nuôi. Dùng làm nguyên liệu sản xuất Chitin-Chitosan.",
-    "packaging": "Bao PP 25kg hoặc 50kg, có lót PE bên trong.",
-    "storage": "Bảo quản nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp. Hạn sử dụng: 12 tháng.",
-    "image": "",
+    "highlights": [
+      "Nguồn nguyên liệu 100% từ mực biển đánh bắt tự nhiên",
+      "Giàu enzyme tiêu hóa tự nhiên (Protease, Lipase)",
+      "Hàm lượng protein cao ≥ 55%",
+      "Tính dẫn dụ mạnh cho tôm cá"
+    ],
+    "uses": [
+      "Cung cấp dẫn dụ và đạm cho vật nuôi đặc biệt là tôm cá",
+      "Kích thích khả năng bắt mồi",
+      "Cải thiện khả năng tiêu hóa và hấp thu dinh dưỡng"
+    ],
+    "targets": [
+      "Nhà máy sản xuất thức ăn thủy sản",
+      "Nhà máy sản xuất thức ăn chăn nuôi"
+    ],
+    "ingredients": "100% nội tạng mực biển đánh bắt tự nhiên, qua quy trình sấy khô và nghiền mịn.",
+    "sensorySpecs": [
+      {
+        "indicator": "Trạng thái",
+        "requirement": "Chất bột, xay mịn, không vón cục"
+      },
+      {
+        "indicator": "Màu sắc",
+        "requirement": "Màu nâu vàng đến nâu đậm"
+      },
+      {
+        "indicator": "Mùi",
+        "requirement": "Mùi thơm đặc trưng của mực, không mùi lạ"
+      }
+    ],
+    "qualitySpecs": [
+      {
+        "indicator": "Đạm thô (Protein)",
+        "unit": "%",
+        "value": "≥ 55,0"
+      },
+      {
+        "indicator": "Độ ẩm",
+        "unit": "%",
+        "value": "≤ 10,0"
+      },
+      {
+        "indicator": "Chất béo",
+        "unit": "%",
+        "value": "≤ 15,0"
+      },
+      {
+        "indicator": "Tro",
+        "unit": "%",
+        "value": "≤ 12,0"
+      }
+    ],
+    "usage": "Phối trộn 3-7% trong khẩu phần thức ăn. Kết hợp với bột cá để tăng giá trị dinh dưỡng.",
+    "usageNote": "Liều lượng phối trộn thực tế có thể điều chỉnh linh hoạt tùy theo loài vật nuôi và giai đoạn phát triển.",
+    "packaging": "Bao PP 25kg, có lót PE bên trong.",
+    "weight": "25 kg/bao",
+    "storage": "Bảo quản nơi khô ráo, thoáng mát.",
+    "shelfLife": "12 tháng kể từ ngày sản xuất",
+    "shippingStandard": "Phương tiện vận chuyển sạch sẽ, khô ráo, có mái che.",
+    "qualityCommitment": "Đồng Tâm cam kết cung cấp sản phẩm có nguồn gốc rõ ràng, chất lượng ổn định.",
+    "image": "/uploads/1785330365159-974a2646.png",
     "featured": true,
-    "createdAt": "2026-01-15T00:00:00.000Z"
+    "createdAt": "2026-03-15T00:00:00.000Z",
+    "images": [
+      "/uploads/1785330365159-974a2646.png",
+      "/uploads/1785330365172-84784269.jpg",
+      "/uploads/1785330365194-f8cfa93b.jpg",
+      "/uploads/1785330365195-ed84d67d.png"
+    ]
   },
   {
     "id": "prod-002",
-    "name": "Dịch Mực Thủy Phân 100%",
-    "slug": "dich-muc-thuy-phan-100",
-    "category": "Dịch thủy phân",
-    "shortDesc": "Dịch mực nguyên chất 100% thủy phân từ nội tạng mực, giàu đạm hòa tan và peptide sinh học, ứng dụng trong chế biến thức ăn thủy sản cao cấp.",
-    "description": "Dịch mực thủy phân 100% là sản phẩm cao cấp được thủy phân từ nội tạng mực tươi nguyên chất. Sản phẩm giàu đạm hòa tan (≥ 50% Protein thô), amino acid tự do và peptide sinh học có hoạt tính cao. Đặc biệt hiệu quả trong việc kích thích bắt mồi ở tôm, cá và các loài thủy sản, đồng thời cung cấp dinh dưỡng dễ hấp thu giúp tăng trưởng nhanh.",
+    "name": "Dịch Mực Thủy Phân",
+    "slug": "dich-muc-thuy-phan",
+    "category": "Amino Acid Biển Sâu - Phụ Phẩm Từ Mực Biển",
+    "shortDesc": "Cung cấp dẫn dụ bằng phun áo bên ngoài, cho thủy sản. Dịch mực nguyên chất 100% thủy phân từ nội tạng mực.",
+    "description": "Dịch mực thủy phân là sản phẩm cao cấp được thủy phân từ nội tạng mực tươi nguyên chất. Sản phẩm giàu đạm hòa tan (≥ 50% Protein thô), amino acid tự do và peptide sinh học có hoạt tính cao.",
     "specs": {
       "protein": "≥ 50%",
       "moisture": "≤ 8%",
       "fat": "≤ 10%",
-      "ash": "≤ 15%",
-      "tvn": "≤ 120 mg/100g",
-      "cadmium": "< 2 mg/kg"
+      "ash": "≤ 15%"
     },
+    "highlights": [
+      "Dịch mực nguyên chất 100% thủy phân",
+      "Giàu đạm hòa tan và peptide sinh học",
+      "Kích thích bắt mồi hiệu quả cao"
+    ],
+    "uses": [
+      "Cung cấp dẫn dụ bằng phun áo bên ngoài viên thức ăn",
+      "Dùng cho thức ăn thủy sản cao cấp"
+    ],
+    "targets": [
+      "Nhà máy sản xuất thức ăn thủy sản",
+      "Cơ sở nuôi tôm, cá"
+    ],
+    "ingredients": "100% nội tạng mực tươi thủy phân.",
+    "sensorySpecs": [],
+    "qualitySpecs": [
+      {
+        "indicator": "Đạm thô (Protein)",
+        "unit": "%",
+        "value": "≥ 50,0"
+      },
+      {
+        "indicator": "Độ ẩm",
+        "unit": "%",
+        "value": "≤ 8,0"
+      },
+      {
+        "indicator": "Chất béo",
+        "unit": "%",
+        "value": "≤ 10,0"
+      }
+    ],
     "usage": "Phối trộn 2-5% trong thức ăn thủy sản. Sử dụng làm chất dẫn dụ (attractant) trong thức ăn tôm, cá.",
+    "usageNote": "",
     "packaging": "Bao PP 25kg, có lót PE bên trong.",
-    "storage": "Bảo quản nơi khô ráo, nhiệt độ < 30°C. Hạn sử dụng: 12 tháng.",
+    "weight": "25 kg/bao",
+    "storage": "Bảo quản nơi khô ráo, nhiệt độ < 30°C.",
+    "shelfLife": "12 tháng kể từ ngày sản xuất",
+    "shippingStandard": "",
+    "qualityCommitment": "",
     "image": "",
     "featured": true,
     "createdAt": "2026-02-10T00:00:00.000Z"
   },
   {
-    "id": "prod-003",
-    "name": "Dịch Mực Thủy Phân Plus",
-    "slug": "dich-muc-thuy-phan-plus",
-    "category": "Dịch thủy phân",
-    "shortDesc": "Phiên bản nâng cao của Dịch mực thủy phân, bổ sung thêm khoáng vi lượng và vitamin nhóm B, tối ưu cho thức ăn tôm giống.",
-    "description": "Dịch mực thủy phân Plus là phiên bản cải tiến với công thức bổ sung thêm khoáng vi lượng (Kẽm, Selen, Mangan) và vitamin nhóm B. Sản phẩm được thiết kế đặc biệt cho ngành sản xuất thức ăn tôm giống và tôm thương phẩm cao cấp, giúp nâng cao tỷ lệ sống, tăng cường miễn dịch tự nhiên và cải thiện chất lượng ấu trùng.",
-    "specs": {
-      "protein": "≥ 48%",
-      "moisture": "≤ 8%",
-      "fat": "≤ 12%",
-      "ash": "≤ 18%",
-      "minerals": "Zn, Se, Mn bổ sung",
-      "cadmium": "< 2 mg/kg"
-    },
-    "usage": "Phối trộn 3-6% trong thức ăn tôm giống, tôm bố mẹ. Dùng trộn trực tiếp hoặc phun phủ lên viên thức ăn.",
-    "packaging": "Bao PP 25kg, có lót PE bên trong.",
-    "storage": "Bảo quản nơi khô ráo, nhiệt độ < 30°C. Hạn sử dụng: 12 tháng.",
-    "image": "",
-    "featured": true,
-    "createdAt": "2026-02-20T00:00:00.000Z"
-  },
-  {
     "id": "prod-004",
     "name": "Cao Gan Mực",
     "slug": "cao-gan-muc",
-    "category": "Cao chiết xuất",
-    "shortDesc": "Cao chiết xuất từ gan mực, giàu DHA, EPA và Phospholipid tự nhiên, là nguyên liệu cao cấp cho thức ăn thủy sản.",
-    "description": "Cao gan mực là sản phẩm chiết xuất đậm đặc từ gan mực tươi, giàu acid béo omega-3 (DHA, EPA), Phospholipid và Cholesterol tự nhiên. Đây là nguồn lipid sinh học cao cấp, được ứng dụng rộng rãi trong sản xuất thức ăn tôm, cá biển và các loài thủy sản có giá trị kinh tế cao. Sản phẩm giúp tăng cường hệ miễn dịch, cải thiện sức sinh sản và nâng cao tốc độ tăng trưởng.",
+    "category": "Amino Acid Biển Sâu - Phụ Phẩm Từ Mực Biển",
+    "shortDesc": "Amino acid đậm đặc, hương umani mạnh. Cao chiết xuất từ gan mực, giàu DHA, EPA và Phospholipid tự nhiên.",
+    "description": "Cao gan mực là sản phẩm chiết xuất đậm đặc từ gan mực tươi, giàu acid béo omega-3 (DHA, EPA), Phospholipid và Cholesterol tự nhiên.",
     "specs": {
       "fat": "≥ 50%",
       "protein": "≥ 15%",
-      "moisture": "≤ 5%",
-      "dha_epa": "≥ 15% tổng acid béo",
-      "phospholipid": "≥ 10%",
-      "cadmium": "< 2 mg/kg"
+      "moisture": "≤ 5%"
     },
-    "usage": "Phối trộn 1-3% trong thức ăn thủy sản. Sử dụng như nguồn lipid thay thế dầu cá trong thức ăn cao cấp.",
+    "highlights": [
+      "Amino acid đậm đặc, hương umani mạnh",
+      "Giàu DHA, EPA và Phospholipid tự nhiên",
+      "Nguồn lipid sinh học cao cấp"
+    ],
+    "uses": [
+      "Tăng cường hệ miễn dịch",
+      "Cải thiện sức sinh sản",
+      "Nâng cao tốc độ tăng trưởng"
+    ],
+    "targets": [
+      "Nhà máy sản xuất thức ăn thủy sản cao cấp"
+    ],
+    "ingredients": "Chiết xuất đậm đặc từ gan mực tươi.",
+    "sensorySpecs": [],
+    "qualitySpecs": [
+      {
+        "indicator": "Chất béo",
+        "unit": "%",
+        "value": "≥ 50,0"
+      },
+      {
+        "indicator": "Đạm thô (Protein)",
+        "unit": "%",
+        "value": "≥ 15,0"
+      },
+      {
+        "indicator": "DHA + EPA",
+        "unit": "% tổng acid béo",
+        "value": "≥ 15,0"
+      }
+    ],
+    "usage": "Phối trộn 1-3% trong thức ăn thủy sản.",
+    "usageNote": "",
     "packaging": "Thùng nhựa 20L hoặc phuy 200L.",
-    "storage": "Bảo quản nơi khô ráo, tránh ánh sáng, nhiệt độ < 25°C. Hạn sử dụng: 6 tháng.",
+    "weight": "",
+    "storage": "Bảo quản nơi khô ráo, tránh ánh sáng, nhiệt độ < 25°C.",
+    "shelfLife": "6 tháng kể từ ngày sản xuất",
+    "shippingStandard": "",
+    "qualityCommitment": "",
     "image": "",
     "featured": true,
     "createdAt": "2026-03-05T00:00:00.000Z"
   },
   {
-    "id": "prod-005",
-    "name": "Bột Nội Tạng Mực",
-    "slug": "bot-noi-tang-muc",
-    "category": "Bột thủy sản",
-    "shortDesc": "Bột sấy khô từ nội tạng mực tổng hợp, giàu enzyme tiêu hóa tự nhiên và protein, ứng dụng trong thức ăn chăn nuôi và thủy sản.",
-    "description": "Bột nội tạng mực là sản phẩm được chế biến từ toàn bộ nội tạng mực (bao gồm gan, ruột, tuyến sinh dục) qua quy trình sấy khô và nghiền mịn. Sản phẩm giàu Protein thô (≥ 55%), enzyme tiêu hóa tự nhiên (Protease, Lipase) và các acid amin thiết yếu. Phù hợp làm nguyên liệu bổ sung trong thức ăn chăn nuôi và thủy sản, đặc biệt hiệu quả trong việc cải thiện khả năng tiêu hóa và hấp thu dinh dưỡng.",
+    "id": "prod-001",
+    "name": "Bột Vỏ Đầu Tôm",
+    "slug": "bot-vo-dau-tom",
+    "category": "Dinh Dưỡng Từ Ngành Nuôi Trồng Và Chế Biến Tôm",
+    "shortDesc": "Nguyên liệu giàu Protein, Chitin và khoáng chất từ vỏ & đầu tôm tự nhiên, ứng dụng rộng rãi trong chăn nuôi.",
+    "description": "Bột vỏ đầu tôm là sản phẩm được chế biến từ vỏ và đầu tôm tươi, sấy khô và nghiền mịn. Sản phẩm giàu Protein thô (≥45%), Chitin tự nhiên và các khoáng chất thiết yếu.",
     "specs": {
-      "protein": "≥ 55%",
+      "protein": "≥ 45%",
       "moisture": "≤ 10%",
-      "fat": "≤ 15%",
-      "ash": "≤ 12%",
-      "enzyme_activity": "Protease, Lipase tự nhiên",
-      "cadmium": "< 2 mg/kg"
+      "fat": "≤ 5%",
+      "chitin": "15 - 20%"
     },
-    "usage": "Phối trộn 3-7% trong khẩu phần thức ăn. Kết hợp với bột cá để tăng giá trị dinh dưỡng.",
-    "packaging": "Bao PP 25kg, có lót PE bên trong.",
-    "storage": "Bảo quản nơi khô ráo, thoáng mát. Hạn sử dụng: 12 tháng.",
+    "highlights": [
+      "Giàu Protein thô ≥ 45%",
+      "Chitin tự nhiên 15-20%",
+      "Khoáng chất thiết yếu (Canxi, Photpho)"
+    ],
+    "uses": [
+      "Tăng cường sức đề kháng",
+      "Cải thiện tốc độ tăng trưởng và chất lượng thịt"
+    ],
+    "targets": [
+      "Nhà máy sản xuất thức ăn chăn nuôi",
+      "Nhà máy sản xuất thức ăn thủy sản"
+    ],
+    "ingredients": "100% vỏ và đầu tôm tươi, sấy khô và nghiền mịn.",
+    "sensorySpecs": [],
+    "qualitySpecs": [
+      {
+        "indicator": "Đạm thô (Protein)",
+        "unit": "%",
+        "value": "≥ 45,0"
+      },
+      {
+        "indicator": "Độ ẩm",
+        "unit": "%",
+        "value": "≤ 10,0"
+      },
+      {
+        "indicator": "Chitin",
+        "unit": "%",
+        "value": "15 - 20"
+      }
+    ],
+    "usage": "Phối trộn 3-8% trong khẩu phần thức ăn chăn nuôi.",
+    "usageNote": "",
+    "packaging": "Bao PP 25kg hoặc 50kg, có lót PE bên trong.",
+    "weight": "25 kg hoặc 50 kg/bao",
+    "storage": "Bảo quản nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp.",
+    "shelfLife": "12 tháng kể từ ngày sản xuất",
+    "shippingStandard": "",
+    "qualityCommitment": "",
     "image": "",
-    "featured": false,
-    "createdAt": "2026-03-15T00:00:00.000Z"
+    "featured": true,
+    "createdAt": "2026-01-15T00:00:00.000Z"
   },
   {
     "id": "prod-006",
     "name": "Xác Mắm Khô",
     "slug": "xac-mam-kho",
-    "category": "Phụ phẩm thủy sản",
-    "shortDesc": "Nguyên liệu dẫn dụ tự nhiên giàu protein và khoáng chất từ xác mắm tươi Bình Thuận, giải pháp tối ưu chi phí thức ăn chăn nuôi.",
-    "description": "Xác Mắm Khô là nguyên liệu thức ăn chăn nuôi được sản xuất từ xác mắm tươi thu gom tại các cơ sở chế biến thủy sản ở Bình Thuận. Với quy trình sản xuất được kiểm soát chặt chẽ từ khâu tiếp nhận nguyên liệu, chế biến đến đóng gói, sản phẩm giữ được mùi thơm đặc trưng, hàm lượng dinh dưỡng ổn định và đáp ứng các yêu cầu về an toàn trong sản xuất thức ăn chăn nuôi và thức ăn thủy sản. Sản phẩm được sử dụng rộng rãi như một nguyên liệu dẫn dụ tự nhiên, giúp kích thích khả năng bắt mồi, cải thiện lượng thức ăn tiêu thụ và bổ sung nguồn protein trong công thức phối trộn.",
+    "category": "Phụ Phẩm Của Ngành Chế Biến Nước Mắm",
+    "shortDesc": "Nguyên liệu dẫn dụ tự nhiên giàu protein và khoáng chất từ xác mắm tươi Bình Thuận.",
+    "description": "Xác Mắm Khô là nguyên liệu thức ăn chăn nuôi được sản xuất từ xác mắm tươi thu gom tại các cơ sở chế biến thủy sản ở Bình Thuận.",
     "specs": {
       "protein": "≥ 30%",
       "moisture": "≤ 12%",
@@ -123,40 +266,65 @@
       "sand": "≤ 2%"
     },
     "highlights": [
-      "Nguồn nguyên liệu thủy sản ổn định, được lựa chọn và kiểm soát chất lượng từ gốc.",
-      "Mùi thơm đặc trưng của mắm tự nhiên giúp tăng tính dẫn dụ và kích thích bắt mồi rất tốt.",
-      "Giá thành cạnh tranh, giúp tối ưu chi phí công thức thức ăn chăn nuôi và thủy sản."
+      "Nguồn nguyên liệu thủy sản ổn định, được kiểm soát chất lượng từ gốc.",
+      "Mùi thơm đặc trưng của mắm tự nhiên giúp tăng tính dẫn dụ.",
+      "Giá thành cạnh tranh, giúp tối ưu chi phí công thức thức ăn."
     ],
     "uses": [
       "Tăng tính dẫn dụ và kích thích khả năng bắt mồi của vật nuôi.",
       "Cung cấp protein tự nhiên và các acid amin thiết yếu dễ tiêu hóa.",
-      "Cải thiện lượng thức ăn tiêu thụ hàng ngày của gia súc, gia cầm và thủy sản."
+      "Cải thiện lượng thức ăn tiêu thụ hàng ngày."
     ],
     "targets": [
-      "Nhà máy chế biến thức ăn chăn nuôi gia súc, gia cầm.",
-      "Cơ sở sản xuất thức ăn thủy sản (tôm, cá).",
+      "Nhà máy chế biến thức ăn chăn nuôi.",
+      "Cơ sở sản xuất thức ăn thủy sản.",
       "Trang trại phối trộn thức ăn tự chế."
     ],
-    "ingredients": "100% Xác mắm tươi thu gom từ các cơ sở sản xuất nước mắm truyền thống tại Bình Thuận, được xử lý nhiệt, sấy khô và nghiền mịn.",
+    "ingredients": "100% Xác mắm tươi thu gom từ các cơ sở sản xuất nước mắm truyền thống tại Bình Thuận.",
     "sensorySpecs": [
-      { "indicator": "Trạng thái", "requirement": "Chất bột, xay mịn, không vón cục, không có tạp chất lạ mắt thường nhìn thấy." },
-      { "indicator": "Màu sắc", "requirement": "Màu nâu đất đến nâu đậm đặc trưng." },
-      { "indicator": "Mùi", "requirement": "Mùi thơm đặc trưng của mắm, không có mùi lạ (mùi mốc, mùi khét, mùi ôi thiu)." }
+      {
+        "indicator": "Trạng thái",
+        "requirement": "Chất bột, xay mịn, không vón cục."
+      },
+      {
+        "indicator": "Màu sắc",
+        "requirement": "Màu nâu đất đến nâu đậm đặc trưng."
+      },
+      {
+        "indicator": "Mùi",
+        "requirement": "Mùi thơm đặc trưng của mắm, không có mùi lạ."
+      }
     ],
     "qualitySpecs": [
-      { "indicator": "Đạm thô (Protein)", "unit": "%", "value": "≥ 30,0" },
-      { "indicator": "Độ ẩm", "unit": "%", "value": "≤ 12,0" },
-      { "indicator": "Muối (NaCl)", "unit": "%", "value": "≤ 15,0" },
-      { "indicator": "Cát sạn (Tro không tan trong axit)", "unit": "%", "value": "≤ 2,0" }
+      {
+        "indicator": "Đạm thô (Protein)",
+        "unit": "%",
+        "value": "≥ 30,0"
+      },
+      {
+        "indicator": "Độ ẩm",
+        "unit": "%",
+        "value": "≤ 12,0"
+      },
+      {
+        "indicator": "Muối (NaCl)",
+        "unit": "%",
+        "value": "≤ 15,0"
+      },
+      {
+        "indicator": "Cát sạn",
+        "unit": "%",
+        "value": "≤ 2,0"
+      }
     ],
-    "usage": "Khuyến nghị tỷ lệ phối trộn vào thức ăn chăn nuôi:\n- Thức ăn gia súc (heo, bò): 3% - 5% tùy giai đoạn.\n- Thức ăn gia cầm (gà, vịt): 2% - 4%.\n- Thức ăn thủy sản: 3% - 8% để tăng tính dẫn dụ.",
-    "usageNote": "Vì sản phẩm có chứa hàm lượng muối tự nhiên khoảng 10% - 15%, người phối trộn cần tính toán giảm lượng muối bổ sung trực tiếp trong công thức thức ăn để tránh dư thừa muối cho vật nuôi.",
-    "packaging": "Đóng bao PP màu trắng trơn hoặc bao có in logo thương hiệu, có lót lớp PE bên trong để chống hút ẩm.",
+    "usage": "Khuyến nghị tỷ lệ phối trộn:\n- Thức ăn gia súc: 3% - 5%\n- Thức ăn gia cầm: 2% - 4%\n- Thức ăn thủy sản: 3% - 8%",
+    "usageNote": "Sản phẩm có chứa hàm lượng muối tự nhiên khoảng 10% - 15%, cần tính toán giảm lượng muối bổ sung.",
+    "packaging": "Đóng bao PP có lót PE bên trong.",
     "weight": "50 kg/bao",
-    "storage": "Bảo quản tại kho khô ráo, sạch sẽ, thoáng mát, có bục kê cách nền và cách tường tối thiểu 20cm. Tránh ánh nắng mặt trời chiếu trực tiếp.",
+    "storage": "Bảo quản tại kho khô ráo, sạch sẽ, thoáng mát.",
     "shelfLife": "06 tháng kể từ ngày sản xuất",
-    "shippingStandard": "Phương tiện vận chuyển phải sạch sẽ, khô ráo, có mái che hoặc bạt phủ kín chống mưa nắng, đảm bảo không nhiễm bẩn hoặc ẩm ướt trong suốt quá trình vận chuyển.",
-    "qualityCommitment": "Đồng Tâm cam kết cung cấp sản phẩm Xác Mắm Khô có nguồn gốc rõ ràng, đạt chuẩn an toàn vệ sinh và chất lượng dinh dưỡng ổn định theo từng lô hàng giao.",
+    "shippingStandard": "Phương tiện vận chuyển phải sạch sẽ, khô ráo, có mái che.",
+    "qualityCommitment": "Đồng Tâm cam kết cung cấp sản phẩm có nguồn gốc rõ ràng, đạt chuẩn an toàn vệ sinh.",
     "image": "",
     "featured": true,
     "createdAt": "2026-04-01T00:00:00.000Z"

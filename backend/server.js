@@ -162,6 +162,7 @@ app.get('/api/auth/verify', authMiddleware, (req, res) => {
 // GET all categories (public)
 app.get('/api/categories', (req, res) => {
   const categories = readData('categories.json');
+  categories.sort((a, b) => (a.order || 999) - (b.order || 999));
   const { type } = req.query;
   if (type) {
     return res.json(categories.filter(c => c.type === type));
@@ -173,16 +174,18 @@ app.get('/api/categories', (req, res) => {
 app.post('/api/categories', authMiddleware, (req, res) => {
   try {
     const categories = readData('categories.json');
-    const { name, type, description } = req.body;
+    const { name, type, description, subtitle, order } = req.body;
     if (!name || !type) {
       return res.status(400).json({ error: 'Name and type are required' });
     }
     const newCat = {
       id: `cat-${uuidv4().slice(0, 8)}`,
       name,
-      slug: name.toLowerCase().replace(/[^a-z0-9àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]+/g, '-').replace(/^-|-$/g, ''),
+      slug: toSlug(name),
       type,
+      subtitle: subtitle || '',
       description: description || '',
+      order: order !== undefined ? Number(order) : categories.filter(c => c.type === type).length + 1,
       createdAt: new Date().toISOString()
     };
     categories.push(newCat);
@@ -201,13 +204,15 @@ app.put('/api/categories/:id', authMiddleware, (req, res) => {
     const idx = categories.findIndex(c => c.id === req.params.id);
     if (idx === -1) return res.status(404).json({ error: 'Category not found' });
 
-    const { name, type, description } = req.body;
+    const { name, type, description, subtitle, order } = req.body;
     if (name !== undefined) {
       categories[idx].name = name;
-      categories[idx].slug = name.toLowerCase().replace(/[^a-z0-9àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]+/g, '-').replace(/^-|-$/g, '');
+      categories[idx].slug = toSlug(name);
     }
     if (type !== undefined) categories[idx].type = type;
     if (description !== undefined) categories[idx].description = description;
+    if (subtitle !== undefined) categories[idx].subtitle = subtitle;
+    if (order !== undefined) categories[idx].order = Number(order);
 
     writeData('categories.json', categories);
     res.json(categories[idx]);
@@ -258,7 +263,7 @@ app.get('/api/products/:slug', (req, res) => {
 });
 
 // POST create product (admin)
-app.post('/api/products', authMiddleware, upload.single('image'), (req, res) => {
+app.post('/api/products', authMiddleware, upload.any(), (req, res) => {
   try {
     const products = readData('products.json');
     const { name, slug, category, shortDesc, description, specs, usage, packaging, storage: storageInfo, featured,
@@ -268,6 +273,16 @@ app.post('/api/products', authMiddleware, upload.single('image'), (req, res) => 
     if (!name || !name.trim()) {
       return res.status(400).json({ error: 'Tên sản phẩm không được để trống' });
     }
+
+    // Handle existing images passed from client (when editing)
+    let existingImages = [];
+    if (req.body.existingImages) {
+      try { existingImages = JSON.parse(req.body.existingImages); } catch(e) { existingImages = []; }
+    }
+
+    // New uploaded files (from any field name)
+    const newImages = req.files ? req.files.map(f => `/uploads/${f.filename}`) : [];
+    const allImages = [...existingImages, ...newImages];
 
     const newProduct = {
       id: `prod-${uuidv4().slice(0, 8)}`,
@@ -280,7 +295,8 @@ app.post('/api/products', authMiddleware, upload.single('image'), (req, res) => 
       usage: usage || '',
       packaging: packaging || '',
       storage: storageInfo || '',
-      image: req.file ? `/uploads/${req.file.filename}` : '',
+      image: allImages[0] || '',
+      images: allImages,
       featured: featured === 'true' || featured === true,
       highlights: highlights ? (typeof highlights === 'string' ? JSON.parse(highlights) : highlights) : [],
       uses: uses ? (typeof uses === 'string' ? JSON.parse(uses) : uses) : [],
@@ -306,7 +322,7 @@ app.post('/api/products', authMiddleware, upload.single('image'), (req, res) => 
 });
 
 // PUT update product (admin)
-app.put('/api/products/:id', authMiddleware, upload.single('image'), (req, res) => {
+app.put('/api/products/:id', authMiddleware, upload.any(), (req, res) => {
   try {
     const products = readData('products.json');
     const idx = products.findIndex(p => p.id === req.params.id);
@@ -338,13 +354,25 @@ app.put('/api/products/:id', authMiddleware, upload.single('image'), (req, res) 
     if (shippingStandard !== undefined) products[idx].shippingStandard = shippingStandard;
     if (qualityCommitment !== undefined) products[idx].qualityCommitment = qualityCommitment;
 
-    if (req.file) {
-      // Delete old image if exists
-      if (products[idx].image) {
-        const oldPath = path.join(__dirname, products[idx].image);
-        if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
-      }
-      products[idx].image = `/uploads/${req.file.filename}`;
+    // Handle images: merge existing + new uploads
+    let existingImages = [];
+    if (req.body.existingImages) {
+      try { existingImages = JSON.parse(req.body.existingImages); } catch(e) { existingImages = []; }
+    }
+    const newImages = req.files ? req.files.map(f => `/uploads/${f.filename}`) : [];
+    
+    if (req.body.existingImages !== undefined || newImages.length > 0) {
+      // Delete removed images from disk
+      const oldImages = products[idx].images || (products[idx].image ? [products[idx].image] : []);
+      const keptImages = [...existingImages, ...newImages];
+      oldImages.forEach(img => {
+        if (!keptImages.includes(img)) {
+          const imgPath = path.join(__dirname, img);
+          if (fs.existsSync(imgPath)) fs.unlinkSync(imgPath);
+        }
+      });
+      products[idx].images = keptImages;
+      products[idx].image = keptImages[0] || '';
     }
 
     writeData('products.json', products);

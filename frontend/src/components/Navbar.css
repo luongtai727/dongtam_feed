@@ -200,6 +200,18 @@
   padding-left: 1.25rem;
 }
 
+.dropdown-menu-wide {
+  min-width: 320px;
+}
+
+.dropdown-item-all {
+  font-weight: 600;
+  color: var(--green-700);
+  border-bottom: 1px solid var(--border-light);
+  margin-bottom: 0.25rem;
+  padding-bottom: 0.75rem;
+}
+
 /* CTA */
 .nav-cta {
   flex-shrink: 0;

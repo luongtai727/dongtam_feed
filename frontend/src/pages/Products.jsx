@@ -1,37 +1,47 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Leaf, ArrowRight, ChevronRight, Search } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
+import { Leaf, ChevronRight, Search, ChevronDown } from 'lucide-react';
 import './Products.css';
 
 const API = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 export default function Products() {
   const [products, setProducts] = useState([]);
-  const [filtered, setFiltered] = useState([]);
-  const [activeCategory, setActiveCategory] = useState('all');
+  const [categories, setCategories] = useState([]);
   const [search, setSearch] = useState('');
+  const location = useLocation();
 
   useEffect(() => {
-    fetch(`${API}/api/products`).then(r => r.json()).then(d => {
-      setProducts(d);
-      setFiltered(d);
+    Promise.all([
+      fetch(`${API}/api/products`).then(r => r.json()),
+      fetch(`${API}/api/categories?type=product`).then(r => r.json())
+    ]).then(([prods, cats]) => {
+      setProducts(prods);
+      setCategories(cats);
     }).catch(() => {});
   }, []);
 
+  // Handle Hash Scroll
   useEffect(() => {
-    let result = products;
-    if (activeCategory !== 'all') {
-      result = result.filter(p => p.category === activeCategory);
+    if (location.hash && categories.length > 0) {
+      const id = location.hash.replace('#', '');
+      setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 300);
     }
-    if (search.trim()) {
-      const q = search.toLowerCase();
-      result = result.filter(p => p.name.toLowerCase().includes(q) || p.shortDesc.toLowerCase().includes(q));
-    }
-    setFiltered(result);
-  }, [activeCategory, search, products]);
+  }, [location.hash, categories]);
 
-  const categories = ['all', ...new Set(products.map(p => p.category))];
-  const categoryLabels = { all: 'Tất cả' };
+  // Search
+  const isSearching = search.trim().length > 0;
+  const searchResults = isSearching
+    ? products.filter(p =>
+        p.name.toLowerCase().includes(search.toLowerCase()) ||
+        (p.shortDesc && p.shortDesc.toLowerCase().includes(search.toLowerCase()))
+      )
+    : [];
 
   return (
     <div className="products-page">
@@ -42,24 +52,25 @@ export default function Products() {
             <ChevronRight size={14} />
             <span>Sản phẩm</span>
           </div>
-          <h1 className="page-title">Sản phẩm</h1>
-          <p className="page-desc">Các dòng nguyên liệu thức ăn chăn nuôi chất lượng cao từ phụ phẩm thủy sản</p>
+          <h1 className="page-title">GIẢI PHÁP & SẢN PHẨM</h1>
+          <p className="page-desc">Nguồn nguyên liệu thức ăn chăn nuôi & thủy sản chất lượng cao từ phụ phẩm sinh học</p>
         </div>
       </div>
 
-      <section className="section">
+      <section className="section" style={{ paddingTop: '2rem' }}>
         <div className="container">
-          {/* Filters */}
+          {/* Filter Bar */}
           <div className="products-filter-bar">
-            <div className="filter-categories">
+            <div className="filter-categories-nav">
+              <span className="filter-label">Nhóm sản phẩm:</span>
               {categories.map(cat => (
-                <button
-                  key={cat}
-                  className={`filter-btn ${activeCategory === cat ? 'active' : ''}`}
-                  onClick={() => setActiveCategory(cat)}
-                >
-                  {categoryLabels[cat] || cat}
-                </button>
+                <a key={cat.id} href={`#${cat.slug}`} className="vnf-cat-link" onClick={(e) => {
+                  e.preventDefault();
+                  const el = document.getElementById(cat.slug);
+                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }}>
+                  {cat.name}
+                </a>
               ))}
             </div>
             <div className="filter-search">
@@ -74,46 +85,77 @@ export default function Products() {
             </div>
           </div>
 
-          {/* Products Grid */}
-          <div className="products-list-grid">
-            {filtered.map((product, i) => (
-              <Link
-                to={`/san-pham/${product.slug}`}
-                className="product-list-card animate-fade-in-up"
-                key={product.id}
-                style={{ animationDelay: `${i * 0.08}s` }}
-              >
-                <div className="plc-image">
-                  {product.image ? (
-                    <img src={`${API}${product.image}`} alt={product.name} />
-                  ) : (
-                    <div className="plc-placeholder">
-                      <Leaf size={48} strokeWidth={1} />
+          {/* Search Results */}
+          {isSearching ? (
+            <div className="search-results-section">
+              <h2 className="search-title">Kết quả tìm kiếm cho &ldquo;{search}&rdquo; ({searchResults.length})</h2>
+              {searchResults.length > 0 ? (
+                <div className="vnf-products-grid">
+                  {searchResults.map(product => (
+                    <Link to={`/san-pham/${product.slug}`} className="vnf-product-card" key={product.id}>
+                      <div className="vnf-card-image-wrapper">
+                        {product.image ? (
+                          <img src={`${API}${product.image}`} alt={product.name} />
+                        ) : (
+                          <div className="vnf-card-placeholder">
+                            <Leaf size={48} strokeWidth={1} />
+                          </div>
+                        )}
+                      </div>
+                      <div className="vnf-card-content">
+                        <h3 className="vnf-card-name">{product.name}</h3>
+                        <p className="vnf-card-desc">{product.shortDesc}</p>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              ) : (
+                <div className="empty-state">
+                  <Leaf size={48} strokeWidth={1} />
+                  <h3>Không tìm thấy sản phẩm phù hợp</h3>
+                  <p>Vui lòng kiểm tra lại từ khóa tìm kiếm</p>
+                </div>
+              )}
+            </div>
+          ) : (
+            /* VNF Style Grouped Sections */
+            <div className="vnf-groups-container">
+              {categories.map(category => {
+                const groupProducts = products.filter(p => p.category === category.name);
+                if (groupProducts.length === 0) return null;
+                return (
+                  <div key={category.id} id={category.slug} className="vnf-group-section">
+                    <div className="vnf-group-header">
+                      <h2 className="vnf-group-title">{category.name}</h2>
+                      {category.subtitle && (
+                        <p className="vnf-group-subtitle">&ldquo;{category.subtitle}&rdquo;</p>
+                      )}
+                      <div className="vnf-arrow-down">
+                        <ChevronDown size={28} />
+                      </div>
                     </div>
-                  )}
-                  <div className="plc-overlay">
-                    <span className="btn btn-white btn-sm">Xem chi tiết</span>
+                    <div className="vnf-products-grid">
+                      {groupProducts.map(product => (
+                        <Link to={`/san-pham/${product.slug}`} className="vnf-product-card" key={product.id}>
+                          <div className="vnf-card-image-wrapper">
+                            {product.image ? (
+                              <img src={`${API}${product.image}`} alt={product.name} />
+                            ) : (
+                              <div className="vnf-card-placeholder">
+                                <Leaf size={56} strokeWidth={1} />
+                              </div>
+                            )}
+                          </div>
+                          <div className="vnf-card-content">
+                            <h3 className="vnf-card-name">{product.name}</h3>
+                            <p className="vnf-card-desc">{product.shortDesc}</p>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
                   </div>
-                </div>
-                <div className="plc-body">
-                  <span className="card-tag">{product.category}</span>
-                  <h3 className="card-title">{product.name}</h3>
-                  <p className="card-text">{product.shortDesc}</p>
-                  <div className="plc-footer">
-                    <span className="plc-link">
-                      Chi tiết <ArrowRight size={14} />
-                    </span>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-
-          {filtered.length === 0 && (
-            <div className="empty-state">
-              <Leaf size={48} strokeWidth={1} />
-              <h3>Không tìm thấy sản phẩm</h3>
-              <p>Thử thay đổi bộ lọc hoặc từ khóa tìm kiếm</p>
+                );
+              })}
             </div>
           )}
         </div>

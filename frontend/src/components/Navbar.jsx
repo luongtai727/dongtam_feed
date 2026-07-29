@@ -10,12 +10,16 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [aboutDropdown, setAboutDropdown] = useState(false);
+  const [productDropdown, setProductDropdown] = useState(false);
+  const [productCategories, setProductCategories] = useState([]);
   const [settings, setSettings] = useState({});
   const location = useLocation();
-  const dropdownRef = useRef(null);
+  const aboutDropdownRef = useRef(null);
+  const productDropdownRef = useRef(null);
 
   useEffect(() => {
     fetch(`${API}/api/settings`).then(r => r.json()).then(setSettings).catch(() => {});
+    fetch(`${API}/api/categories?type=product`).then(r => r.json()).then(setProductCategories).catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -27,12 +31,16 @@ export default function Navbar() {
   useEffect(() => {
     setMobileOpen(false);
     setAboutDropdown(false);
+    setProductDropdown(false);
   }, [location]);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+      if (aboutDropdownRef.current && !aboutDropdownRef.current.contains(e.target)) {
         setAboutDropdown(false);
+      }
+      if (productDropdownRef.current && !productDropdownRef.current.contains(e.target)) {
+        setProductDropdown(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -80,7 +88,7 @@ export default function Navbar() {
             </li>
             <li
               className={`nav-item has-dropdown ${location.pathname.startsWith('/gioi-thieu') ? 'active' : ''}`}
-              ref={dropdownRef}
+              ref={aboutDropdownRef}
               onMouseEnter={() => setAboutDropdown(true)}
               onMouseLeave={() => setAboutDropdown(false)}
             >
@@ -94,8 +102,25 @@ export default function Navbar() {
                 <li><Link to="/gioi-thieu/hinh-anh" className="dropdown-item">Thư viện ảnh</Link></li>
               </ul>
             </li>
-            <li className={`nav-item ${location.pathname.startsWith('/san-pham') ? 'active' : ''}`}>
-              <Link to="/san-pham" className="nav-link">Sản phẩm</Link>
+            <li
+              className={`nav-item has-dropdown ${location.pathname.startsWith('/san-pham') ? 'active' : ''}`}
+              ref={productDropdownRef}
+              onMouseEnter={() => setProductDropdown(true)}
+              onMouseLeave={() => setProductDropdown(false)}
+            >
+              <Link to="/san-pham" className="nav-link" onClick={(e) => { if (productDropdown) e.preventDefault(); setProductDropdown(!productDropdown); }}>
+                Sản phẩm <ChevronDown size={14} className={`chevron ${productDropdown ? 'rotated' : ''}`} />
+              </Link>
+              <ul className={`dropdown-menu dropdown-menu-wide ${productDropdown ? 'show' : ''}`}>
+                <li><Link to="/san-pham" className="dropdown-item dropdown-item-all">Tất cả sản phẩm</Link></li>
+                {productCategories.map(cat => (
+                  <li key={cat.id}>
+                    <Link to={`/san-pham#${cat.slug}`} className="dropdown-item">
+                      {cat.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </li>
             <li className={`nav-item ${location.pathname.startsWith('/tin-tuc') ? 'active' : ''}`}>
               <Link to="/tin-tuc" className="nav-link">Tin tức</Link>
@@ -130,7 +155,14 @@ export default function Navbar() {
             <Link to="/gioi-thieu/chung-nhan" className="mobile-link sub">Chứng nhận</Link>
             <Link to="/gioi-thieu/hinh-anh" className="mobile-link sub">Thư viện ảnh</Link>
           </div>
-          <Link to="/san-pham" className={`mobile-link ${location.pathname.startsWith('/san-pham') ? 'active' : ''}`}>Sản phẩm</Link>
+          <div className="mobile-group">
+            <Link to="/san-pham" className="mobile-group-title" style={{ display: 'block', textDecoration: 'none' }}>Sản phẩm</Link>
+            {productCategories.map(cat => (
+              <Link key={cat.id} to={`/san-pham#${cat.slug}`} className="mobile-link sub">
+                {cat.name}
+              </Link>
+            ))}
+          </div>
           <Link to="/tin-tuc" className={`mobile-link ${location.pathname.startsWith('/tin-tuc') ? 'active' : ''}`}>Tin tức</Link>
           <Link to="/lien-he" className={`mobile-link ${isActive('/lien-he') ? 'active' : ''}`}>Liên hệ</Link>
           <div className="mobile-contact">

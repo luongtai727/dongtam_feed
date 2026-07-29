@@ -1,26 +1,32 @@
 [
   {
     "id": "cat-001",
-    "name": "Bột thủy sản",
-    "slug": "bot-thuy-san",
+    "name": "Amino Acid Biển Sâu - Phụ Phẩm Từ Mực Biển",
+    "slug": "amino-acid-bien-sau",
     "type": "product",
-    "description": "Các sản phẩm bột từ phụ phẩm thủy sản",
+    "subtitle": "Nhóm cung cấp giải pháp dẫn dụ và dinh dưỡng. Amino acid và hương umani, giàu amino acid, hương umani bắt nguồn từ glutamic.",
+    "description": "Các sản phẩm chiết xuất từ mực biển, giàu amino acid và hương umani tự nhiên",
+    "order": 1,
     "createdAt": "2026-01-01T00:00:00.000Z"
   },
   {
     "id": "cat-002",
-    "name": "Dịch thủy phân",
-    "slug": "dich-thuy-phan",
+    "name": "Dinh Dưỡng Từ Ngành Nuôi Trồng Và Chế Biến Tôm",
+    "slug": "dinh-duong-tu-tom",
     "type": "product",
-    "description": "Các sản phẩm dịch thủy phân từ thủy sản",
+    "subtitle": "Nhóm giải pháp cung cấp dinh dưỡng và dẫn dụ từ nguồn tôm. Với tình hình ngư trường thu hẹp, Đồng Tâm mang đến giải pháp thay thế một phần bột cá cho khách hàng.",
+    "description": "Các sản phẩm từ phụ phẩm tôm, giải pháp thay thế bột cá",
+    "order": 2,
     "createdAt": "2026-01-01T00:00:00.000Z"
   },
   {
     "id": "cat-003",
-    "name": "Cao chiết xuất",
-    "slug": "cao-chiet-xuat",
+    "name": "Phụ Phẩm Của Ngành Chế Biến Nước Mắm",
+    "slug": "phu-pham-nuoc-mam",
     "type": "product",
-    "description": "Các sản phẩm cao chiết xuất từ thủy sản",
+    "subtitle": "Giải pháp cung cấp dinh dưỡng và dẫn dụ từ ngành chế biến nước mắm.",
+    "description": "Các sản phẩm từ phụ phẩm ngành chế biến nước mắm",
+    "order": 3,
     "createdAt": "2026-01-01T00:00:00.000Z"
   },
   {
@@ -28,7 +34,9 @@
     "name": "Tin doanh nghiệp",
     "slug": "tin-doanh-nghiep",
     "type": "news",
+    "subtitle": "",
     "description": "Tin tức hoạt động doanh nghiệp",
+    "order": 1,
     "createdAt": "2026-01-01T00:00:00.000Z"
   },
   {
@@ -36,7 +44,9 @@
     "name": "Tin ngành",
     "slug": "tin-nganh",
     "type": "news",
+    "subtitle": "",
     "description": "Tin tức ngành thức ăn chăn nuôi",
+    "order": 2,
     "createdAt": "2026-01-01T00:00:00.000Z"
   },
   {
@@ -44,15 +54,9 @@
     "name": "Kiến thức chăn nuôi",
     "slug": "kien-thuc-chan-nuoi",
     "type": "news",
+    "subtitle": "",
     "description": "Bài viết kiến thức về chăn nuôi",
+    "order": 3,
     "createdAt": "2026-01-01T00:00:00.000Z"
-  },
-  {
-    "id": "cat-31cac14c",
-    "name": "NguyNguyen lieu phoi tron",
-    "slug": "nguynguyen-lieu-phoi-tron",
-    "type": "product",
-    "description": "Cac nguyen lieu dung de phoi tron thuc an",
-    "createdAt": "2026-07-07T13:41:23.845Z"
   }
 ]

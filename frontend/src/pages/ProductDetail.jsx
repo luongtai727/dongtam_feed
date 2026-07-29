@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ChevronRight, Leaf, Package, Beaker, Truck, ArrowLeft } from 'lucide-react';
+import { ChevronRight, ChevronLeft, Leaf, Package, Beaker, Truck, ArrowLeft } from 'lucide-react';
 import './ProductDetail.css';
 
 const API = import.meta.env.VITE_API_URL || 'http://localhost:5000';
@@ -10,9 +10,12 @@ export default function ProductDetail() {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('desc');
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const slideIntervalRef = useRef(null);
 
   useEffect(() => {
     setLoading(true);
+    setCurrentSlide(0);
     fetch(`${API}/api/products/${slug}`)
       .then(r => {
         if (!r.ok) throw new Error('Not found');
@@ -21,6 +24,34 @@ export default function ProductDetail() {
       .then(d => { setProduct(d); setLoading(false); })
       .catch(() => { setProduct(null); setLoading(false); });
   }, [slug]);
+
+  // Clean helper for auto-play
+  const startAutoPlay = useCallback((totalImages) => {
+    if (slideIntervalRef.current) clearInterval(slideIntervalRef.current);
+    if (totalImages > 1) {
+      slideIntervalRef.current = setInterval(() => {
+        setCurrentSlide(prev => (prev + 1) % totalImages);
+      }, 4500); // 4.5s
+    }
+  }, []);
+
+  const stopAutoPlay = useCallback(() => {
+    if (slideIntervalRef.current) {
+      clearInterval(slideIntervalRef.current);
+      slideIntervalRef.current = null;
+    }
+  }, []);
+
+  // Carousel auto-play lifecycle
+  useEffect(() => {
+    if (!product) return;
+    const images = product.images && product.images.length > 0
+      ? product.images
+      : product.image ? [product.image] : [];
+    
+    startAutoPlay(images.length);
+    return () => stopAutoPlay();
+  }, [product, startAutoPlay, stopAutoPlay]);
 
   if (loading) return <div className="loading-overlay"><div className="spinner"></div></div>;
   if (!product) return (
@@ -31,9 +62,9 @@ export default function ProductDetail() {
   );
 
   const tabs = [
-    { id: 'desc', label: 'Mô tả & Công dụng', icon: <Leaf size={16} /> },
-    { id: 'specs', label: 'Thông số kỹ thuật', icon: <Beaker size={16} /> },
-    { id: 'packaging', label: 'Quy cách & Vận chuyển', icon: <Truck size={16} /> },
+    { id: 'desc', label: '1. Mô tả & Công dụng', icon: <Leaf size={16} /> },
+    { id: 'specs', label: '2. Thông số kỹ thuật & Tiêu chuẩn', icon: <Beaker size={16} /> },
+    { id: 'packaging', label: '3. HD sử dụng, Đóng gói & Vận chuyển', icon: <Truck size={16} /> },
   ];
 
   const specLabels = {
@@ -52,6 +83,10 @@ export default function ProductDetail() {
     enzyme_activity: 'Hoạt tính enzyme',
   };
 
+  const images = product.images && product.images.length > 0
+    ? product.images
+    : product.image ? [product.image] : [];
+
   return (
     <div className="product-detail-page">
       <div className="page-header" style={{ padding: '5rem 0 2.5rem' }}>
@@ -69,17 +104,73 @@ export default function ProductDetail() {
       <section className="section" style={{ paddingTop: '2rem' }}>
         <div className="container">
           <div className="pd-grid">
-            {/* Image */}
+            {/* Image Section */}
             <div className="pd-image-col animate-fade-in-left">
-              <div className="pd-image-box">
-                {product.image ? (
-                  <img src={`${API}${product.image}`} alt={product.name} />
-                ) : (
+              {images.length === 0 ? (
+                <div className="pd-image-box">
                   <div className="pd-image-placeholder">
                     <Leaf size={64} strokeWidth={1} />
                   </div>
-                )}
-              </div>
+                </div>
+              ) : (
+                <div className="pd-gallery-wrapper">
+                  {/* Main Large Carousel */}
+                  <div
+                    className="pd-carousel"
+                    onMouseEnter={stopAutoPlay}
+                    onMouseLeave={() => startAutoPlay(images.length)}
+                  >
+                    <div className="pd-carousel-track" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
+                      {images.map((img, i) => (
+                        <div className="pd-carousel-slide" key={i}>
+                          <img src={`${API}${img}`} alt={`${product.name} - ${i + 1}`} />
+                        </div>
+                      ))}
+                    </div>
+
+                    {images.length > 1 && (
+                      <>
+                        <button
+                          type="button"
+                          className="pd-carousel-btn pd-carousel-prev"
+                          onClick={() => setCurrentSlide(prev => prev === 0 ? images.length - 1 : prev - 1)}
+                          aria-label="Ảnh trước"
+                        >
+                          <ChevronLeft size={20} />
+                        </button>
+                        <button
+                          type="button"
+                          className="pd-carousel-btn pd-carousel-next"
+                          onClick={() => setCurrentSlide(prev => (prev + 1) % images.length)}
+                          aria-label="Ảnh sau"
+                        >
+                          <ChevronRight size={20} />
+                        </button>
+                      </>
+                    )}
+
+                    <div className="pd-carousel-counter">
+                      {currentSlide + 1} / {images.length}
+                    </div>
+                  </div>
+
+                  {/* Thumbnail Strip Below Main Image */}
+                  {images.length > 1 && (
+                    <div className="pd-thumbnails-strip">
+                      {images.map((img, idx) => (
+                        <button
+                          type="button"
+                          key={idx}
+                          className={`pd-thumb-btn ${idx === currentSlide ? 'active' : ''}`}
+                          onClick={() => setCurrentSlide(idx)}
+                        >
+                          <img src={`${API}${img}`} alt={`Thumbnail ${idx + 1}`} />
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
 
             {/* Info */}
@@ -176,14 +267,6 @@ export default function ProductDetail() {
                       </ul>
                     </div>
                   )}
-
-                  {/* Fallback to old usage description */}
-                  {(!product.highlights || product.highlights.length === 0) && product.usage && (
-                    <div style={{ marginTop: '1.5rem' }}>
-                      <h3>Hướng dẫn sử dụng</h3>
-                      <p>{product.usage}</p>
-                    </div>
-                  )}
                 </div>
               )}
 
@@ -244,112 +327,60 @@ export default function ProductDetail() {
                       </table>
                     </div>
                   )}
-
-                  {/* Hướng dẫn sử dụng */}
-                  {product.usage && (
-                    <div style={{ marginBottom: '2rem' }}>
-                      <h3>Hướng dẫn sử dụng</h3>
-                      <p style={{ whiteSpace: 'pre-line' }}>{product.usage}</p>
-                    </div>
-                  )}
-
-                  {/* Lưu ý */}
-                  {product.usageNote && (
-                    <div style={{ padding: '1.25rem', background: 'var(--surface-muted)', borderRadius: 'var(--radius-md)', borderLeft: '4px solid var(--primary)', marginTop: '1.5rem' }}>
-                      <h4 style={{ margin: '0 0 0.5rem', color: 'var(--text-heading)', fontWeight: '600' }}>Lưu ý khi sử dụng</h4>
-                      <p style={{ margin: 0, fontSize: '0.9rem', color: 'var(--text-secondary)' }}>{product.usageNote}</p>
-                    </div>
-                  )}
-
-                  {/* Fallback to old specifications table if sensory/quality are empty */}
-                  {(!product.sensorySpecs || product.sensorySpecs.length === 0) && (!product.qualitySpecs || product.qualitySpecs.length === 0) && product.specs && (
-                    <>
-                      <h3>Bảng thông số kỹ thuật</h3>
-                      <table className="specs-table">
-                        <thead>
-                          <tr><th>Chỉ tiêu</th><th>Giá trị</th></tr>
-                        </thead>
-                        <tbody>
-                          {Object.entries(product.specs).map(([key, val]) => (
-                            <tr key={key}>
-                              <td>{specLabels[key] || key}</td>
-                              <td><strong>{val}</strong></td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </>
-                  )}
                 </div>
               )}
 
               {activeTab === 'packaging' && (
                 <div className="animate-fade-in-up">
                   {/* Rich details cards */}
-                  {(product.weight || product.shelfLife || product.shippingStandard || product.qualityCommitment) ? (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-                      <div className="packaging-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.5rem' }}>
-                        {product.packaging && (
-                          <div className="pkg-card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '1.5rem' }}>
-                            <Package size={28} />
-                            <h4 style={{ fontWeight: '600', margin: '0.5rem 0' }}>Bao bì đóng gói</h4>
-                            <p style={{ margin: 0 }}>{product.packaging}</p>
-                          </div>
-                        )}
-                        {product.weight && (
-                          <div className="pkg-card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '1.5rem' }}>
-                            <Package size={28} style={{ color: 'var(--secondary)' }} />
-                            <h4 style={{ fontWeight: '600', margin: '0.5rem 0' }}>Trọng lượng đóng bao</h4>
-                            <p style={{ margin: 0 }}>{product.weight}</p>
-                          </div>
-                        )}
-                        {product.storage && (
-                          <div className="pkg-card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '1.5rem' }}>
-                            <Truck size={28} />
-                            <h4 style={{ fontWeight: '600', margin: '0.5rem 0' }}>Điều kiện bảo quản</h4>
-                            <p style={{ margin: 0 }}>{product.storage}</p>
-                          </div>
-                        )}
-                        {product.shelfLife && (
-                          <div className="pkg-card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '1.5rem' }}>
-                            <Truck size={28} style={{ color: 'var(--secondary)' }} />
-                            <h4 style={{ fontWeight: '600', margin: '0.5rem 0' }}>Hạn sử dụng</h4>
-                            <p style={{ margin: 0 }}>{product.shelfLife}</p>
-                          </div>
-                        )}
-                      </div>
-
-                      {product.shippingStandard && (
-                        <div>
-                          <h3 style={{ marginBottom: '0.5rem' }}>Tiêu chuẩn vận chuyển</h3>
-                          <p style={{ whiteSpace: 'pre-line', color: 'var(--text-secondary)', lineHeight: 1.8 }}>{product.shippingStandard}</p>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+                    <div className="packaging-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.5rem' }}>
+                      {product.packaging && (
+                        <div className="pkg-card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '1.5rem' }}>
+                          <Package size={28} />
+                          <h4 style={{ fontWeight: '600', margin: '0.5rem 0' }}>Bao bì đóng gói</h4>
+                          <p style={{ margin: 0 }}>{product.packaging}</p>
                         </div>
                       )}
-
-                      {product.qualityCommitment && (
-                        <div style={{ padding: '1.5rem', background: 'rgba(30,125,82,0.04)', borderRadius: 'var(--radius-lg)', border: '1px solid var(--green-200)' }}>
-                          <h3 style={{ color: 'var(--green-700)', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '0.5rem', fontSize: '1.1rem' }}>
-                            <span>★</span> Cam kết chất lượng từ Đồng Tâm
-                          </h3>
-                          <p style={{ margin: 0, fontStyle: 'italic', lineHeight: 1.8, color: 'var(--text-secondary)' }}>{product.qualityCommitment}</p>
+                      {product.weight && (
+                        <div className="pkg-card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '1.5rem' }}>
+                          <Package size={28} style={{ color: 'var(--secondary)' }} />
+                          <h4 style={{ fontWeight: '600', margin: '0.5rem 0' }}>Trọng lượng đóng bao</h4>
+                          <p style={{ margin: 0 }}>{product.weight}</p>
+                        </div>
+                      )}
+                      {product.storage && (
+                        <div className="pkg-card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '1.5rem' }}>
+                          <Truck size={28} />
+                          <h4 style={{ fontWeight: '600', margin: '0.5rem 0' }}>Điều kiện bảo quản</h4>
+                          <p style={{ margin: 0 }}>{product.storage}</p>
+                        </div>
+                      )}
+                      {product.shelfLife && (
+                        <div className="pkg-card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '1.5rem' }}>
+                          <Truck size={28} style={{ color: 'var(--secondary)' }} />
+                          <h4 style={{ fontWeight: '600', margin: '0.5rem 0' }}>Hạn sử dụng</h4>
+                          <p style={{ margin: 0 }}>{product.shelfLife}</p>
                         </div>
                       )}
                     </div>
-                  ) : (
-                    /* Fallback to old view */
-                    <div className="packaging-grid">
-                      <div className="pkg-card">
-                        <Package size={32} />
-                        <h4>Quy cách đóng gói</h4>
-                        <p>{product.packaging || 'Liên hệ để biết thêm chi tiết'}</p>
+
+                    {product.shippingStandard && (
+                      <div>
+                        <h3 style={{ marginBottom: '0.5rem' }}>Tiêu chuẩn vận chuyển</h3>
+                        <p style={{ whiteSpace: 'pre-line', color: 'var(--text-secondary)', lineHeight: 1.8 }}>{product.shippingStandard}</p>
                       </div>
-                      <div className="pkg-card">
-                        <Truck size={32} />
-                        <h4>Bảo quản & Vận chuyển</h4>
-                        <p>{product.storage || 'Liên hệ để biết thêm chi tiết'}</p>
+                    )}
+
+                    {product.qualityCommitment && (
+                      <div style={{ padding: '1.5rem', background: 'rgba(30,125,82,0.04)', borderRadius: 'var(--radius-lg)', border: '1px solid var(--green-200)' }}>
+                        <h3 style={{ color: 'var(--green-700)', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '0.5rem', fontSize: '1.1rem' }}>
+                          <span>★</span> Cam kết chất lượng từ Đồng Tâm
+                        </h3>
+                        <p style={{ margin: 0, fontStyle: 'italic', lineHeight: 1.8, color: 'var(--text-secondary)' }}>{product.qualityCommitment}</p>
                       </div>
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </div>
               )}
             </div>

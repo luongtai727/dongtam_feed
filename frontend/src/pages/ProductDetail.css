@@ -32,6 +32,162 @@
   color: var(--green-300);
 }
 
+/* ---- Carousel ---- */
+.pd-carousel {
+  position: relative;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-xl);
+  background: linear-gradient(135deg, var(--green-50), var(--navy-50));
+}
+
+.pd-carousel-track {
+  display: flex;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pd-carousel-slide {
+  min-width: 100%;
+  flex-shrink: 0;
+}
+
+.pd-carousel-slide img {
+  width: 100%;
+  height: 420px;
+  object-fit: cover;
+  display: block;
+}
+
+.pd-carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.85);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--navy-800);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  transition: all var(--transition-fast);
+  opacity: 0;
+  z-index: 5;
+}
+
+.pd-carousel:hover .pd-carousel-btn {
+  opacity: 1;
+}
+
+.pd-carousel-btn:hover {
+  background: #fff;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.pd-carousel-prev { left: 12px; }
+.pd-carousel-next { right: 12px; }
+
+.pd-carousel-dots {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 5;
+}
+
+.pd-carousel-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.8);
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  transition: all var(--transition-fast);
+}
+
+.pd-carousel-dot.active {
+  background: #fff;
+  transform: scale(1.2);
+}
+
+.pd-carousel-counter {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(0,0,0,0.5);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-full);
+  z-index: 5;
+}
+
+/* ---- Thumbnails Strip Below Image ---- */
+.pd-gallery-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.pd-thumbnails-strip {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  overflow-x: auto;
+  padding: 0.25rem 0;
+  scroll-behavior: smooth;
+}
+
+.pd-thumbnails-strip::-webkit-scrollbar {
+  height: 4px;
+}
+
+.pd-thumbnails-strip::-webkit-scrollbar-thumb {
+  background: var(--gray-300);
+  border-radius: var(--radius-full);
+}
+
+.pd-thumb-btn {
+  width: 76px;
+  height: 76px;
+  flex-shrink: 0;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 2px solid var(--border-light);
+  background: var(--surface-muted);
+  cursor: pointer;
+  padding: 0;
+  transition: all var(--transition-fast);
+  opacity: 0.7;
+}
+
+.pd-thumb-btn:hover {
+  opacity: 1;
+  border-color: var(--green-400);
+  transform: translateY(-2px);
+}
+
+.pd-thumb-btn.active {
+  opacity: 1;
+  border-color: var(--green-600);
+  box-shadow: 0 0 0 2px rgba(22, 101, 52, 0.2);
+  transform: scale(1.05);
+}
+
+.pd-thumb-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 .pd-title {
   font-size: 2rem;
   margin: 0.5rem 0 1rem;

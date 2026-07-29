@@ -14,7 +14,7 @@ export default function ManageCategories() {
   const [categories, setCategories] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState(null);
-  const [form, setForm] = useState({ name: '', type: 'product', description: '' });
+  const [form, setForm] = useState({ name: '', type: 'product', subtitle: '', description: '', order: 1 });
   const [saving, setSaving] = useState(false);
   const [filterType, setFilterType] = useState('all');
 
@@ -25,14 +25,20 @@ export default function ManageCategories() {
   useEffect(() => { loadCategories(); }, []);
 
   const resetForm = () => {
-    setForm({ name: '', type: 'product', description: '' });
+    setForm({ name: '', type: 'product', subtitle: '', description: '', order: categories.length + 1 });
     setEditing(null);
     setShowForm(false);
   };
 
   const handleEdit = (cat) => {
     setEditing(cat);
-    setForm({ name: cat.name, type: cat.type, description: cat.description || '' });
+    setForm({
+      name: cat.name,
+      type: cat.type,
+      subtitle: cat.subtitle || '',
+      description: cat.description || '',
+      order: cat.order || 1
+    });
     setShowForm(true);
   };
 
@@ -138,7 +144,7 @@ export default function ManageCategories() {
       {/* Category Form Modal */}
       {showForm && (
         <div className="admin-modal-overlay" onClick={resetForm}>
-          <div className="admin-modal" onClick={e => e.stopPropagation()} style={{ maxWidth: '500px' }}>
+          <div className="admin-modal" onClick={e => e.stopPropagation()} style={{ maxWidth: '600px' }}>
             <div className="admin-modal-header">
               <h2>{editing ? 'Sửa danh mục' : 'Thêm danh mục mới'}</h2>
               <button className="modal-close" onClick={resetForm}><X size={20} /></button>
@@ -150,29 +156,53 @@ export default function ManageCategories() {
                   className="form-input"
                   value={form.name}
                   onChange={e => setForm({...form, name: e.target.value})}
-                  placeholder="Ví dụ: Bột thủy sản"
+                  placeholder="Ví dụ: AMINO ACID BIỂN SÂU - PHỤ PHẨM TỪ MỰC BIỂN"
                   required
                 />
               </div>
-              <div className="form-group">
-                <label className="form-label">Loại danh mục *</label>
-                <select
-                  className="form-input"
-                  value={form.type}
-                  onChange={e => setForm({...form, type: e.target.value})}
-                >
-                  <option value="product">Sản phẩm</option>
-                  <option value="news">Tin tức</option>
-                </select>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                <div className="form-group">
+                  <label className="form-label">Loại danh mục *</label>
+                  <select
+                    className="form-input"
+                    value={form.type}
+                    onChange={e => setForm({...form, type: e.target.value})}
+                  >
+                    <option value="product">Sản phẩm</option>
+                    <option value="news">Tin tức</option>
+                  </select>
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Thứ tự hiển thị</label>
+                  <input
+                    type="number"
+                    className="form-input"
+                    value={form.order}
+                    onChange={e => setForm({...form, order: parseInt(e.target.value) || 1})}
+                    min="1"
+                  />
+                </div>
               </div>
+              {form.type === 'product' && (
+                <div className="form-group">
+                  <label className="form-label">Dòng trích phụ (Subtitle)</label>
+                  <textarea
+                    className="form-textarea"
+                    rows="2"
+                    value={form.subtitle}
+                    onChange={e => setForm({...form, subtitle: e.target.value})}
+                    placeholder="Ví dụ: Nhóm cung cấp giải pháp dẫn dụ và dinh dưỡng..."
+                  />
+                </div>
+              )}
               <div className="form-group">
                 <label className="form-label">Mô tả</label>
                 <textarea
                   className="form-textarea"
-                  rows="3"
+                  rows="2"
                   value={form.description}
                   onChange={e => setForm({...form, description: e.target.value})}
-                  placeholder="Mô tả ngắn về danh mục..."
+                  placeholder="Mô tả ngắn..."
                 />
               </div>
               <div className="admin-modal-footer">
@@ -191,26 +221,26 @@ export default function ManageCategories() {
         <table className="admin-table">
           <thead>
             <tr>
+              <th style={{ width: '60px' }}>STT</th>
               <th>Tên danh mục</th>
               <th>Loại</th>
-              <th>Mô tả</th>
-              <th>Ngày tạo</th>
+              <th>Subtitle</th>
               <th>Thao tác</th>
             </tr>
           </thead>
           <tbody>
             {filteredCategories.map(cat => (
               <tr key={cat.id}>
+                <td><strong>#{cat.order || '—'}</strong></td>
                 <td><strong>{cat.name}</strong></td>
                 <td>
                   <span className={`badge ${cat.type === 'product' ? 'badge-green' : 'badge-gold'}`}>
                     {TYPE_LABELS[cat.type] || cat.type}
                   </span>
                 </td>
-                <td style={{ maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                  {cat.description || '—'}
+                <td style={{ maxWidth: '280px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontStyle: 'italic', color: 'var(--text-secondary)' }}>
+                  {cat.subtitle || '—'}
                 </td>
-                <td>{new Date(cat.createdAt).toLocaleDateString('vi-VN')}</td>
                 <td>
                   <div className="action-btns">
                     <button className="btn btn-sm btn-outline" onClick={() => handleEdit(cat)}>

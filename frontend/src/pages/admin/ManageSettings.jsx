@@ -55,8 +55,8 @@ export default function ManageSettings() {
     <div>
       <div className="admin-page-header">
         <div>
-          <h1>Cài đặt chung</h1>
-          <p>Cập nhật thông tin công ty và cấu hình website</p>
+          <h1>Cài đặt chung & Thông tin Công ty</h1>
+          <p>Quản lý toàn bộ thông tin công ty, liên hệ, tầm nhìn, sứ mệnh, nhà máy và hình ảnh</p>
         </div>
         {saved && (
           <div className="save-toast">
@@ -67,52 +67,62 @@ export default function ManageSettings() {
 
       <form onSubmit={handleSave} className="settings-form">
         <div className="settings-section">
-          <h3>Thông tin công ty</h3>
+          <h3>Thông tin Công ty cơ bản</h3>
           <div className="form-row">
             <div className="form-group">
-              <label className="form-label">Tên công ty</label>
+              <label className="form-label">Tên công ty (Tiếng Việt)</label>
               <input className="form-input" value={settings.companyName || ''} onChange={e => update('companyName', e.target.value)} />
             </div>
             <div className="form-group">
-              <label className="form-label">Tên tiếng Anh</label>
+              <label className="form-label">Tên công ty (Tiếng Anh)</label>
               <input className="form-input" value={settings.companyNameEn || ''} onChange={e => update('companyNameEn', e.target.value)} />
             </div>
           </div>
-          <div className="form-group">
-            <label className="form-label">Slogan</label>
-            <input className="form-input" value={settings.tagline || ''} onChange={e => update('tagline', e.target.value)} />
+          <div className="form-row">
+            <div className="form-group">
+              <label className="form-label">Mã số thuế (MST)</label>
+              <input className="form-input" value={settings.taxCode || ''} onChange={e => update('taxCode', e.target.value)} placeholder="0316760462" />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Khẩu hiệu / Slogan</label>
+              <input className="form-input" value={settings.tagline || ''} onChange={e => update('tagline', e.target.value)} />
+            </div>
           </div>
           <div className="form-group">
-            <label className="form-label">Giới thiệu công ty</label>
+            <label className="form-label">Giới thiệu tổng quan về công ty</label>
             <textarea className="form-textarea" rows="4" value={settings.aboutCompany || ''} onChange={e => update('aboutCompany', e.target.value)} />
           </div>
           <div className="form-row">
             <div className="form-group">
-              <label className="form-label">Tầm nhìn</label>
+              <label className="form-label">Tầm nhìn (Vision)</label>
               <textarea className="form-textarea" rows="3" value={settings.vision || ''} onChange={e => update('vision', e.target.value)} />
             </div>
             <div className="form-group">
-              <label className="form-label">Sứ mệnh</label>
+              <label className="form-label">Sứ mệnh (Mission)</label>
               <textarea className="form-textarea" rows="3" value={settings.mission || ''} onChange={e => update('mission', e.target.value)} />
             </div>
+          </div>
+          <div className="form-group">
+            <label className="form-label">Thông tin & Quy mô Nhà máy sản xuất</label>
+            <textarea className="form-textarea" rows="4" value={settings.factoryInfo || ''} onChange={e => update('factoryInfo', e.target.value)} placeholder="Mô tả về diện tích, công suất sấy công nghiệp, dây chuyền máy móc..." />
           </div>
         </div>
 
         <div className="settings-section">
-          <h3>Liên hệ</h3>
+          <h3>Thông tin Liên hệ & Địa chỉ</h3>
           <div className="form-row">
             <div className="form-group">
-              <label className="form-label">Điện thoại</label>
+              <label className="form-label">Số điện thoại bàn / Điện thoại</label>
               <input className="form-input" value={settings.phone || ''} onChange={e => update('phone', e.target.value)} />
             </div>
             <div className="form-group">
-              <label className="form-label">Hotline</label>
+              <label className="form-label">Hotline tư vấn</label>
               <input className="form-input" value={settings.hotline || ''} onChange={e => update('hotline', e.target.value)} />
             </div>
           </div>
           <div className="form-row">
             <div className="form-group">
-              <label className="form-label">Email</label>
+              <label className="form-label">Email liên hệ</label>
               <input className="form-input" value={settings.email || ''} onChange={e => update('email', e.target.value)} />
             </div>
             <div className="form-group">
@@ -121,32 +131,36 @@ export default function ManageSettings() {
             </div>
           </div>
           <div className="form-group">
-            <label className="form-label">Địa chỉ văn phòng</label>
+            <label className="form-label">Địa chỉ Văn phòng giao dịch</label>
             <input className="form-input" value={settings.address || ''} onChange={e => update('address', e.target.value)} />
           </div>
           <div className="form-group">
-            <label className="form-label">Địa chỉ nhà máy</label>
+            <label className="form-label">Địa chỉ Nhà máy sản xuất</label>
             <input className="form-input" value={settings.factoryAddress || ''} onChange={e => update('factoryAddress', e.target.value)} />
           </div>
+          <div className="form-group">
+            <label className="form-label">Link bản đồ Google Maps (Embed URL)</label>
+            <input className="form-input" value={settings.mapEmbed || ''} onChange={e => update('mapEmbed', e.target.value)} placeholder="https://www.google.com/maps/embed?..." />
+          </div>
         </div>
 
         <div className="settings-section">
-          <h3>Mạng xã hội</h3>
+          <h3>Kênh truyền thông & Mạng xã hội</h3>
           <div className="form-row">
             <div className="form-group">
-              <label className="form-label">Facebook</label>
-              <input className="form-input" value={settings.facebook || ''} onChange={e => update('facebook', e.target.value)} />
+              <label className="form-label">Fanpage Facebook</label>
+              <input className="form-input" value={settings.facebook || ''} onChange={e => update('facebook', e.target.value)} placeholder="https://facebook.com/..." />
             </div>
             <div className="form-group">
-              <label className="form-label">Zalo</label>
-              <input className="form-input" value={settings.zalo || ''} onChange={e => update('zalo', e.target.value)} />
+              <label className="form-label">Số Zalo liên hệ</label>
+              <input className="form-input" value={settings.zalo || ''} onChange={e => update('zalo', e.target.value)} placeholder="0901234567" />
             </div>
           </div>
         </div>
 
         <div className="settings-section">
-          <h3>Hình ảnh giới thiệu công ty</h3>
-          <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '1.25rem' }}>Các hình ảnh này sẽ hiển thị tại trang Giới thiệu (Về công ty, Nhà máy) và phần Giới thiệu ở Trang chủ.</p>
+          <h3>Hình ảnh minh họa Công ty & Nhà máy</h3>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '1.25rem' }}>Các hình ảnh này sẽ hiển thị tại các trang Giới thiệu (Về công ty, Nhà máy) và phần Giới thiệu ở Trang chủ.</p>
           <div className="form-row">
             <div className="form-group">
               <label className="form-label">Ảnh trụ sở văn phòng</label>
@@ -232,7 +246,7 @@ export default function ManageSettings() {
 
         <div style={{ marginTop: '2rem' }}>
           <button type="submit" className="btn btn-primary btn-lg" disabled={saving}>
-            <Save size={18} /> {saving ? 'Đang lưu...' : 'Lưu cài đặt'}
+            <Save size={18} /> {saving ? 'Đang lưu...' : 'Lưu tất cả cài đặt'}
           </button>
         </div>
       </form>
