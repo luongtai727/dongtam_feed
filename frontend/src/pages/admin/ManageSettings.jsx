@@ -244,6 +244,67 @@ export default function ManageSettings() {
           </div>
         </div>
 
+        {/* ============ STATS ============ */}
+        <div className="settings-section">
+          <h3>Thống kê nổi bật (Trang chủ)</h3>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '1.25rem' }}>Các con số hiển thị ở mục thống kê trên trang chủ (5,000m², 50 tấn, 200+, 10+...)</p>
+          {(settings.stats || []).map((stat, idx) => (
+            <div key={idx} style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', marginBottom: '0.75rem', flexWrap: 'wrap' }}>
+              <input className="form-input" style={{ width: '120px', flex: 'none' }} placeholder="Số liệu" value={stat.number || ''} onChange={e => {
+                const arr = [...(settings.stats || [])];
+                arr[idx] = { ...arr[idx], number: e.target.value };
+                update('stats', arr);
+              }} />
+              <input className="form-input" style={{ flex: 1, minWidth: '120px' }} placeholder="Nhãn (VI)" value={stat.label || ''} onChange={e => {
+                const arr = [...(settings.stats || [])];
+                arr[idx] = { ...arr[idx], label: e.target.value };
+                update('stats', arr);
+              }} />
+              <input className="form-input" style={{ flex: 1, minWidth: '120px' }} placeholder="Label (EN)" value={stat.labelEn || ''} onChange={e => {
+                const arr = [...(settings.stats || [])];
+                arr[idx] = { ...arr[idx], labelEn: e.target.value };
+                update('stats', arr);
+              }} />
+              <input className="form-input" style={{ flex: 1, minWidth: '100px' }} placeholder="标签 (ZH)" value={stat.labelZh || ''} onChange={e => {
+                const arr = [...(settings.stats || [])];
+                arr[idx] = { ...arr[idx], labelZh: e.target.value };
+                update('stats', arr);
+              }} />
+              <button type="button" style={{ color: 'var(--danger)', background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.2rem', padding: '0.25rem' }} onClick={() => {
+                const arr = (settings.stats || []).filter((_, i) => i !== idx);
+                update('stats', arr);
+              }}>✕</button>
+            </div>
+          ))}
+          <button type="button" className="btn btn-outline btn-sm" onClick={() => {
+            const arr = [...(settings.stats || []), { number: '', label: '', labelEn: '', labelZh: '' }];
+            update('stats', arr);
+          }}>+ Thêm thống kê</button>
+        </div>
+
+        {/* ============ HERO CERTIFICATIONS ============ */}
+        <div className="settings-section">
+          <h3>Chứng nhận hiển thị trên Banner (ISO, HACCP, GMP...)</h3>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '1.25rem' }}>Các chứng nhận hiển thị dưới nút bấm trên banner trang chủ</p>
+          {(settings.heroCertifications || []).map((cert, idx) => (
+            <div key={idx} style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', marginBottom: '0.5rem' }}>
+              <input className="form-input" style={{ flex: 1 }} placeholder="Ví dụ: ISO 9001:2015" value={cert} onChange={e => {
+                const arr = [...(settings.heroCertifications || [])];
+                arr[idx] = e.target.value;
+                update('heroCertifications', arr);
+              }} />
+              <button type="button" style={{ color: 'var(--danger)', background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.2rem', padding: '0.25rem' }} onClick={() => {
+                const arr = (settings.heroCertifications || []).filter((_, i) => i !== idx);
+                update('heroCertifications', arr);
+              }}>✕</button>
+            </div>
+          ))}
+          <button type="button" className="btn btn-outline btn-sm" onClick={() => {
+            const arr = [...(settings.heroCertifications || []), ''];
+            update('heroCertifications', arr);
+          }}>+ Thêm chứng nhận</button>
+        </div>
+
         <div style={{ marginTop: '2rem' }}>
           <button type="submit" className="btn btn-primary btn-lg" disabled={saving}>
             <Save size={18} /> {saving ? 'Đang lưu...' : 'Lưu tất cả cài đặt'}

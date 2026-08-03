@@ -24,12 +24,23 @@ export default function Home() {
     fetch(`${API}/api/gallery`).then(r => r.json()).then(setGallery).catch(() => {});
   }, []);
 
-  const stats = [
-    { icon: <Factory size={28} />, number: '5,000m²', label: t('stats.area') },
-    { icon: <TrendingUp size={28} />, number: '50 ' + (language === 'vi' ? 'tấn' : language === 'en' ? 'tons' : '吨'), label: t('stats.capacity') },
-    { icon: <Users size={28} />, number: '200+', label: t('stats.partners') },
-    { icon: <Award size={28} />, number: '10+', label: language === 'vi' ? 'Năm kinh nghiệm' : language === 'en' ? 'Years of Experience' : '年行业经验' },
+  const icons = [<Factory size={28} />, <TrendingUp size={28} />, <Users size={28} />, <Award size={28} />];
+  const defaultStats = [
+    { number: '5,000m²', label: 'Diện tích nhà máy', labelEn: 'Factory Area', labelZh: '工厂面积' },
+    { number: '50 tấn', label: 'Công suất/ngày', labelEn: 'Capacity/Day', labelZh: '日产能' },
+    { number: '200+', label: 'Đối tác tin cậy', labelEn: 'Trusted Partners', labelZh: '合作伙伴' },
+    { number: '10+', label: 'Năm kinh nghiệm', labelEn: 'Years of Experience', labelZh: '年行业经验' },
   ];
+  const statsData = (settings.stats && settings.stats.length > 0) ? settings.stats : defaultStats;
+  const stats = statsData.map((s, i) => ({
+    icon: icons[i] || icons[0],
+    number: s.number,
+    label: language === 'en' ? (s.labelEn || s.label) : language === 'zh' ? (s.labelZh || s.label) : s.label,
+  }));
+
+  const heroCerts = (settings.heroCertifications && settings.heroCertifications.length > 0)
+    ? settings.heroCertifications
+    : ['ISO 9001:2015', 'HACCP', 'GMP'];
 
   const strengths = [
     { icon: <Leaf size={24} />, title: t('strengths.item1Title'), desc: t('strengths.item1Desc') },
@@ -69,18 +80,12 @@ export default function Home() {
               </Link>
             </div>
             <div className="hero-trust">
-              <div className="hero-trust-item">
-                <CheckCircle2 size={16} />
-                <span>ISO 9001:2015</span>
-              </div>
-              <div className="hero-trust-item">
-                <CheckCircle2 size={16} />
-                <span>HACCP</span>
-              </div>
-              <div className="hero-trust-item">
-                <CheckCircle2 size={16} />
-                <span>GMP</span>
-              </div>
+              {heroCerts.map((cert, i) => (
+                <div className="hero-trust-item" key={i}>
+                  <CheckCircle2 size={16} />
+                  <span>{cert}</span>
+                </div>
+              ))}
             </div>
           </div>
           <div className="hero-visual animate-fade-in-right">
