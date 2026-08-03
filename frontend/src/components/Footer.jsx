@@ -1,11 +1,13 @@
 import { Link } from 'react-router-dom';
 import { Phone, Mail, MapPin, Clock, ArrowUpRight, Heart, ExternalLink } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { useLanguage } from '../context/LanguageContext';
 import './Footer.css';
 
 const API = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 export default function Footer() {
+  const { t, language } = useLanguage();
   const [settings, setSettings] = useState({});
 
   useEffect(() => {
@@ -32,7 +34,7 @@ export default function Footer() {
                 </div>
               </div>
               <p className="footer-desc">
-                Chuyên cung cấp nguyên liệu thức ăn chăn nuôi chất lượng cao từ phụ phẩm thủy sản. Đối tác tin cậy của hàng trăm doanh nghiệp trên cả nước.
+                {t('hero.desc')}
               </p>
               <div className="footer-social">
                 <a href={settings.facebook || '#'} target="_blank" rel="noopener noreferrer" className="social-link" aria-label="Facebook">
@@ -46,32 +48,32 @@ export default function Footer() {
 
             {/* Column 2: Quick Links */}
             <div className="footer-col">
-              <h3 className="footer-heading">Liên kết nhanh</h3>
+              <h3 className="footer-heading">{language === 'vi' ? 'Liên kết nhanh' : language === 'en' ? 'Quick Links' : '快速链接'}</h3>
               <ul className="footer-links">
-                <li><Link to="/">Trang chủ</Link></li>
-                <li><Link to="/gioi-thieu/cong-ty">Về công ty</Link></li>
-                <li><Link to="/gioi-thieu/hinh-anh">Thư viện ảnh</Link></li>
-                <li><Link to="/san-pham">Sản phẩm</Link></li>
-                <li><Link to="/tin-tuc">Tin tức</Link></li>
-                <li><Link to="/lien-he">Liên hệ</Link></li>
+                <li><Link to="/">{t('nav.home')}</Link></li>
+                <li><Link to="/gioi-thieu/cong-ty">{t('nav.aboutCompany')}</Link></li>
+                <li><Link to="/gioi-thieu/hinh-anh">{t('nav.gallery')}</Link></li>
+                <li><Link to="/san-pham">{t('nav.products')}</Link></li>
+                <li><Link to="/tin-tuc">{t('nav.news')}</Link></li>
+                <li><Link to="/lien-he">{t('nav.contact')}</Link></li>
               </ul>
             </div>
 
             {/* Column 3: Products */}
             <div className="footer-col">
-              <h3 className="footer-heading">Sản phẩm</h3>
+              <h3 className="footer-heading">{t('nav.products')}</h3>
               <ul className="footer-links">
-                <li><Link to="/san-pham/bot-vo-dau-tom">Bột vỏ đầu tôm</Link></li>
-                <li><Link to="/san-pham/dich-muc-thuy-phan-100">Dịch mực thủy phân 100%</Link></li>
-                <li><Link to="/san-pham/dich-muc-thuy-phan-plus">Dịch mực thủy phân Plus</Link></li>
-                <li><Link to="/san-pham/cao-gan-muc">Cao gan mực</Link></li>
-                <li><Link to="/san-pham/bot-noi-tang-muc">Bột nội tạng mực</Link></li>
+                <li><Link to="/san-pham/bot-vo-dau-tom">{language === 'vi' ? 'Bột vỏ đầu tôm' : language === 'en' ? 'Shrimp Shell Powder' : '虾壳粉'}</Link></li>
+                <li><Link to="/san-pham/dich-muc-thuy-phan-100">{language === 'vi' ? 'Dịch mực thủy phân 100%' : language === 'en' ? '100% Squid Hydrolysate Liquid' : '100% 鱿鱼水解膏'}</Link></li>
+                <li><Link to="/san-pham/dich-muc-thuy-phan-plus">{language === 'vi' ? 'Dịch mực thủy phân Plus' : language === 'en' ? 'Squid Hydrolysate Liquid Plus' : '强效鱿鱼水解膏'}</Link></li>
+                <li><Link to="/san-pham/cao-gan-muc">{language === 'vi' ? 'Cao gan mực' : language === 'en' ? 'Squid Liver Paste (Soluble)' : '乌贼膏（鱿鱼膏）'}</Link></li>
+                <li><Link to="/san-pham/bot-noi-tang-muc">{language === 'vi' ? 'Bột nội tạng mực' : language === 'en' ? 'Squid Viscera Powder' : '鱿鱼内脏粉'}</Link></li>
               </ul>
             </div>
 
             {/* Column 4: Contact */}
             <div className="footer-col">
-              <h3 className="footer-heading">Liên hệ</h3>
+              <h3 className="footer-heading">{t('nav.contact')}</h3>
               <div className="footer-contact-list">
                 <div className="footer-contact-item">
                   <MapPin size={16} className="footer-contact-icon" />
@@ -87,7 +89,12 @@ export default function Footer() {
                 </div>
                 <div className="footer-contact-item">
                   <Clock size={16} className="footer-contact-icon" />
-                  <span>{settings.workingHours || 'T2 - T7: 7:30 - 17:00'}</span>
+                  <span>
+                    {settings.workingHours || 
+                     (language === 'vi' ? 'T2 - T7: 7:30 - 17:00' : 
+                      language === 'en' ? 'Mon - Sat: 7:30 - 17:00' : 
+                      '周一至周六: 7:30 - 17:00')}
+                  </span>
                 </div>
               </div>
             </div>
@@ -98,9 +105,11 @@ export default function Footer() {
       {/* Bottom Bar */}
       <div className="footer-bottom">
         <div className="container footer-bottom-inner">
-          <p>© {new Date().getFullYear()} Công ty TNHH Giải pháp Dinh dưỡng Đồng Tâm. Tất cả quyền được bảo lưu.</p>
+          <p>© {new Date().getFullYear()} {language === 'vi' ? 'Công ty TNHH Giải pháp Dinh dưỡng Đồng Tâm. Tất cả quyền được bảo lưu.' : language === 'en' ? 'Dong Tam Feed Solutions Co., Ltd. All Rights Reserved.' : '同心饲料营养解决方案有限公司。保留所有权利。'}</p>
           <p className="footer-credit">
-            Thiết kế với <Heart size={12} fill="var(--green-400)" color="var(--green-400)" /> bởi Đồng Tâm Team
+            {language === 'vi' ? 'Thiết kế với ' : language === 'en' ? 'Designed with ' : '精心设计 '}
+            <Heart size={12} fill="var(--green-400)" color="var(--green-400)" />
+            {language === 'vi' ? ' bởi Đồng Tâm Team' : language === 'en' ? ' by Dong Tam Team' : ' 由 同心团队'}
           </p>
         </div>
       </div>

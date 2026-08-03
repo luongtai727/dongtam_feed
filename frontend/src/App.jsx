@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { LanguageProvider } from './context/LanguageContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -16,6 +17,7 @@ import ManageContacts from './pages/admin/ManageContacts';
 import ManageCategories from './pages/admin/ManageCategories';
 import ManageSettings from './pages/admin/ManageSettings';
 import ManageGallery from './pages/admin/ManageGallery';
+import ManageTranslations from './pages/admin/ManageTranslations';
 import { useEffect } from 'react';
 
 // Scroll to top on route change
@@ -75,6 +77,7 @@ function AppRoutes() {
           <Route path="contacts" element={<ManageContacts />} />
           <Route path="gallery" element={<ManageGallery />} />
           <Route path="settings" element={<ManageSettings />} />
+          <Route path="translations" element={<ManageTranslations />} />
         </Route>
 
         {/* Catch-all redirect */}
@@ -88,7 +91,9 @@ export default function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <AppRoutes />
+        <LanguageProvider>
+          <AppRoutes />
+        </LanguageProvider>
       </AuthProvider>
     </BrowserRouter>
   );

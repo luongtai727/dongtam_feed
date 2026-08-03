@@ -692,6 +692,27 @@ app.get('/api/dashboard', authMiddleware, (req, res) => {
 });
 
 // ============================================================
+// TRANSLATIONS MANAGEMENT (admin & client)
+// ============================================================
+app.get('/api/translations', (req, res) => {
+  try {
+    const translations = readData('translations.json');
+    res.json(translations);
+  } catch (err) {
+    res.status(500).json({ error: 'Server error reading translations' });
+  }
+});
+
+app.post('/api/translations', authMiddleware, (req, res) => {
+  try {
+    writeData('translations.json', req.body);
+    res.json({ message: 'Translations updated successfully' });
+  } catch (err) {
+    res.status(500).json({ error: 'Server error writing translations' });
+  }
+});
+
+// ============================================================
 // START SERVER
 // ============================================================
 app.listen(PORT, () => {

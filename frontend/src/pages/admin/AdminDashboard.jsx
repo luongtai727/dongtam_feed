@@ -3,7 +3,7 @@ import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import {
   LayoutDashboard, Package, Newspaper, MessageSquare, Settings,
-  LogOut, Leaf, ChevronRight, Menu, X, BarChart3, Users, TrendingUp, Tag, Image
+  LogOut, Leaf, ChevronRight, Menu, X, BarChart3, Users, TrendingUp, Tag, Image, Globe
 } from 'lucide-react';
 import './Admin.css';
 
@@ -36,6 +36,7 @@ export default function AdminDashboard() {
     { path: '/admin/contacts', label: 'Liên hệ', icon: <MessageSquare size={18} />, badge: stats.newContacts },
     { path: '/admin/gallery', label: 'Hình ảnh hoạt động', icon: <Image size={18} /> },
     { path: '/admin/settings', label: 'Cài đặt', icon: <Settings size={18} /> },
+    { path: '/admin/translations', label: 'Quản lý Đa ngôn ngữ', icon: <Globe size={18} /> },
   ];
 
   const isActive = (item) => {

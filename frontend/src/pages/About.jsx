@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Building2, Factory, Award, Eye, Target, Heart, Shield, CheckCircle2, ChevronRight, Image, X } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 import './About.css';
 
 const API = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 export default function About() {
+  const { t, language } = useLanguage();
   const { section } = useParams();
   const [settings, setSettings] = useState({});
   const [activeTab, setActiveTab] = useState('cong-ty');
@@ -35,10 +37,10 @@ export default function About() {
   }, [activeTab]);
 
   const tabs = [
-    { id: 'cong-ty', label: 'Về công ty', icon: <Building2 size={18} /> },
-    { id: 'nha-may', label: 'Nhà máy', icon: <Factory size={18} /> },
-    { id: 'chung-nhan', label: 'Chứng nhận', icon: <Award size={18} /> },
-    { id: 'hinh-anh', label: 'Hình ảnh hoạt động', icon: <Image size={18} /> },
+    { id: 'cong-ty', label: t('nav.aboutCompany'), icon: <Building2 size={18} /> },
+    { id: 'nha-may', label: t('nav.factory'), icon: <Factory size={18} /> },
+    { id: 'chung-nhan', label: t('nav.certs'), icon: <Award size={18} /> },
+    { id: 'hinh-anh', label: t('nav.gallery'), icon: <Image size={18} /> },
   ];
 
   return (
@@ -47,12 +49,12 @@ export default function About() {
       <div className="page-header">
         <div className="container">
           <div className="breadcrumb">
-            <Link to="/">Trang chủ</Link>
+            <Link to="/">{t('nav.home')}</Link>
             <ChevronRight size={14} />
-            <span>Giới thiệu</span>
+            <span>{t('nav.about')}</span>
           </div>
-          <h1 className="page-title">Giới thiệu</h1>
-          <p className="page-desc">Tìm hiểu về Giải Pháp Dinh Dưỡng Đồng Tâm - Đối tác tin cậy của ngành chăn nuôi</p>
+          <h1 className="page-title">{t('nav.about')}</h1>
+          <p className="page-desc">{language === 'vi' ? (settings.tagline || t('hero.desc')) : t('hero.desc')}</p>
         </div>
       </div>
 
@@ -83,31 +85,50 @@ export default function About() {
             <div className="about-content-section animate-fade-in-up">
               <div className="about-two-col">
                 <div className="about-col-text">
-                  <span className="section-label">VỀ ĐỒNG TÂM FEED</span>
-                  <h2>Giải pháp dinh dưỡng <span className="text-green">bền vững</span></h2>
-                  <p>{settings.aboutCompany || 'Công ty TNHH Giải pháp Dinh dưỡng Đồng Tâm được thành lập năm 2015...'}</p>
+                  <span className="section-label">
+                    {language === 'vi' ? 'VỀ ĐỒNG TÂM FEED' : language === 'en' ? 'ABOUT DONG TAM FEED' : '关于同心饲料'}
+                  </span>
+                  <h2>{t('aboutPreview.title')}</h2>
+                  <p>{language === 'vi' ? (settings.aboutCompany || t('aboutPreview.desc')) : t('aboutPreview.desc')}</p>
 
                   <div className="vision-mission-grid">
                     <div className="vm-card">
                       <div className="vm-icon"><Eye size={24} /></div>
-                      <h3>Tầm nhìn</h3>
-                      <p>{settings.vision || 'Trở thành doanh nghiệp hàng đầu Việt Nam trong lĩnh vực cung cấp nguyên liệu thức ăn chăn nuôi.'}</p>
+                      <h3>{language === 'vi' ? 'Tầm nhìn' : language === 'en' ? 'Vision' : '企业愿景'}</h3>
+                      <p>
+                        {language === 'vi' 
+                          ? (settings.vision || 'Trở thành doanh nghiệp hàng đầu Việt Nam trong lĩnh vực cung cấp nguyên liệu thức ăn chăn nuôi.') 
+                          : language === 'en' 
+                            ? 'To become a leading enterprise in Vietnam in supplying sustainable marine feed ingredients, reaching out to international markets.' 
+                            : '成为越南提供可持续海洋饲料原料领域的领先企业，并向国际市场进军。'}
+                      </p>
                     </div>
                     <div className="vm-card">
                       <div className="vm-icon"><Target size={24} /></div>
-                      <h3>Sứ mệnh</h3>
-                      <p>{settings.mission || 'Cung cấp các giải pháp dinh dưỡng chất lượng cao, an toàn và bền vững.'}</p>
+                      <h3>{language === 'vi' ? 'Sứ mệnh' : language === 'en' ? 'Mission' : '企业使命'}</h3>
+                      <p>
+                        {language === 'vi' 
+                          ? (settings.mission || 'Cung cấp các giải pháp dinh dưỡng chất lượng cao, an toàn và bền vững.') 
+                          : language === 'en' 
+                            ? 'Providing high-quality, safe, and sustainable nutritional solutions for animal husbandry, contributing to manufacturing efficiency and environmental protection.' 
+                            : '为饲料工业提供高品质、安全、可持续的营养解决方案，助力提高生产效益并保护生态环境。'}
+                      </p>
                     </div>
                   </div>
 
                   {settings.coreValues && settings.coreValues.length > 0 && (
                     <div className="core-values">
-                      <h3>Giá trị cốt lõi</h3>
+                      <h3>{language === 'vi' ? 'Giá trị cốt lõi' : language === 'en' ? 'Core Values' : '核心价值'}</h3>
                       <div className="values-grid">
                         {settings.coreValues.map((value, i) => (
                           <div className="value-item" key={i}>
                             <Heart size={16} />
-                            <span>{value}</span>
+                            <span>
+                              {value.includes('Chất lượng') ? (language === 'en' ? 'Quality is the Foundation' : '质量为本') :
+                               value.includes('Khách hàng') ? (language === 'en' ? 'Customer Centricity' : '客户中心') :
+                               value.includes('Sáng tạo') ? (language === 'en' ? 'Continuous Innovation' : '持续创新') :
+                               value.includes('bền vững') || value.includes('Bền vững') ? (language === 'en' ? 'Sustainable Development' : '绿色发展') : value}
+                            </span>
                           </div>
                         ))}
                       </div>
@@ -125,7 +146,7 @@ export default function About() {
                     ) : (
                       <div className="about-img-placeholder">
                         <Building2 size={64} strokeWidth={1} />
-                        <span>Trụ sở Đồng Tâm Feed</span>
+                        <span>{language === 'vi' ? 'Trụ sở Đồng Tâm Feed' : language === 'en' ? 'Dong Tam Feed Headquarters' : '同心饲料总部'}</span>
                       </div>
                     )}
                   </div>
@@ -149,32 +170,40 @@ export default function About() {
                     ) : (
                       <div className="about-img-placeholder">
                         <Factory size={64} strokeWidth={1} />
-                        <span>Nhà máy Đồng Tâm Feed</span>
+                        <span>{language === 'vi' ? 'Nhà máy Đồng Tâm Feed' : language === 'en' ? 'Dong Tam Feed Factory' : '同心饲料厂区'}</span>
                       </div>
                     )}
                   </div>
                 </div>
                 <div className="about-col-text">
-                  <span className="section-label">NHÀ MÁY SẢN XUẤT</span>
-                  <h2>Cơ sở vật chất <span className="text-green">hiện đại</span></h2>
-                  <p>{settings.factoryInfo || 'Nhà máy Đồng Tâm Feed tọa lạc tại KCN Suối Dầu, Cam Lâm, Khánh Hòa...'}</p>
+                  <span className="section-label">
+                    {language === 'vi' ? 'NHÀ MÁY SẢN XUẤT' : language === 'en' ? 'PRODUCTION FACTORY' : '生产基地'}
+                  </span>
+                  <h2>{t('aboutPage.factoryTitle')}</h2>
+                  <p>
+                    {language === 'vi' 
+                      ? (settings.factoryInfo || 'Nhà máy Đồng Tâm Feed tọa lạc tại KCN Suối Dầu, Cam Lâm, Khánh Hòa...') 
+                      : language === 'en' 
+                        ? 'Dong Tam Feed Factory is located in Suoi Dau Industrial Zone, Cam Lam, Khanh Hoa province with a total area of 5,000m². The factory is equipped with an industrial drying system with a capacity of 50 tons/day, automated grinding and packaging lines, and a modern testing laboratory.' 
+                        : '同心饲料工厂位于庆和省甘林县绥油（Suoi Dau）工业区，总面积达5000平方米。工厂配备日产能50吨的工业烘干系统、自动研磨和包装生产线以及现代化的实验室。'}
+                  </p>
 
                   <div className="factory-specs">
                     <div className="factory-spec">
                       <div className="spec-number">5,000m²</div>
-                      <div className="spec-label">Tổng diện tích</div>
+                      <div className="spec-label">{t('aboutPage.totalArea')}</div>
                     </div>
                     <div className="factory-spec">
-                      <div className="spec-number">50 tấn</div>
-                      <div className="spec-label">Công suất/ngày</div>
+                      <div className="spec-number">50 {language === 'vi' ? 'tấn' : language === 'en' ? 'tons' : '吨'}</div>
+                      <div className="spec-label">{t('aboutPage.dailyCapacity')}</div>
                     </div>
                     <div className="factory-spec">
                       <div className="spec-number">3</div>
-                      <div className="spec-label">Dây chuyền SX</div>
+                      <div className="spec-label">{t('aboutPage.linesCount')}</div>
                     </div>
                     <div className="factory-spec">
                       <div className="spec-number">ISO</div>
-                      <div className="spec-label">Phòng kiểm nghiệm</div>
+                      <div className="spec-label">{t('aboutPage.labStandard')}</div>
                     </div>
                   </div>
                 </div>
@@ -186,9 +215,11 @@ export default function About() {
           {activeTab === 'chung-nhan' && (
             <div className="about-content-section animate-fade-in-up">
               <div className="certs-intro">
-                <span className="section-label">CHỨNG NHẬN CHẤT LƯỢNG</span>
-                <h2>Đạt chuẩn <span className="text-green">quốc tế</span></h2>
-                <p>Tất cả sản phẩm của Đồng Tâm Feed đều được sản xuất theo quy trình nghiêm ngặt và đạt các chứng nhận chất lượng quốc tế.</p>
+                <span className="section-label">
+                  {language === 'vi' ? 'CHỨNG NHẬN CHẤT LƯỢNG' : language === 'en' ? 'QUALITY CERTIFICATIONS' : '管理体系认证'}
+                </span>
+                <h2>{t('aboutPage.certsTitle')}</h2>
+                <p>{t('aboutPage.certsDesc')}</p>
               </div>
 
               <div className="certs-grid">
@@ -197,18 +228,51 @@ export default function About() {
                   'ISO 22000:2018 - An toàn thực phẩm',
                   'GMP - Thực hành sản xuất tốt',
                   'HACCP - Phân tích mối nguy và kiểm soát điểm tới hạn'
-                ]).map((cert, i) => (
-                  <div className="cert-card" key={i}>
-                    <div className="cert-icon">
-                      <Shield size={32} />
+                ]).map((cert, i) => {
+                  const translatedCert = (() => {
+                    const title = cert.split(' - ')[0];
+                    const subtitle = cert.split(' - ')[1] || '';
+                    if (language === 'vi') return { title, subtitle };
+                    if (title.includes('9001')) {
+                      return {
+                        title: 'ISO 9001:2015',
+                        subtitle: language === 'en' ? 'Quality Management System' : '质量管理体系'
+                      };
+                    }
+                    if (title.includes('22000')) {
+                      return {
+                        title: 'ISO 22000:2018',
+                        subtitle: language === 'en' ? 'Food Safety Management System' : '食品安全管理体系'
+                      };
+                    }
+                    if (title.includes('GMP')) {
+                      return {
+                        title: 'GMP Standard',
+                        subtitle: language === 'en' ? 'Good Manufacturing Practices' : '良好生产规范'
+                      };
+                    }
+                    if (title.includes('HACCP')) {
+                      return {
+                        title: 'HACCP Standard',
+                        subtitle: language === 'en' ? 'Hazard Analysis Critical Control Point' : '危害分析与关键控制点'
+                      };
+                    }
+                    return { title, subtitle };
+                  })();
+
+                  return (
+                    <div className="cert-card" key={i}>
+                      <div className="cert-icon">
+                        <Shield size={32} />
+                      </div>
+                      <div className="cert-info">
+                        <h3>{translatedCert.title}</h3>
+                        <p>{translatedCert.subtitle}</p>
+                      </div>
+                      <CheckCircle2 size={20} className="cert-check" />
                     </div>
-                    <div className="cert-info">
-                      <h3>{cert.split(' - ')[0]}</h3>
-                      <p>{cert.split(' - ')[1] || cert}</p>
-                    </div>
-                    <CheckCircle2 size={20} className="cert-check" />
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           )}
@@ -217,9 +281,9 @@ export default function About() {
           {activeTab === 'hinh-anh' && (
             <div className="about-content-section animate-fade-in-up">
               <div className="certs-intro" style={{ marginBottom: '2rem' }}>
-                <span className="section-label">THƯ VIỆN ẢNH</span>
-                <h2>Hình ảnh <span className="text-green">hoạt động</span></h2>
-                <p>Xem các hình ảnh về cơ sở vật chất, dây chuyền sản xuất và các chứng nhận chất lượng của Đồng Tâm Feed.</p>
+                <span className="section-label">{t('nav.gallery')}</span>
+                <h2>{t('aboutPage.galleryTitle')}</h2>
+                <p>{t('aboutPage.galleryDesc')}</p>
               </div>
 
               {loadingGallery ? (
@@ -228,7 +292,7 @@ export default function About() {
                 </div>
               ) : gallery.length === 0 ? (
                 <div style={{ textAlign: 'center', padding: '5rem 0', color: 'var(--text-muted)', background: 'var(--surface-card)', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border-default)' }}>
-                  Không có hình ảnh hoạt động nào.
+                  {language === 'vi' ? 'Không có hình ảnh hoạt động nào.' : language === 'en' ? 'No gallery images available.' : '暂无活动照片。'}
                 </div>
               ) : (
                 <div className="about-gallery-masonry">
@@ -283,7 +347,7 @@ export default function About() {
                         fontWeight: '600'
                       }}
                     >
-                      <X size={24} /> Đóng
+                      <X size={24} /> {language === 'vi' ? 'Đóng' : language === 'en' ? 'Close' : '关闭'}
                     </button>
                     <img 
                       src={`${API}${selectedImage.image}`} 

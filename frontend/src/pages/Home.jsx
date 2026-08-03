@@ -4,11 +4,13 @@ import {
   ArrowRight, Leaf, Shield, Award, Factory, TrendingUp, Users,
   ChevronRight, Star, Zap, Phone, CheckCircle2, X
 } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 import './Home.css';
 
 const API = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 export default function Home() {
+  const { language, t, tProduct, tNews, tCategory } = useLanguage();
   const [products, setProducts] = useState([]);
   const [news, setNews] = useState([]);
   const [settings, setSettings] = useState({});
@@ -23,17 +25,17 @@ export default function Home() {
   }, []);
 
   const stats = [
-    { icon: <Factory size={28} />, number: '5,000m²', label: 'Diện tích nhà máy' },
-    { icon: <TrendingUp size={28} />, number: '50 tấn', label: 'Công suất/ngày' },
-    { icon: <Users size={28} />, number: '200+', label: 'Đối tác tin cậy' },
-    { icon: <Award size={28} />, number: '10+', label: 'Năm kinh nghiệm' },
+    { icon: <Factory size={28} />, number: '5,000m²', label: t('stats.area') },
+    { icon: <TrendingUp size={28} />, number: '50 ' + (language === 'vi' ? 'tấn' : language === 'en' ? 'tons' : '吨'), label: t('stats.capacity') },
+    { icon: <Users size={28} />, number: '200+', label: t('stats.partners') },
+    { icon: <Award size={28} />, number: '10+', label: language === 'vi' ? 'Năm kinh nghiệm' : language === 'en' ? 'Years of Experience' : '年行业经验' },
   ];
 
   const strengths = [
-    { icon: <Leaf size={24} />, title: 'Nguyên liệu tự nhiên', desc: 'Nguồn nguyên liệu 100% từ phụ phẩm thủy sản Việt Nam, đảm bảo chất lượng và truy xuất nguồn gốc.' },
-    { icon: <Shield size={24} />, title: 'Tiêu chuẩn quốc tế', desc: 'Sản phẩm đạt các tiêu chuẩn ISO 9001, ISO 22000, GMP và HACCP nghiêm ngặt.' },
-    { icon: <Zap size={24} />, title: 'Công nghệ hiện đại', desc: 'Dây chuyền sản xuất tự động, hệ thống sấy công nghiệp, phòng kiểm nghiệm đạt chuẩn ISO 17025.' },
-    { icon: <Star size={24} />, title: 'Giá cạnh tranh', desc: 'Chi phí thấp hơn 20-30% so với nguyên liệu nhập khẩu, chất lượng tương đương hoặc vượt trội.' },
+    { icon: <Leaf size={24} />, title: t('strengths.item1Title'), desc: t('strengths.item1Desc') },
+    { icon: <Shield size={24} />, title: t('strengths.item2Title'), desc: t('strengths.item2Desc') },
+    { icon: <Zap size={24} />, title: t('strengths.item3Title'), desc: t('strengths.item3Desc') },
+    { icon: <Star size={24} />, title: t('strengths.item4Title'), desc: t('strengths.item4Desc') },
   ];
 
   return (
@@ -49,22 +51,21 @@ export default function Home() {
           <div className="hero-content animate-fade-in-up">
             <div className="hero-badge">
               <Leaf size={14} />
-              <span>Giải pháp dinh dưỡng bền vững</span>
+              <span>{t('hero.badge')}</span>
             </div>
             <h1 className="hero-title">
-              Nguyên liệu thức ăn <br />
-              <span className="hero-highlight">chăn nuôi chất lượng cao</span>
+              {t('hero.titleMain')} <br />
+              <span className="hero-highlight">{t('hero.titleSub')}</span>
             </h1>
             <p className="hero-desc">
-              Giải Pháp Dinh Dưỡng Đồng Tâm chuyên cung cấp nguyên liệu thức ăn chăn nuôi và thủy sản
-              từ phụ phẩm thủy sản tự nhiên. Đối tác tin cậy của hàng trăm doanh nghiệp trên cả nước.
+              {t('hero.desc')}
             </p>
             <div className="hero-actions">
               <Link to="/san-pham" className="btn btn-primary btn-lg">
-                Xem sản phẩm <ArrowRight size={18} />
+                {t('hero.viewProducts')} <ArrowRight size={18} />
               </Link>
               <Link to="/lien-he" className="btn btn-white btn-lg">
-                <Phone size={18} /> Liên hệ tư vấn
+                <Phone size={18} /> {t('hero.contactConsult')}
               </Link>
             </div>
             <div className="hero-trust">
@@ -86,18 +87,18 @@ export default function Home() {
             <div className="hero-card-stack">
               <div className="hero-card hero-card-1">
                 <div className="hero-card-icon"><Leaf size={32} /></div>
-                <h3>100% Tự nhiên</h3>
-                <p>Từ phụ phẩm thủy sản</p>
+                <h3>{language === 'vi' ? '100% Tự nhiên' : language === 'en' ? '100% Natural' : '100% 天然'}</h3>
+                <p>{language === 'vi' ? 'Từ phụ phẩm thủy sản' : language === 'en' ? 'From marine by-products' : '源自海洋副产物'}</p>
               </div>
               <div className="hero-card hero-card-2">
                 <div className="hero-card-icon"><Shield size={32} /></div>
-                <h3>An toàn</h3>
-                <p>Đạt chuẩn quốc tế</p>
+                <h3>{language === 'vi' ? 'An toàn' : language === 'en' ? 'Safe & Pure' : '安全无害'}</h3>
+                <p>{language === 'vi' ? 'Đạt chuẩn quốc tế' : language === 'en' ? 'International standards' : '符合国际标准'}</p>
               </div>
               <div className="hero-card hero-card-3">
                 <div className="hero-card-icon"><Award size={32} /></div>
-                <h3>Uy tín</h3>
-                <p>10+ năm kinh nghiệm</p>
+                <h3>{language === 'vi' ? 'Uy tín' : language === 'en' ? 'Reputable' : '诚信经营'}</h3>
+                <p>{language === 'vi' ? '10+ năm kinh nghiệm' : language === 'en' ? '10+ years experience' : '10年行业经验'}</p>
               </div>
             </div>
           </div>
@@ -134,17 +135,17 @@ export default function Home() {
                 ) : (
                   <div className="about-image-placeholder">
                     <Factory size={64} strokeWidth={1} />
-                    <span>Nhà máy Đồng Tâm Feed</span>
+                    <span>{language === 'vi' ? 'Nhà máy Đồng Tâm Feed' : language === 'en' ? 'Dong Tam Feed Factory' : '同心饲料厂区'}</span>
                   </div>
                 )}
               </div>
               <div className="about-image-accent"></div>
             </div>
             <div className="about-content animate-fade-in-right">
-              <span className="section-label">VỀ CHÚNG TÔI</span>
-              <h2 className="about-title">Giải pháp dinh dưỡng <span className="text-green">bền vững</span> cho ngành chăn nuôi</h2>
+              <span className="section-label">{t('aboutPreview.sectionLabel')}</span>
+              <h2 className="about-title">{t('aboutPreview.title')}</h2>
               <p className="about-text">
-                {settings.aboutCompany || 'Công ty TNHH Giải pháp Dinh dưỡng Đồng Tâm được thành lập năm 2015, chuyên nghiên cứu, sản xuất và cung cấp các nguyên liệu thức ăn chăn nuôi chất lượng cao từ phụ phẩm thủy sản.'}
+                {language === 'vi' ? (settings.aboutCompany || t('aboutPreview.desc')) : t('aboutPreview.desc')}
               </p>
               <div className="about-features">
                 {strengths.slice(0, 3).map((s, i) => (
@@ -158,7 +159,7 @@ export default function Home() {
                 ))}
               </div>
               <Link to="/gioi-thieu/cong-ty" className="btn btn-outline">
-                Tìm hiểu thêm <ChevronRight size={16} />
+                {t('aboutPreview.viewMore')} <ChevronRight size={16} />
               </Link>
             </div>
           </div>
@@ -168,11 +169,11 @@ export default function Home() {
       {/* ==================== PRODUCTS ==================== */}
       <section className="section products-section">
         <div className="container">
-          <span className="section-label center">SẢN PHẨM NỔI BẬT</span>
-          <h2 className="section-title">Nguyên liệu chất lượng cao</h2>
+          <span className="section-label center">{t('featuredProducts.sectionLabel')}</span>
+          <h2 className="section-title">{t('featuredProducts.title')}</h2>
           <div className="section-divider"></div>
           <p className="section-subtitle">
-            Các dòng sản phẩm chủ lực được nghiên cứu và sản xuất theo tiêu chuẩn quốc tế
+            {t('featuredProducts.desc')}
           </p>
 
           <div className="products-grid">
@@ -185,22 +186,22 @@ export default function Home() {
               >
                 <div className="product-image">
                   {product.image ? (
-                    <img src={`${API}${product.image}`} alt={product.name} />
+                    <img src={`${API}${product.image}`} alt={tProduct(product, 'name')} />
                   ) : (
                     <div className="product-placeholder">
                       <Leaf size={40} strokeWidth={1} />
                     </div>
                   )}
                   <div className="product-overlay">
-                    <span>Xem chi tiết</span>
+                    <span>{t('featuredProducts.viewDetail')}</span>
                   </div>
                 </div>
                 <div className="product-info">
-                  <span className="card-tag">{product.category}</span>
-                  <h3 className="card-title">{product.name}</h3>
-                  <p className="card-text">{product.shortDesc}</p>
+                  <span className="card-tag">{tCategory(product.category)}</span>
+                  <h3 className="card-title">{tProduct(product, 'name')}</h3>
+                  <p className="card-text">{tProduct(product, 'shortDesc')}</p>
                   <div className="product-link">
-                    Tìm hiểu thêm <ArrowRight size={14} />
+                    {t('aboutPreview.viewMore')} <ArrowRight size={14} />
                   </div>
                 </div>
               </Link>
@@ -209,7 +210,7 @@ export default function Home() {
 
           <div style={{ textAlign: 'center', marginTop: '2.5rem' }}>
             <Link to="/san-pham" className="btn btn-primary btn-lg">
-              Xem tất cả sản phẩm <ArrowRight size={18} />
+              {t('featuredProducts.viewAll')} <ArrowRight size={18} />
             </Link>
           </div>
         </div>
@@ -218,11 +219,11 @@ export default function Home() {
       {/* ==================== STRENGTHS ==================== */}
       <section className="section strengths-section">
         <div className="container">
-          <span className="section-label center">TẠI SAO CHỌN CHÚNG TÔI</span>
-          <h2 className="section-title">Thế mạnh vượt trội</h2>
+          <span className="section-label center">{t('strengths.sectionLabel')}</span>
+          <h2 className="section-title">{t('strengths.title')}</h2>
           <div className="section-divider"></div>
           <p className="section-subtitle">
-            Cam kết mang đến những giải pháp dinh dưỡng tốt nhất cho ngành chăn nuôi Việt Nam
+            {t('strengths.desc')}
           </p>
 
           <div className="strengths-grid">
@@ -241,11 +242,11 @@ export default function Home() {
       {news.length > 0 && (
         <section className="section news-section">
           <div className="container">
-            <span className="section-label center">TIN TỨC</span>
-            <h2 className="section-title">Tin tức & Sự kiện</h2>
+            <span className="section-label center">{t('newsSection.sectionLabel')}</span>
+            <h2 className="section-title">{t('newsSection.title')}</h2>
             <div className="section-divider"></div>
             <p className="section-subtitle">
-              Cập nhật tin tức mới nhất về công ty và ngành chăn nuôi
+              {t('newsSection.desc')}
             </p>
 
             <div className="news-grid">
@@ -258,7 +259,7 @@ export default function Home() {
                 >
                   <div className="news-image">
                     {article.image ? (
-                      <img src={`${API}${article.image}`} alt={article.title} />
+                      <img src={`${API}${article.image}`} alt={tNews(article, 'title')} />
                     ) : (
                       <div className="news-placeholder">
                         <Leaf size={32} strokeWidth={1} />
@@ -266,12 +267,12 @@ export default function Home() {
                     )}
                   </div>
                   <div className="news-content">
-                    <span className="badge badge-green">{article.category}</span>
-                    <h3>{article.title}</h3>
-                    <p>{article.summary}</p>
+                    <span className="badge badge-green">{language === 'vi' ? article.category : language === 'en' ? 'News' : '新闻'}</span>
+                    <h3>{tNews(article, 'title')}</h3>
+                    <p>{tNews(article, 'summary')}</p>
                     <div className="news-meta">
-                      <span>{new Date(article.createdAt).toLocaleDateString('vi-VN')}</span>
-                      <span className="news-readmore">Đọc tiếp <ArrowRight size={12} /></span>
+                      <span>{new Date(article.createdAt).toLocaleDateString(language === 'vi' ? 'vi-VN' : language === 'en' ? 'en-US' : 'zh-CN')}</span>
+                      <span className="news-readmore">{t('newsSection.readMore')} <ArrowRight size={12} /></span>
                     </div>
                   </div>
                 </Link>
@@ -285,11 +286,11 @@ export default function Home() {
       {gallery.length > 0 && (
         <section className="section gallery-section" style={{ background: 'var(--surface-muted)' }}>
           <div className="container">
-            <span className="section-label center">HÌNH ẢNH HOẠT ĐỘNG</span>
-            <h2 className="section-title">Thư viện ảnh</h2>
+            <span className="section-label center">{t('aboutPage.galleryTitle')}</span>
+            <h2 className="section-title">{t('nav.gallery')}</h2>
             <div className="section-divider"></div>
             <p className="section-subtitle">
-              Hình ảnh thực tế về cơ sở vật chất, nhà máy sản xuất và hoạt động của Đồng Tâm Feed
+              {t('aboutPage.galleryDesc')}
             </p>
 
             <div style={{
@@ -327,7 +328,7 @@ export default function Home() {
 
             <div style={{ textAlign: 'center', marginTop: '2.5rem' }}>
               <Link to="/gioi-thieu/hinh-anh" className="btn btn-outline">
-                Xem thêm hình ảnh <ArrowRight size={16} />
+                {language === 'vi' ? 'Xem thêm hình ảnh' : language === 'en' ? 'View more images' : '查看更多照片'} <ArrowRight size={16} />
               </Link>
             </div>
           </div>
@@ -366,7 +367,7 @@ export default function Home() {
                     fontWeight: '600'
                   }}
                 >
-                  <X size={24} /> Đóng
+                  <X size={24} /> {language === 'vi' ? 'Đóng' : language === 'en' ? 'Close' : '关闭'}
                 </button>
                 <img 
                   src={`${API}${selectedImage.image}`} 
@@ -386,12 +387,12 @@ export default function Home() {
       <section className="cta-section">
         <div className="container cta-inner">
           <div className="cta-content">
-            <h2>Bạn cần tư vấn về nguyên liệu thức ăn chăn nuôi?</h2>
-            <p>Liên hệ ngay với đội ngũ chuyên gia của chúng tôi để được tư vấn miễn phí và nhận báo giá tốt nhất.</p>
+            <h2>{t('cta.title')}</h2>
+            <p>{t('cta.desc')}</p>
           </div>
           <div className="cta-actions">
             <Link to="/lien-he" className="btn btn-white btn-lg">
-              Gửi yêu cầu báo giá
+              {t('cta.getQuote')}
             </Link>
             <a href={`tel:${settings.hotline || '0703295692'}`} className="btn btn-outline btn-lg" style={{ borderColor: 'white', color: 'white' }}>
               <Phone size={18} /> {settings.hotline || '0703 295 692'}
