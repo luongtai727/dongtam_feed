@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { Trash2, CheckCircle, Clock, Eye, Phone, Mail, Building, Search, X, MessageSquare, AlertCircle } from 'lucide-react';
 
-const API = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const API = import.meta.env.VITE_API_URL || '';
 
 export default function ManageContacts() {
   const { token } = useAuth();

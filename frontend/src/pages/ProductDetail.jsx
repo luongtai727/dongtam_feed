@@ -4,7 +4,7 @@ import { ChevronRight, ChevronLeft, Leaf, Package, Beaker, Truck, ArrowLeft } fr
 import { useLanguage } from '../context/LanguageContext';
 import './ProductDetail.css';
 
-const API = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const API = import.meta.env.VITE_API_URL || '';
 
 export default function ProductDetail() {
   const { t, tProduct, tCategory, language } = useLanguage();

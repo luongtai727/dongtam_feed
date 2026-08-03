@@ -7,7 +7,7 @@ import {
 import { useLanguage } from '../context/LanguageContext';
 import './Home.css';
 
-const API = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const API = import.meta.env.VITE_API_URL || '';
 
 export default function Home() {
   const { language, t, tProduct, tNews, tCategory } = useLanguage();

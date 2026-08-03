@@ -4,7 +4,7 @@ import { Building2, Factory, Award, Eye, Target, Heart, Shield, CheckCircle2, Ch
 import { useLanguage } from '../context/LanguageContext';
 import './About.css';
 
-const API = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const API = import.meta.env.VITE_API_URL || '';
 
 export default function About() {
   const { t, language } = useLanguage();

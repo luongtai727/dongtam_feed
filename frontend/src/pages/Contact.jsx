@@ -4,7 +4,7 @@ import { ChevronRight, Phone, Mail, MapPin, Clock, Send, CheckCircle } from 'luc
 import { useLanguage } from '../context/LanguageContext';
 import './Contact.css';
 
-const API = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const API = import.meta.env.VITE_API_URL || '';
 
 export default function Contact() {
   const { t, language } = useLanguage();

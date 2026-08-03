@@ -4,7 +4,7 @@ import { ChevronRight, ArrowRight, Leaf, Calendar } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import './News.css';
 
-const API = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const API = import.meta.env.VITE_API_URL || '';
 
 export default function News() {
   const { t, tNews, language } = useLanguage();
@@ -179,7 +179,7 @@ export default function News() {
 function SidebarLoader({ slug, tNews, language }) {
   const [articles, setArticles] = useState([]);
   useEffect(() => {
-    const API = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+    const API = import.meta.env.VITE_API_URL || '';
     fetch(`${API}/api/news`).then(r => r.json())
       .then(d => setArticles(d.filter(a => a.slug !== slug).slice(0, 5)))
       .catch(() => {});

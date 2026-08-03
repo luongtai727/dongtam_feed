@@ -4,7 +4,7 @@ import { useLanguage } from '../../context/LanguageContext';
 import { Save, CheckCircle, Globe, ShoppingBag, Layout, Plus, Trash2 } from 'lucide-react';
 import './Admin.css';
 
-const API = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const API = import.meta.env.VITE_API_URL || '';
 
 export default function ManageTranslations() {
   const { token } = useAuth();
