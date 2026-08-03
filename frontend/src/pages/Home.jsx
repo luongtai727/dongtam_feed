@@ -90,21 +90,22 @@ export default function Home() {
           </div>
           <div className="hero-visual animate-fade-in-right">
             <div className="hero-card-stack">
-              <div className="hero-card hero-card-1">
-                <div className="hero-card-icon"><Leaf size={32} /></div>
-                <h3>{language === 'vi' ? '100% Tự nhiên' : language === 'en' ? '100% Natural' : '100% 天然'}</h3>
-                <p>{language === 'vi' ? 'Từ phụ phẩm thủy sản' : language === 'en' ? 'From marine by-products' : '源自海洋副产物'}</p>
-              </div>
-              <div className="hero-card hero-card-2">
-                <div className="hero-card-icon"><Shield size={32} /></div>
-                <h3>{language === 'vi' ? 'An toàn' : language === 'en' ? 'Safe & Pure' : '安全无害'}</h3>
-                <p>{language === 'vi' ? 'Đạt chuẩn quốc tế' : language === 'en' ? 'International standards' : '符合国际标准'}</p>
-              </div>
-              <div className="hero-card hero-card-3">
-                <div className="hero-card-icon"><Award size={32} /></div>
-                <h3>{language === 'vi' ? 'Uy tín' : language === 'en' ? 'Reputable' : '诚信经营'}</h3>
-                <p>{language === 'vi' ? '10+ năm kinh nghiệm' : language === 'en' ? '10+ years experience' : '10年行业经验'}</p>
-              </div>
+              {(() => {
+                const cardIcons = [<Leaf size={32} />, <Shield size={32} />, <Award size={32} />];
+                const defaultCards = [
+                  { title: '100% Tự nhiên', titleEn: '100% Natural', titleZh: '100% 天然', desc: 'Từ phụ phẩm thủy sản', descEn: 'From marine by-products', descZh: '源自海洋副产物' },
+                  { title: 'An toàn', titleEn: 'Safe & Pure', titleZh: '安全无害', desc: 'Đạt chuẩn quốc tế', descEn: 'International standards', descZh: '符合国际标准' },
+                  { title: 'Uy tín', titleEn: 'Reputable', titleZh: '诚信经营', desc: '10+ năm kinh nghiệm', descEn: '10+ years experience', descZh: '10年行业经验' },
+                ];
+                const cards = (settings.heroCards && settings.heroCards.length > 0) ? settings.heroCards : defaultCards;
+                return cards.map((c, i) => (
+                  <div className={`hero-card hero-card-${i + 1}`} key={i}>
+                    <div className="hero-card-icon">{cardIcons[i] || cardIcons[0]}</div>
+                    <h3>{language === 'en' ? (c.titleEn || c.title) : language === 'zh' ? (c.titleZh || c.title) : c.title}</h3>
+                    <p>{language === 'en' ? (c.descEn || c.desc) : language === 'zh' ? (c.descZh || c.desc) : c.desc}</p>
+                  </div>
+                ));
+              })()}
             </div>
           </div>
         </div>

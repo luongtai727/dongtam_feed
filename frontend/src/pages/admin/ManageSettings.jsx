@@ -305,6 +305,69 @@ export default function ManageSettings() {
           }}>+ Thêm chứng nhận</button>
         </div>
 
+        {/* ============ HERO CARDS ============ */}
+        <div className="settings-section">
+          <h3>Thẻ nổi bật trên Banner (100% Tự nhiên, An toàn, Uy tín)</h3>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '1.25rem' }}>3 thẻ thông tin hiển thị bên phải banner trang chủ</p>
+          {(settings.heroCards || []).map((card, idx) => (
+            <div key={idx} style={{ border: '1px solid var(--border-light)', borderRadius: 'var(--radius-md)', padding: '1rem', marginBottom: '1rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
+                <strong style={{ fontSize: '0.9rem' }}>Thẻ {idx + 1}</strong>
+                <button type="button" style={{ color: 'var(--danger)', background: 'none', border: 'none', cursor: 'pointer', fontSize: '0.85rem' }} onClick={() => {
+                  const arr = (settings.heroCards || []).filter((_, i) => i !== idx);
+                  update('heroCards', arr);
+                }}>Xóa thẻ</button>
+              </div>
+              <div className="form-row">
+                <div className="form-group">
+                  <label className="form-label">Tiêu đề (VI)</label>
+                  <input className="form-input" value={card.title || ''} onChange={e => {
+                    const arr = [...(settings.heroCards || [])]; arr[idx] = { ...arr[idx], title: e.target.value }; update('heroCards', arr);
+                  }} />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Mô tả (VI)</label>
+                  <input className="form-input" value={card.desc || ''} onChange={e => {
+                    const arr = [...(settings.heroCards || [])]; arr[idx] = { ...arr[idx], desc: e.target.value }; update('heroCards', arr);
+                  }} />
+                </div>
+              </div>
+              <div className="form-row">
+                <div className="form-group">
+                  <label className="form-label">Title (EN)</label>
+                  <input className="form-input" value={card.titleEn || ''} onChange={e => {
+                    const arr = [...(settings.heroCards || [])]; arr[idx] = { ...arr[idx], titleEn: e.target.value }; update('heroCards', arr);
+                  }} />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Description (EN)</label>
+                  <input className="form-input" value={card.descEn || ''} onChange={e => {
+                    const arr = [...(settings.heroCards || [])]; arr[idx] = { ...arr[idx], descEn: e.target.value }; update('heroCards', arr);
+                  }} />
+                </div>
+              </div>
+              <div className="form-row">
+                <div className="form-group">
+                  <label className="form-label">标题 (ZH)</label>
+                  <input className="form-input" value={card.titleZh || ''} onChange={e => {
+                    const arr = [...(settings.heroCards || [])]; arr[idx] = { ...arr[idx], titleZh: e.target.value }; update('heroCards', arr);
+                  }} />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">描述 (ZH)</label>
+                  <input className="form-input" value={card.descZh || ''} onChange={e => {
+                    const arr = [...(settings.heroCards || [])]; arr[idx] = { ...arr[idx], descZh: e.target.value }; update('heroCards', arr);
+                  }} />
+                </div>
+              </div>
+            </div>
+          ))}
+          <button type="button" className="btn btn-outline btn-sm" onClick={() => {
+            const arr = [...(settings.heroCards || []), { title: '', titleEn: '', titleZh: '', desc: '', descEn: '', descZh: '' }];
+            update('heroCards', arr);
+          }}>+ Thêm thẻ</button>
+        </div>
+
         <div style={{ marginTop: '2rem' }}>
           <button type="submit" className="btn btn-primary btn-lg" disabled={saving}>
             <Save size={18} /> {saving ? 'Đang lưu...' : 'Lưu tất cả cài đặt'}

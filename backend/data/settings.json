@@ -37,5 +37,10 @@
     { "number": "200+", "label": "Đối tác tin cậy", "labelEn": "Trusted Partners", "labelZh": "合作伙伴" },
     { "number": "10+", "label": "Năm kinh nghiệm", "labelEn": "Years of Experience", "labelZh": "年行业经验" }
   ],
-  "heroCertifications": ["ISO 9001:2015", "HACCP", "GMP"]
+  "heroCertifications": ["ISO 9001:2015", "HACCP", "GMP"],
+  "heroCards": [
+    { "title": "100% Tự nhiên", "titleEn": "100% Natural", "titleZh": "100% 天然", "desc": "Từ phụ phẩm thủy sản", "descEn": "From marine by-products", "descZh": "源自海洋副产物" },
+    { "title": "An toàn", "titleEn": "Safe & Pure", "titleZh": "安全无害", "desc": "Đạt chuẩn quốc tế", "descEn": "International standards", "descZh": "符合国际标准" },
+    { "title": "Uy tín", "titleEn": "Reputable", "titleZh": "诚信经营", "desc": "10+ năm kinh nghiệm", "descEn": "10+ years experience", "descZh": "10年行业经验" }
+  ]
 }
