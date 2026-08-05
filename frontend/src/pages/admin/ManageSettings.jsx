@@ -368,6 +368,33 @@ export default function ManageSettings() {
           }}>+ Thêm thẻ</button>
         </div>
 
+        {/* ============ CORE VALUES ============ */}
+        <div className="settings-section">
+          <h3>Giá trị cốt lõi (Trang Giới thiệu)</h3>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '1.25rem' }}>Quản lý danh sách Giá trị cốt lõi hỗ trợ 3 ngôn ngữ (VI / EN / ZH)</p>
+          {(settings.coreValuesList || []).map((val, idx) => (
+            <div key={idx} style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', marginBottom: '0.75rem', flexWrap: 'wrap' }}>
+              <input className="form-input" style={{ flex: 1, minWidth: '140px' }} placeholder="Tiêu đề (VI)" value={val.title || ''} onChange={e => {
+                const arr = [...(settings.coreValuesList || [])]; arr[idx] = { ...arr[idx], title: e.target.value }; update('coreValuesList', arr);
+              }} />
+              <input className="form-input" style={{ flex: 1, minWidth: '140px' }} placeholder="Title (EN)" value={val.titleEn || ''} onChange={e => {
+                const arr = [...(settings.coreValuesList || [])]; arr[idx] = { ...arr[idx], titleEn: e.target.value }; update('coreValuesList', arr);
+              }} />
+              <input className="form-input" style={{ flex: 1, minWidth: '120px' }} placeholder="标题 (ZH)" value={val.titleZh || ''} onChange={e => {
+                const arr = [...(settings.coreValuesList || [])]; arr[idx] = { ...arr[idx], titleZh: e.target.value }; update('coreValuesList', arr);
+              }} />
+              <button type="button" style={{ color: 'var(--danger)', background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.2rem', padding: '0.25rem' }} onClick={() => {
+                const arr = (settings.coreValuesList || []).filter((_, i) => i !== idx);
+                update('coreValuesList', arr);
+              }}>✕</button>
+            </div>
+          ))}
+          <button type="button" className="btn btn-outline btn-sm" onClick={() => {
+            const arr = [...(settings.coreValuesList || []), { title: '', titleEn: '', titleZh: '' }];
+            update('coreValuesList', arr);
+          }}>+ Thêm giá trị cốt lõi</button>
+        </div>
+
         <div style={{ marginTop: '2rem' }}>
           <button type="submit" className="btn btn-primary btn-lg" disabled={saving}>
             <Save size={18} /> {saving ? 'Đang lưu...' : 'Lưu tất cả cài đặt'}

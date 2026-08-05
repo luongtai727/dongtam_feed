@@ -116,24 +116,30 @@ export default function About() {
                     </div>
                   </div>
 
-                  {settings.coreValues && settings.coreValues.length > 0 && (
                     <div className="core-values">
                       <h3>{language === 'vi' ? 'Giá trị cốt lõi' : language === 'en' ? 'Core Values' : '核心价值'}</h3>
                       <div className="values-grid">
-                        {settings.coreValues.map((value, i) => (
-                          <div className="value-item" key={i}>
-                            <Heart size={16} />
-                            <span>
-                              {value.includes('Chất lượng') ? (language === 'en' ? 'Quality is the Foundation' : '质量为本') :
-                               value.includes('Khách hàng') ? (language === 'en' ? 'Customer Centricity' : '客户中心') :
-                               value.includes('Sáng tạo') ? (language === 'en' ? 'Continuous Innovation' : '持续创新') :
-                               value.includes('bền vững') || value.includes('Bền vững') ? (language === 'en' ? 'Sustainable Development' : '绿色发展') : value}
-                            </span>
-                          </div>
-                        ))}
+                        {(() => {
+                          const defaultList = [
+                            { title: 'Chất lượng là nền tảng', titleEn: 'Quality is the Foundation', titleZh: '质量为本' },
+                            { title: 'Khách hàng là trọng tâm', titleEn: 'Customer Centricity', titleZh: '客户中心' },
+                            { title: 'Sáng tạo không ngừng', titleEn: 'Continuous Innovation', titleZh: '持续创新' },
+                            { title: 'Phát triển bền vững', titleEn: 'Sustainable Development', titleZh: '绿色发展' }
+                          ];
+                          const list = (settings.coreValuesList && settings.coreValuesList.length > 0)
+                            ? settings.coreValuesList
+                            : defaultList;
+                          return list.map((item, i) => (
+                            <div className="value-item" key={i}>
+                              <Heart size={16} />
+                              <span>
+                                {language === 'en' ? (item.titleEn || item.title) : language === 'zh' ? (item.titleZh || item.title) : item.title}
+                              </span>
+                            </div>
+                          ));
+                        })()}
                       </div>
                     </div>
-                  )}
                 </div>
                 <div className="about-col-image">
                   <div className="about-img-box">
