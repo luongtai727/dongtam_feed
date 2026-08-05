@@ -346,40 +346,6 @@ export default function About() {
                   })()}
                 </div>
               </div>
-
-              {/* Modal Phóng to Chứng chỉ */}
-              {selectedCert && (
-                <div className="about-gallery-modal" onClick={() => setSelectedCert(null)}>
-                  <div className="about-gallery-modal-content" onClick={e => e.stopPropagation()}>
-                    <button 
-                      onClick={() => setSelectedCert(null)}
-                      style={{
-                        position: 'absolute',
-                        top: '-40px',
-                        right: '0',
-                        background: 'none',
-                        border: 'none',
-                        color: '#fff',
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '4px',
-                        fontWeight: '600'
-                      }}
-                    >
-                      <X size={24} /> {language === 'vi' ? 'Đóng' : language === 'en' ? 'Close' : '关闭'}
-                    </button>
-                    <img 
-                      src={`${API}${selectedCert.image}`} 
-                      alt={selectedCert.title} 
-                      style={{ maxWidth: '100%', maxHeight: '75vh', objectFit: 'contain', borderRadius: 'var(--radius-md)', boxShadow: '0 10px 25px rgba(0,0,0,0.5)' }} 
-                    />
-                    <h3 style={{ color: '#fff', textAlign: 'center', marginTop: '1rem', fontWeight: '500', fontSize: '1.1rem' }}>
-                      {selectedCert.title}
-                    </h3>
-                  </div>
-                </div>
-              )}
             </div>
           )}
 
@@ -418,58 +384,31 @@ export default function About() {
                   ))}
                 </div>
               )}
-
-              {/* Lightbox Modal */}
-              {selectedImage && (
-                <div 
-                  onClick={() => setSelectedImage(null)}
-                  style={{
-                    position: 'fixed',
-                    inset: 0,
-                    background: 'rgba(0,0,0,0.85)',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    zIndex: 9999,
-                    padding: '2rem',
-                    cursor: 'zoom-out'
-                  }}
-                >
-                  <div style={{ position: 'relative', maxWidth: '90%', maxHeight: '80%' }} onClick={e => e.stopPropagation()}>
-                    <button 
-                      onClick={() => setSelectedImage(null)}
-                      style={{
-                        position: 'absolute',
-                        top: '-40px',
-                        right: '0',
-                        background: 'none',
-                        border: 'none',
-                        color: '#fff',
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '4px',
-                        fontWeight: '600'
-                      }}
-                    >
-                      <X size={24} /> {language === 'vi' ? 'Đóng' : language === 'en' ? 'Close' : '关闭'}
-                    </button>
-                    <img 
-                      src={`${API}${selectedImage.image}`} 
-                      alt={selectedImage.title} 
-                      style={{ maxWidth: '100%', maxHeight: '75vh', objectFit: 'contain', borderRadius: 'var(--radius-md)', boxShadow: '0 10px 25px rgba(0,0,0,0.5)' }} 
-                    />
-                    <h3 style={{ color: '#fff', textAlign: 'center', marginTop: '1rem', fontWeight: '500', fontSize: '1.1rem' }}>
-                      {selectedImage.title}
-                    </h3>
-                  </div>
-                </div>
-              )}
             </div>
           )}
         </div>
       </div>
+
+      {/* FULLSCREEN LIGHTBOX MODAL OVERLAY */}
+      {(selectedCert || selectedImage) && (
+        <div className="about-gallery-modal" onClick={() => { setSelectedCert(null); setSelectedImage(null); }}>
+          <div className="about-gallery-modal-content" onClick={e => e.stopPropagation()}>
+            <button 
+              className="modal-close-btn"
+              onClick={() => { setSelectedCert(null); setSelectedImage(null); }}
+            >
+              <X size={22} /> {language === 'vi' ? 'Đóng' : language === 'en' ? 'Close' : '关闭'}
+            </button>
+            <img 
+              src={`${API}${(selectedCert || selectedImage).image}`} 
+              alt={(selectedCert || selectedImage).title} 
+            />
+            {(selectedCert || selectedImage).title && (
+              <h3>{(selectedCert || selectedImage).title}</h3>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
