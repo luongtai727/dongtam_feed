@@ -32,22 +32,83 @@
   "factoryImage": "/uploads/1783437307673-a6b5b19c.jpg",
   "homeAboutImage": "/uploads/1783437437958-5ac758ba.jpg",
   "stats": [
-    { "number": "5,000m²", "label": "Diện tích nhà máy", "labelEn": "Factory Area", "labelZh": "工厂面积" },
-    { "number": "50 tấn", "label": "Công suất/ngày", "labelEn": "Capacity/Day", "labelZh": "日产能" },
-    { "number": "200+", "label": "Đối tác tin cậy", "labelEn": "Trusted Partners", "labelZh": "合作伙伴" },
-    { "number": "10+", "label": "Năm kinh nghiệm", "labelEn": "Years of Experience", "labelZh": "年行业经验" }
+    {
+      "number": "5,000m²",
+      "label": "Diện tích nhà máy",
+      "labelEn": "Factory Area",
+      "labelZh": "工厂面积"
+    },
+    {
+      "number": "50 tấn",
+      "label": "Công suất/ngày",
+      "labelEn": "Capacity/Day",
+      "labelZh": "日产能"
+    },
+    {
+      "number": "200+",
+      "label": "Đối tác tin cậy",
+      "labelEn": "Trusted Partners",
+      "labelZh": "合作伙伴"
+    },
+    {
+      "number": "10+",
+      "label": "Năm kinh nghiệm",
+      "labelEn": "Years of Experience",
+      "labelZh": "年行业经验"
+    }
   ],
-  "heroCertifications": ["ISO 9001:2015", "HACCP", "GMP"],
+  "heroCertifications": [
+    "ISO 9001:2015",
+    "HACCP",
+    "GMP"
+  ],
   "heroCards": [
-    { "title": "100% Tự nhiên", "titleEn": "100% Natural", "titleZh": "100% 天然", "desc": "Từ phụ phẩm thủy sản", "descEn": "From marine by-products", "descZh": "源自海洋副产物" },
-    { "title": "An toàn", "titleEn": "Safe & Pure", "titleZh": "安全无害", "desc": "Đạt chuẩn quốc tế", "descEn": "International standards", "descZh": "符合国际标准" },
-    { "title": "Uy tín", "titleEn": "Reputable", "titleZh": "诚信经营", "desc": "10+ năm kinh nghiệm", "descEn": "10+ years experience", "descZh": "10年行业经验" }
+    {
+      "title": "100% Tự nhiên",
+      "titleEn": "100% Natural",
+      "titleZh": "100% 天然",
+      "desc": "Từ phụ phẩm thủy sản",
+      "descEn": "From marine by-products",
+      "descZh": "源自海洋副产物"
+    },
+    {
+      "title": "An toàn",
+      "titleEn": "Safe & Pure",
+      "titleZh": "安全无害",
+      "desc": "Đạt chuẩn quốc tế",
+      "descEn": "International standards",
+      "descZh": "符合国际标准"
+    },
+    {
+      "title": "Uy tín",
+      "titleEn": "Reputable",
+      "titleZh": "诚信经营",
+      "desc": "10+ năm kinh nghiệm",
+      "descEn": "10+ years experience",
+      "descZh": "10年行业经验"
+    }
   ],
   "coreValuesList": [
-    { "title": "Chất lượng là nền tảng", "titleEn": "Quality is the Foundation", "titleZh": "质量为本" },
-    { "title": "Khách hàng là trọng tâm", "titleEn": "Customer Centricity", "titleZh": "客户中心" },
-    { "title": "Sáng tạo không ngừng", "titleEn": "Continuous Innovation", "titleZh": "持续创新" },
-    { "title": "Phát triển bền vững", "titleEn": "Sustainable Development", "titleZh": "绿色发展" }
+    {
+      "title": "Chất lượng là nền tảng",
+      "titleEn": "Quality is the Foundation",
+      "titleZh": "质量为本"
+    },
+    {
+      "title": "Khách hàng là trọng tâm",
+      "titleEn": "Customer Centricity",
+      "titleZh": "客户中心"
+    },
+    {
+      "title": "Sáng tạo không ngừng",
+      "titleEn": "Continuous Innovation",
+      "titleZh": "持续创新"
+    },
+    {
+      "title": "Phát triển bền vững",
+      "titleEn": "Sustainable Development",
+      "titleZh": "绿色发展"
+    }
   ],
   "certificationsList": [
     {
@@ -80,7 +141,7 @@
       "subtitle": "Phân tích mối nguy và kiểm soát điểm tới hạn",
       "subtitleEn": "Hazard Analysis Critical Control Point",
       "subtitleZh": "危害分析与关键控制点",
-      "image": "/uploads/1783437305283-1b79b624.jpg"
+      "image": ""
     }
   ]
 }

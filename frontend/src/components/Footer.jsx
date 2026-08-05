@@ -7,11 +7,18 @@ import './Footer.css';
 const API = import.meta.env.VITE_API_URL || '';
 
 export default function Footer() {
-  const { t, language } = useLanguage();
+  const { t, tCategory, language } = useLanguage();
   const [settings, setSettings] = useState({});
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    fetch(`${API}/api/settings`).then(r => r.json()).then(setSettings).catch(() => {});
+    Promise.all([
+      fetch(`${API}/api/settings`).then(r => r.json()),
+      fetch(`${API}/api/categories?type=product`).then(r => r.json())
+    ]).then(([sett, cats]) => {
+      setSettings(sett);
+      if (Array.isArray(cats)) setCategories(cats);
+    }).catch(() => {});
   }, []);
 
   return (
@@ -59,15 +66,25 @@ export default function Footer() {
               </ul>
             </div>
 
-            {/* Column 3: Products */}
+            {/* Column 3: Product Categories */}
             <div className="footer-col">
-              <h3 className="footer-heading">{t('nav.products')}</h3>
+              <h3 className="footer-heading">{language === 'vi' ? 'Danh mục sản phẩm' : language === 'en' ? 'Product Categories' : '产品分类'}</h3>
               <ul className="footer-links">
-                <li><Link to="/san-pham/bot-vo-dau-tom">{language === 'vi' ? 'Bột vỏ đầu tôm' : language === 'en' ? 'Shrimp Shell Powder' : '虾壳粉'}</Link></li>
-                <li><Link to="/san-pham/dich-muc-thuy-phan-100">{language === 'vi' ? 'Dịch mực thủy phân 100%' : language === 'en' ? '100% Squid Hydrolysate Liquid' : '100% 鱿鱼水解膏'}</Link></li>
-                <li><Link to="/san-pham/dich-muc-thuy-phan-plus">{language === 'vi' ? 'Dịch mực thủy phân Plus' : language === 'en' ? 'Squid Hydrolysate Liquid Plus' : '强效鱿鱼水解膏'}</Link></li>
-                <li><Link to="/san-pham/cao-gan-muc">{language === 'vi' ? 'Cao gan mực' : language === 'en' ? 'Squid Liver Paste (Soluble)' : '乌贼膏（鱿鱼膏）'}</Link></li>
-                <li><Link to="/san-pham/bot-noi-tang-muc">{language === 'vi' ? 'Bột nội tạng mực' : language === 'en' ? 'Squid Viscera Powder' : '鱿鱼内脏粉'}</Link></li>
+                {categories.length > 0 ? (
+                  categories.map(cat => (
+                    <li key={cat.id}>
+                      <Link to={`/san-pham#${cat.slug}`}>
+                        {tCategory ? tCategory(cat, 'name') : cat.name}
+                      </Link>
+                    </li>
+                  ))
+                ) : (
+                  <>
+                    <li><Link to="/san-pham#amino-acid-bien-sau">{language === 'vi' ? 'Phụ phẩm Từ Mực Biển' : language === 'en' ? 'Squid By-products' : '鱿鱼类副产品'}</Link></li>
+                    <li><Link to="/san-pham#dinh-duong-tu-tom">{language === 'vi' ? 'Phụ phẩm Từ Tôm' : language === 'en' ? 'Shrimp By-products' : '虾类副产品'}</Link></li>
+                    <li><Link to="/san-pham#phu-pham-nuoc-mam">{language === 'vi' ? 'Phụ phẩm Nước Mắm' : language === 'en' ? 'Fish Sauce By-products' : '鱼露类副产品'}</Link></li>
+                  </>
+                )}
               </ul>
             </div>
 
