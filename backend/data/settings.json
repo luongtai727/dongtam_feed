@@ -49,9 +49,38 @@
     { "title": "Sáng tạo không ngừng", "titleEn": "Continuous Innovation", "titleZh": "持续创新" },
     { "title": "Phát triển bền vững", "titleEn": "Sustainable Development", "titleZh": "绿色发展" }
   ],
-  "certificateImages": [
-    { "id": "cert-1", "title": "Chứng nhận ISO 9001:2015", "image": "/uploads/1783437305283-1b79b624.jpg" },
-    { "id": "cert-2", "title": "Chứng nhận HACCP", "image": "/uploads/1783437307673-a6b5b19c.jpg" },
-    { "id": "cert-3", "title": "Chứng nhận GMP", "image": "/uploads/1783437437958-5ac758ba.jpg" }
+  "certificationsList": [
+    {
+      "id": "cert-iso9001",
+      "title": "ISO 9001:2015",
+      "subtitle": "Hệ thống quản lý chất lượng",
+      "subtitleEn": "Quality Management System",
+      "subtitleZh": "质量管理体系",
+      "image": "/uploads/1783437305283-1b79b624.jpg"
+    },
+    {
+      "id": "cert-iso22000",
+      "title": "ISO 22000:2018",
+      "subtitle": "An toàn thực phẩm",
+      "subtitleEn": "Food Safety Management System",
+      "subtitleZh": "食品安全管理体系",
+      "image": "/uploads/1783437307673-a6b5b19c.jpg"
+    },
+    {
+      "id": "cert-gmp",
+      "title": "GMP Standard",
+      "subtitle": "Thực hành sản xuất tốt",
+      "subtitleEn": "Good Manufacturing Practices",
+      "subtitleZh": "良好生产规范",
+      "image": "/uploads/1783437437958-5ac758ba.jpg"
+    },
+    {
+      "id": "cert-haccp",
+      "title": "HACCP Standard",
+      "subtitle": "Phân tích mối nguy và kiểm soát điểm tới hạn",
+      "subtitleEn": "Hazard Analysis Critical Control Point",
+      "subtitleZh": "危害分析与关键控制点",
+      "image": "/uploads/1783437305283-1b79b624.jpg"
+    }
   ]
 }

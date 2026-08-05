@@ -255,6 +255,37 @@
   border-color: var(--green-200);
 }
 
+.cert-card.has-image {
+  cursor: pointer;
+}
+
+.cert-card.has-image:hover {
+  border-color: var(--green-500);
+  box-shadow: 0 10px 25px rgba(22, 163, 74, 0.12);
+}
+
+.cert-view-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--green-700);
+  background: var(--green-50);
+  border: 1px solid var(--green-200);
+  padding: 0.35rem 0.75rem;
+  border-radius: 9999px;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  margin-left: auto;
+}
+
+.cert-card:hover .cert-view-badge {
+  background: var(--green-600);
+  color: #ffffff;
+  border-color: var(--green-600);
+}
+
 .cert-icon {
   width: 60px;
   height: 60px;

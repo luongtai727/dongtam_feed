@@ -243,67 +243,56 @@ export default function About() {
               </div>
 
               <div className="certs-grid">
-                {(settings.certifications || [
-                  'ISO 9001:2015 - Hệ thống quản lý chất lượng',
-                  'ISO 22000:2018 - An toàn thực phẩm',
-                  'GMP - Thực hành sản xuất tốt',
-                  'HACCP - Phân tích mối nguy và kiểm soát điểm tới hạn'
-                ]).map((cert, i) => {
-                  const translatedCert = (() => {
-                    const title = cert.split(' - ')[0];
-                    const subtitle = cert.split(' - ')[1] || '';
-                    if (language === 'vi') return { title, subtitle };
-                    if (title.includes('9001')) {
-                      return {
-                        title: 'ISO 9001:2015',
-                        subtitle: language === 'en' ? 'Quality Management System' : '质量管理体系'
-                      };
-                    }
-                    if (title.includes('22000')) {
-                      return {
-                        title: 'ISO 22000:2018',
-                        subtitle: language === 'en' ? 'Food Safety Management System' : '食品安全管理体系'
-                      };
-                    }
-                    if (title.includes('GMP')) {
-                      return {
-                        title: 'GMP Standard',
-                        subtitle: language === 'en' ? 'Good Manufacturing Practices' : '良好生产规范'
-                      };
-                    }
-                    if (title.includes('HACCP')) {
-                      return {
-                        title: 'HACCP Standard',
-                        subtitle: language === 'en' ? 'Hazard Analysis Critical Control Point' : '危害分析与关键控制点'
-                      };
-                    }
-                    return { title, subtitle };
-                  })();
+                {(() => {
+                  const defaultCerts = [
+                    { id: 'cert-1', title: 'ISO 9001:2015', subtitle: 'Hệ thống quản lý chất lượng', subtitleEn: 'Quality Management System', subtitleZh: '质量管理体系', image: '/uploads/1783437305283-1b79b624.jpg' },
+                    { id: 'cert-2', title: 'ISO 22000:2018', subtitle: 'An toàn thực phẩm', subtitleEn: 'Food Safety Management System', subtitleZh: '食品安全管理体系', image: '/uploads/1783437307673-a6b5b19c.jpg' },
+                    { id: 'cert-3', title: 'GMP Standard', subtitle: 'Thực hành sản xuất tốt', subtitleEn: 'Good Manufacturing Practices', subtitleZh: '良好生产规范', image: '/uploads/1783437437958-5ac758ba.jpg' },
+                    { id: 'cert-4', title: 'HACCP Standard', subtitle: 'Phân tích mối nguy và kiểm soát điểm tới hạn', subtitleEn: 'Hazard Analysis Critical Control Point', subtitleZh: '危害分析与关键控制点', image: '/uploads/1783437305283-1b79b624.jpg' }
+                  ];
+                  const certList = (settings.certificationsList && settings.certificationsList.length > 0)
+                    ? settings.certificationsList
+                    : defaultCerts;
 
-                  return (
-                    <div className="cert-card" key={i}>
-                      <div className="cert-icon">
-                        <Shield size={32} />
+                  return certList.map((item, i) => {
+                    const subtitleText = language === 'en' ? (item.subtitleEn || item.subtitle) : language === 'zh' ? (item.subtitleZh || item.subtitle) : item.subtitle;
+
+                    return (
+                      <div 
+                        className={`cert-card ${item.image ? 'has-image' : ''}`} 
+                        key={item.id || i}
+                        onClick={() => item.image && setSelectedCert({ title: item.title, image: item.image })}
+                        style={{ cursor: item.image ? 'pointer' : 'default' }}
+                      >
+                        <div className="cert-icon">
+                          <Shield size={32} />
+                        </div>
+                        <div className="cert-info">
+                          <h3>{item.title}</h3>
+                          <p>{subtitleText}</p>
+                        </div>
+                        {item.image ? (
+                          <div className="cert-view-badge" title="Bấm xem ảnh chứng nhận">
+                            <ZoomIn size={16} /> <span>{language === 'vi' ? 'Xem ảnh' : language === 'en' ? 'View Photo' : '查看照片'}</span>
+                          </div>
+                        ) : (
+                          <CheckCircle2 size={20} className="cert-check" />
+                        )}
                       </div>
-                      <div className="cert-info">
-                        <h3>{translatedCert.title}</h3>
-                        <p>{translatedCert.subtitle}</p>
-                      </div>
-                      <CheckCircle2 size={20} className="cert-check" />
-                    </div>
-                  );
-                })}
+                    );
+                  });
+                })()}
               </div>
 
-              {/* Slider Hình ảnh chụp Chứng chỉ */}
+              {/* Slider Hình ảnh chụp Chứng chỉ riêng từng loại */}
               <div className="cert-slider-section" style={{ marginTop: '3.5rem' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '1.5rem' }}>
                   <div>
                     <span className="section-label" style={{ marginBottom: '0.25rem', display: 'block' }}>
-                      {language === 'vi' ? 'HÌNH ẢNH THỰC TẾ' : language === 'en' ? 'ACTUAL CERTIFICATES' : '证书实拍'}
+                      {language === 'vi' ? 'HÌNH ẢNH THỰC TẾ CHỨNG CHỈ' : language === 'en' ? 'ACTUAL CERTIFICATE PHOTOS' : '证书实拍'}
                     </span>
                     <h3 style={{ fontSize: '1.5rem', margin: 0, fontWeight: '700' }}>
-                      {language === 'vi' ? 'Giấy chứng nhận & Hồ sơ năng lực' : language === 'en' ? 'Certificate Documents & Qualification Records' : '资质证书与文件'}
+                      {language === 'vi' ? 'Bằng cấp & Giấy chứng nhận sản xuất' : language === 'en' ? 'Production Certificates & Qualifications' : '生产资质证书'}
                     </h3>
                   </div>
                   <div style={{ display: 'flex', gap: '0.5rem' }}>
@@ -318,20 +307,21 @@ export default function About() {
 
                 <div className="cert-slider-wrapper" ref={certSliderRef}>
                   {(() => {
-                    const defaultCertImgs = [
-                      { id: 'cert-1', title: 'Chứng nhận ISO 9001:2015', image: '/uploads/1783437305283-1b79b624.jpg' },
-                      { id: 'cert-2', title: 'Chứng nhận HACCP', image: '/uploads/1783437307673-a6b5b19c.jpg' },
-                      { id: 'cert-3', title: 'Chứng nhận GMP', image: '/uploads/1783437437958-5ac758ba.jpg' }
+                    const defaultCerts = [
+                      { id: 'cert-1', title: 'ISO 9001:2015', image: '/uploads/1783437305283-1b79b624.jpg' },
+                      { id: 'cert-2', title: 'ISO 22000:2018', image: '/uploads/1783437307673-a6b5b19c.jpg' },
+                      { id: 'cert-3', title: 'GMP Standard', image: '/uploads/1783437437958-5ac758ba.jpg' },
+                      { id: 'cert-4', title: 'HACCP Standard', image: '/uploads/1783437305283-1b79b624.jpg' }
                     ];
-                    const certImgs = (settings.certificateImages && settings.certificateImages.length > 0)
-                      ? settings.certificateImages
-                      : defaultCertImgs;
+                    const listWithImgs = (settings.certificationsList && settings.certificationsList.length > 0)
+                      ? settings.certificationsList.filter(c => c.image)
+                      : defaultCerts;
 
-                    return certImgs.map((item, idx) => (
+                    return listWithImgs.map((item, idx) => (
                       <div
                         key={item.id || idx}
                         className="cert-slide-card"
-                        onClick={() => setSelectedCert(item)}
+                        onClick={() => setSelectedCert({ title: item.title, image: item.image })}
                       >
                         <div className="cert-img-container">
                           <img src={`${API}${item.image}`} alt={item.title} />

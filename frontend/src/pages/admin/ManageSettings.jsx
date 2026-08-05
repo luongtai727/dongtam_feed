@@ -61,9 +61,9 @@ export default function ManageSettings() {
       });
       if (!res.ok) throw new Error('Upload error');
       const data = await res.json();
-      const arr = [...(settings.certificateImages || [])];
+      const arr = [...(settings.certificationsList || [])];
       arr[idx] = { ...arr[idx], image: data.url };
-      update('certificateImages', arr);
+      update('certificationsList', arr);
     } catch {
       alert('Lỗi khi tải ảnh chứng nhận lên');
     }
@@ -415,30 +415,30 @@ export default function ManageSettings() {
           }}>+ Thêm giá trị cốt lõi</button>
         </div>
 
-        {/* ============ CERTIFICATE IMAGES SLIDER ============ */}
+        {/* ============ CERTIFICATIONS LIST & DEDICATED IMAGES ============ */}
         <div className="settings-section">
-          <h3>Hình ảnh chụp Giấy chứng nhận (Certificate Slider)</h3>
-          <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '1.25rem' }}>Tải lên hình ảnh bằng cấp, chứng nhận, hồ sơ năng lực thực tế để hiển thị dạng slide thanh trượt bên dưới mục Chứng nhận</p>
-          {(settings.certificateImages || []).map((item, idx) => (
-            <div key={idx} style={{ border: '1px solid var(--border-light)', borderRadius: 'var(--radius-md)', padding: '1rem', marginBottom: '1rem', background: 'var(--surface-subtle, #f8fafc)' }}>
+          <h3>Quản lý Danh sách Chứng nhận & Hình ảnh thực tế (ISO, HACCP, GMP...)</h3>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '1.25rem' }}>Quản lý từng bằng cấp chứng nhận: Tiêu đề, mô tả đa ngôn ngữ (VI / EN / ZH) và tải ảnh bằng chứng nhận riêng cho từng loại</p>
+          {(settings.certificationsList || []).map((item, idx) => (
+            <div key={idx} style={{ border: '1px solid var(--border-light)', borderRadius: 'var(--radius-md)', padding: '1.25rem', marginBottom: '1.25rem', background: 'var(--surface-subtle, #f8fafc)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
-                <strong style={{ fontSize: '0.9rem' }}>Hình chứng nhận #{idx + 1}</strong>
+                <strong style={{ fontSize: '0.95rem', color: 'var(--primary)' }}>Chứng nhận #{idx + 1}: {item.title || 'Mới'}</strong>
                 <button type="button" style={{ color: 'var(--danger)', background: 'none', border: 'none', cursor: 'pointer', fontSize: '0.85rem' }} onClick={() => {
-                  const arr = (settings.certificateImages || []).filter((_, i) => i !== idx);
-                  update('certificateImages', arr);
-                }}>✕ Xóa hình này</button>
+                  const arr = (settings.certificationsList || []).filter((_, i) => i !== idx);
+                  update('certificationsList', arr);
+                }}>✕ Xóa chứng nhận này</button>
               </div>
-              <div className="form-row" style={{ alignItems: 'center' }}>
+              <div className="form-row">
                 <div className="form-group" style={{ flex: 1 }}>
-                  <label className="form-label">Tên / Têu đề chứng nhận</label>
-                  <input className="form-input" placeholder="Ví dụ: Giấy chứng nhận ISO 9001:2015" value={item.title || ''} onChange={e => {
-                    const arr = [...(settings.certificateImages || [])];
+                  <label className="form-label">Tên chứng nhận (Ví dụ: ISO 9001:2015)</label>
+                  <input className="form-input" placeholder="ISO 9001:2015" value={item.title || ''} onChange={e => {
+                    const arr = [...(settings.certificationsList || [])];
                     arr[idx] = { ...arr[idx], title: e.target.value };
-                    update('certificateImages', arr);
+                    update('certificationsList', arr);
                   }} />
                 </div>
-                <div className="form-group" style={{ width: 'auto' }}>
-                  <label className="form-label">Ảnh chứng chỉ</label>
+                <div className="form-group" style={{ flex: 1 }}>
+                  <label className="form-label">Ảnh bằng chứng nhận (Tải ảnh riêng)</label>
                   <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
                     {item.image ? (
                       <img
@@ -452,22 +452,55 @@ export default function ManageSettings() {
                     <input
                       type="file"
                       accept="image/*"
-                      id={`cert-img-file-${idx}`}
+                      id={`cert-list-img-${idx}`}
                       style={{ display: 'none' }}
                       onChange={e => handleCertImageUpload(idx, e.target.files[0])}
                     />
-                    <label htmlFor={`cert-img-file-${idx}`} className="btn btn-outline btn-sm" style={{ cursor: 'pointer' }}>
-                      Chọn ảnh
+                    <label htmlFor={`cert-list-img-${idx}`} className="btn btn-outline btn-sm" style={{ cursor: 'pointer' }}>
+                      Chọn ảnh bằng
                     </label>
+                    {item.image && (
+                      <button type="button" className="btn btn-sm" style={{ color: 'var(--danger)', background: 'none', cursor: 'pointer' }} onClick={() => {
+                        const arr = [...(settings.certificationsList || [])];
+                        arr[idx] = { ...arr[idx], image: '' };
+                        update('certificationsList', arr);
+                      }}>Xóa ảnh</button>
+                    )}
                   </div>
+                </div>
+              </div>
+              <div className="form-row">
+                <div className="form-group">
+                  <label className="form-label">Mô tả (VI)</label>
+                  <input className="form-input" placeholder="Hệ thống quản lý chất lượng" value={item.subtitle || ''} onChange={e => {
+                    const arr = [...(settings.certificationsList || [])];
+                    arr[idx] = { ...arr[idx], subtitle: e.target.value };
+                    update('certificationsList', arr);
+                  }} />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Description (EN)</label>
+                  <input className="form-input" placeholder="Quality Management System" value={item.subtitleEn || ''} onChange={e => {
+                    const arr = [...(settings.certificationsList || [])];
+                    arr[idx] = { ...arr[idx], subtitleEn: e.target.value };
+                    update('certificationsList', arr);
+                  }} />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">描述 (ZH)</label>
+                  <input className="form-input" placeholder="质量管理体系" value={item.subtitleZh || ''} onChange={e => {
+                    const arr = [...(settings.certificationsList || [])];
+                    arr[idx] = { ...arr[idx], subtitleZh: e.target.value };
+                    update('certificationsList', arr);
+                  }} />
                 </div>
               </div>
             </div>
           ))}
           <button type="button" className="btn btn-outline btn-sm" onClick={() => {
-            const arr = [...(settings.certificateImages || []), { id: `cert-${Date.now()}`, title: '', image: '' }];
-            update('certificateImages', arr);
-          }}>+ Thêm hình chứng nhận</button>
+            const arr = [...(settings.certificationsList || []), { id: `cert-${Date.now()}`, title: '', subtitle: '', subtitleEn: '', subtitleZh: '', image: '' }];
+            update('certificationsList', arr);
+          }}>+ Thêm chứng nhận mới</button>
         </div>
 
         <div style={{ marginTop: '2rem' }}>
