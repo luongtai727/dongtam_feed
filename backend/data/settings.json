@@ -48,5 +48,10 @@
     { "title": "Khách hàng là trọng tâm", "titleEn": "Customer Centricity", "titleZh": "客户中心" },
     { "title": "Sáng tạo không ngừng", "titleEn": "Continuous Innovation", "titleZh": "持续创新" },
     { "title": "Phát triển bền vững", "titleEn": "Sustainable Development", "titleZh": "绿色发展" }
+  ],
+  "certificateImages": [
+    { "id": "cert-1", "title": "Chứng nhận ISO 9001:2015", "image": "/uploads/1783437305283-1b79b624.jpg" },
+    { "id": "cert-2", "title": "Chứng nhận HACCP", "image": "/uploads/1783437307673-a6b5b19c.jpg" },
+    { "id": "cert-3", "title": "Chứng nhận GMP", "image": "/uploads/1783437437958-5ac758ba.jpg" }
   ]
 }

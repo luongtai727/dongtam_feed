@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Building2, Factory, Award, Eye, Target, Heart, Shield, CheckCircle2, ChevronRight, Image, X } from 'lucide-react';
+import { Building2, Factory, Award, Eye, Target, Heart, Shield, CheckCircle2, ChevronRight, ChevronLeft, ZoomIn, Image, X } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import './About.css';
 
@@ -14,6 +14,20 @@ export default function About() {
   const [gallery, setGallery] = useState([]);
   const [loadingGallery, setLoadingGallery] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedCert, setSelectedCert] = useState(null);
+  const certSliderRef = useRef(null);
+
+  const scrollCertsLeft = () => {
+    if (certSliderRef.current) {
+      certSliderRef.current.scrollBy({ left: -300, behavior: 'smooth' });
+    }
+  };
+
+  const scrollCertsRight = () => {
+    if (certSliderRef.current) {
+      certSliderRef.current.scrollBy({ left: 300, behavior: 'smooth' });
+    }
+  };
 
   useEffect(() => {
     fetch(`${API}/api/settings`).then(r => r.json()).then(setSettings).catch(() => {});
@@ -280,6 +294,92 @@ export default function About() {
                   );
                 })}
               </div>
+
+              {/* Slider Hình ảnh chụp Chứng chỉ */}
+              <div className="cert-slider-section" style={{ marginTop: '3.5rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '1.5rem' }}>
+                  <div>
+                    <span className="section-label" style={{ marginBottom: '0.25rem', display: 'block' }}>
+                      {language === 'vi' ? 'HÌNH ẢNH THỰC TẾ' : language === 'en' ? 'ACTUAL CERTIFICATES' : '证书实拍'}
+                    </span>
+                    <h3 style={{ fontSize: '1.5rem', margin: 0, fontWeight: '700' }}>
+                      {language === 'vi' ? 'Giấy chứng nhận & Hồ sơ năng lực' : language === 'en' ? 'Certificate Documents & Qualification Records' : '资质证书与文件'}
+                    </h3>
+                  </div>
+                  <div style={{ display: 'flex', gap: '0.5rem' }}>
+                    <button onClick={scrollCertsLeft} className="cert-nav-btn" title="Trước">
+                      <ChevronLeft size={20} />
+                    </button>
+                    <button onClick={scrollCertsRight} className="cert-nav-btn" title="Sau">
+                      <ChevronRight size={20} />
+                    </button>
+                  </div>
+                </div>
+
+                <div className="cert-slider-wrapper" ref={certSliderRef}>
+                  {(() => {
+                    const defaultCertImgs = [
+                      { id: 'cert-1', title: 'Chứng nhận ISO 9001:2015', image: '/uploads/1783437305283-1b79b624.jpg' },
+                      { id: 'cert-2', title: 'Chứng nhận HACCP', image: '/uploads/1783437307673-a6b5b19c.jpg' },
+                      { id: 'cert-3', title: 'Chứng nhận GMP', image: '/uploads/1783437437958-5ac758ba.jpg' }
+                    ];
+                    const certImgs = (settings.certificateImages && settings.certificateImages.length > 0)
+                      ? settings.certificateImages
+                      : defaultCertImgs;
+
+                    return certImgs.map((item, idx) => (
+                      <div
+                        key={item.id || idx}
+                        className="cert-slide-card"
+                        onClick={() => setSelectedCert(item)}
+                      >
+                        <div className="cert-img-container">
+                          <img src={`${API}${item.image}`} alt={item.title} />
+                          <div className="cert-img-overlay">
+                            <ZoomIn size={24} color="#fff" />
+                            <span>{language === 'vi' ? 'Xem phóng to' : language === 'en' ? 'Zoom In' : '点击放大'}</span>
+                          </div>
+                        </div>
+                        <h4 className="cert-slide-title">{item.title}</h4>
+                      </div>
+                    ));
+                  })()}
+                </div>
+              </div>
+
+              {/* Modal Phóng to Chứng chỉ */}
+              {selectedCert && (
+                <div className="about-gallery-modal" onClick={() => setSelectedCert(null)}>
+                  <div className="about-gallery-modal-content" onClick={e => e.stopPropagation()}>
+                    <button 
+                      onClick={() => setSelectedCert(null)}
+                      style={{
+                        position: 'absolute',
+                        top: '-40px',
+                        right: '0',
+                        background: 'none',
+                        border: 'none',
+                        color: '#fff',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                        fontWeight: '600'
+                      }}
+                    >
+                      <X size={24} /> {language === 'vi' ? 'Đóng' : language === 'en' ? 'Close' : '关闭'}
+                    </button>
+                    <img 
+                      src={`${API}${selectedCert.image}`} 
+                      alt={selectedCert.title} 
+                      style={{ maxWidth: '100%', maxHeight: '75vh', objectFit: 'contain', borderRadius: 'var(--radius-md)', boxShadow: '0 10px 25px rgba(0,0,0,0.5)' }} 
+                    />
+                    <h3 style={{ color: '#fff', textAlign: 'center', marginTop: '1rem', fontWeight: '500', fontSize: '1.1rem' }}>
+                      {selectedCert.title}
+                    </h3>
+                  </div>
+                </div>
+              )}
             </div>
           )}
 

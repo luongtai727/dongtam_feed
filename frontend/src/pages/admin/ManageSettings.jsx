@@ -49,6 +49,26 @@ export default function ManageSettings() {
     }
   };
 
+  const handleCertImageUpload = async (idx, file) => {
+    if (!file) return;
+    const formData = new FormData();
+    formData.append('image', file);
+    try {
+      const res = await fetch(`${API}/api/upload`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData
+      });
+      if (!res.ok) throw new Error('Upload error');
+      const data = await res.json();
+      const arr = [...(settings.certificateImages || [])];
+      arr[idx] = { ...arr[idx], image: data.url };
+      update('certificateImages', arr);
+    } catch {
+      alert('Lỗi khi tải ảnh chứng nhận lên');
+    }
+  };
+
   const update = (key, value) => setSettings(prev => ({ ...prev, [key]: value }));
 
   return (
@@ -393,6 +413,61 @@ export default function ManageSettings() {
             const arr = [...(settings.coreValuesList || []), { title: '', titleEn: '', titleZh: '' }];
             update('coreValuesList', arr);
           }}>+ Thêm giá trị cốt lõi</button>
+        </div>
+
+        {/* ============ CERTIFICATE IMAGES SLIDER ============ */}
+        <div className="settings-section">
+          <h3>Hình ảnh chụp Giấy chứng nhận (Certificate Slider)</h3>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '1.25rem' }}>Tải lên hình ảnh bằng cấp, chứng nhận, hồ sơ năng lực thực tế để hiển thị dạng slide thanh trượt bên dưới mục Chứng nhận</p>
+          {(settings.certificateImages || []).map((item, idx) => (
+            <div key={idx} style={{ border: '1px solid var(--border-light)', borderRadius: 'var(--radius-md)', padding: '1rem', marginBottom: '1rem', background: 'var(--surface-subtle, #f8fafc)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
+                <strong style={{ fontSize: '0.9rem' }}>Hình chứng nhận #{idx + 1}</strong>
+                <button type="button" style={{ color: 'var(--danger)', background: 'none', border: 'none', cursor: 'pointer', fontSize: '0.85rem' }} onClick={() => {
+                  const arr = (settings.certificateImages || []).filter((_, i) => i !== idx);
+                  update('certificateImages', arr);
+                }}>✕ Xóa hình này</button>
+              </div>
+              <div className="form-row" style={{ alignItems: 'center' }}>
+                <div className="form-group" style={{ flex: 1 }}>
+                  <label className="form-label">Tên / Têu đề chứng nhận</label>
+                  <input className="form-input" placeholder="Ví dụ: Giấy chứng nhận ISO 9001:2015" value={item.title || ''} onChange={e => {
+                    const arr = [...(settings.certificateImages || [])];
+                    arr[idx] = { ...arr[idx], title: e.target.value };
+                    update('certificateImages', arr);
+                  }} />
+                </div>
+                <div className="form-group" style={{ width: 'auto' }}>
+                  <label className="form-label">Ảnh chứng chỉ</label>
+                  <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+                    {item.image ? (
+                      <img
+                        src={`${API}${item.image}`}
+                        alt="Cert preview"
+                        style={{ width: '70px', height: '50px', objectFit: 'cover', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-default)' }}
+                      />
+                    ) : (
+                      <div style={{ width: '70px', height: '50px', background: 'var(--surface-muted)', borderRadius: 'var(--radius-sm)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.7rem', color: 'var(--text-muted)' }}>Chưa có ảnh</div>
+                    )}
+                    <input
+                      type="file"
+                      accept="image/*"
+                      id={`cert-img-file-${idx}`}
+                      style={{ display: 'none' }}
+                      onChange={e => handleCertImageUpload(idx, e.target.files[0])}
+                    />
+                    <label htmlFor={`cert-img-file-${idx}`} className="btn btn-outline btn-sm" style={{ cursor: 'pointer' }}>
+                      Chọn ảnh
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+          <button type="button" className="btn btn-outline btn-sm" onClick={() => {
+            const arr = [...(settings.certificateImages || []), { id: `cert-${Date.now()}`, title: '', image: '' }];
+            update('certificateImages', arr);
+          }}>+ Thêm hình chứng nhận</button>
         </div>
 
         <div style={{ marginTop: '2rem' }}>
