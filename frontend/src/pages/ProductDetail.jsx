@@ -178,15 +178,17 @@ export default function ProductDetail() {
               <h1 className="pd-title">{tProduct(product, 'name')}</h1>
               <p className="pd-short-desc">{tProduct(product, 'shortDesc')}</p>
 
-              {/* Quick specs */}
+              {/* Quick specs (Protein & Độ ẩm) */}
               {product.specs && (
                 <div className="pd-quick-specs">
-                  {Object.entries(product.specs).slice(0, 4).map(([key, val]) => (
-                    <div className="pd-quick-spec" key={key}>
-                      <span className="pqs-label">{specLabels[key] || key}</span>
-                      <span className="pqs-value">{val}</span>
-                    </div>
-                  ))}
+                  {Object.entries(product.specs)
+                    .filter(([key]) => key === 'protein' || key === 'moisture')
+                    .map(([key, val]) => (
+                      <div className="pd-quick-spec" key={key}>
+                        <span className="pqs-label">{specLabels[key] || key}</span>
+                        <span className="pqs-value">{val}</span>
+                      </div>
+                    ))}
                 </div>
               )}
 
