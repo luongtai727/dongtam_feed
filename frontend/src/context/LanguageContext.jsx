@@ -13,7 +13,7 @@ export function LanguageProvider({ children }) {
   }, [language]);
 
   useEffect(() => {
-    fetch(`${API}/api/translations`)
+    fetch(`${API}/api/translations?_t=${Date.now()}`, { cache: 'no-store' })
       .then(r => r.json())
       .then(d => {
         if (d && typeof d === 'object' && Object.keys(d).length > 0) {

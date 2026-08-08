@@ -30,7 +30,7 @@ export default function About() {
   };
 
   useEffect(() => {
-    fetch(`${API}/api/settings`).then(r => r.json()).then(setSettings).catch(() => {});
+    fetch(`${API}/api/settings?_t=${Date.now()}`, { cache: 'no-store' }).then(r => r.json()).then(setSettings).catch(() => {});
   }, []);
 
   useEffect(() => {

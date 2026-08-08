@@ -18,10 +18,10 @@ export default function Home() {
   const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
-    fetch(`${API}/api/products/featured`).then(r => r.json()).then(setProducts).catch(() => {});
-    fetch(`${API}/api/news`).then(r => r.json()).then(d => setNews(d.slice(0, 3))).catch(() => {});
-    fetch(`${API}/api/settings`).then(r => r.json()).then(setSettings).catch(() => {});
-    fetch(`${API}/api/gallery`).then(r => r.json()).then(setGallery).catch(() => {});
+    fetch(`${API}/api/products/featured?_t=${Date.now()}`, { cache: 'no-store' }).then(r => r.json()).then(setProducts).catch(() => {});
+    fetch(`${API}/api/news?_t=${Date.now()}`, { cache: 'no-store' }).then(r => r.json()).then(d => setNews(d.slice(0, 3))).catch(() => {});
+    fetch(`${API}/api/settings?_t=${Date.now()}`, { cache: 'no-store' }).then(r => r.json()).then(setSettings).catch(() => {});
+    fetch(`${API}/api/gallery?_t=${Date.now()}`, { cache: 'no-store' }).then(r => r.json()).then(setGallery).catch(() => {});
   }, []);
 
   const icons = [<Factory size={28} />, <TrendingUp size={28} />, <Users size={28} />, <Award size={28} />];

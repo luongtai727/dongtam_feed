@@ -13,8 +13,8 @@ export default function Footer() {
 
   useEffect(() => {
     Promise.all([
-      fetch(`${API}/api/settings`).then(r => r.json()),
-      fetch(`${API}/api/categories?type=product`).then(r => r.json())
+      fetch(`${API}/api/settings?_t=${Date.now()}`, { cache: 'no-store' }).then(r => r.json()),
+      fetch(`${API}/api/categories?type=product&_t=${Date.now()}`, { cache: 'no-store' }).then(r => r.json())
     ]).then(([sett, cats]) => {
       setSettings(sett);
       if (Array.isArray(cats)) setCategories(cats);
