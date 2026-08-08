@@ -108,19 +108,20 @@ export function LanguageProvider({ children }) {
     return article[fieldName];
   };
 
-  const tCategory = (catName) => {
-    if (!catName) return '';
-    if (language === 'vi') return catName;
-    if (catName.includes('Mực')) {
+  const tCategory = (catInput) => {
+    if (!catInput) return '';
+    const str = typeof catInput === 'object' ? (catInput.name || '') : String(catInput);
+    if (language === 'vi') return str;
+    if (str.includes('Mực')) {
       return language === 'en' ? 'Deep Sea Amino Acid - Squid By-products' : '深海氨基酸 - 鱿鱼副产品';
     }
-    if (catName.includes('Tôm')) {
+    if (str.includes('Tôm')) {
       return language === 'en' ? 'Nutrition From Shrimp Farming & Processing' : '源于虾类养殖与加工的优质营养';
     }
-    if (catName.includes('Mắm')) {
+    if (str.includes('Mắm')) {
       return language === 'en' ? 'By-products From Fish Sauce Processing' : '源于传统鱼露酿造的优质副产物';
     }
-    return catName;
+    return str;
   };
 
   return (
