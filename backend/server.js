@@ -723,6 +723,31 @@ app.post('/api/translations', authMiddleware, (req, res) => {
 });
 
 // ============================================================
+// AUTOMATED DEPLOYMENT WEBHOOK (CI/CD Auto-Deploy)
+// ============================================================
+app.all('/api/webhook/deploy', (req, res) => {
+  const secret = req.headers['x-deploy-secret'] || req.query.secret || req.body?.secret;
+  if (secret !== 'dongtam_deploy_2026_xyz') {
+    return res.status(403).json({ error: 'Unauthorized webhook request' });
+  }
+
+  res.json({ success: true, message: '🚀 Auto-deploy triggered. Updating VPS in background...' });
+
+  const { exec } = require('child_process');
+  const projectDir = path.join(__dirname, '..');
+  const cmd = `cd "${projectDir}" && git pull origin main && cd frontend && npm run build`;
+  
+  console.log('🔄 Triggering automated VPS deployment:', cmd);
+  exec(cmd, (err, stdout, stderr) => {
+    if (err) {
+      console.error('❌ Auto-deploy error:', err);
+    } else {
+      console.log('✅ Auto-deploy completed successfully!\n', stdout);
+    }
+  });
+});
+
+// ============================================================
 // START SERVER
 // ============================================================
 app.listen(PORT, () => {
