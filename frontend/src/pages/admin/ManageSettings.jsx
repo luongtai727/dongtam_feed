@@ -302,6 +302,66 @@ export default function ManageSettings() {
           }}>+ Thêm thống kê</button>
         </div>
 
+        {/* ============ HERO BANNER TITLE & BADGE ============ */}
+        <div className="settings-section">
+          <h3>Tiêu đề Banner Trang chủ (Hero Banner Title)</h3>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '1.25rem' }}>Quản lý Tiêu đề lớn hiển thị tại Banner đầu trang chủ (hỗ trợ 3 ngôn ngữ VI / EN / ZH)</p>
+
+          <div style={{ border: '1px solid var(--border-light)', borderRadius: 'var(--radius-md)', padding: '1rem', marginBottom: '1rem' }}>
+            <h4 style={{ margin: '0 0 0.75rem 0', fontSize: '0.9rem', color: 'var(--primary)' }}>Tiêu đề Tiếng Việt (VI)</h4>
+            <div className="form-group" style={{ marginBottom: '0.75rem' }}>
+              <label className="form-label">Huy hiệu nhỏ trên cùng (Badge)</label>
+              <input className="form-input" placeholder="GIẢI PHÁP DINH DƯỠNG HÀNG ĐẦU" value={settings.heroBadge || ''} onChange={e => update('heroBadge', e.target.value)} />
+            </div>
+            <div className="form-row">
+              <div className="form-group">
+                <label className="form-label">Tiêu đề dòng 1 (Chữ trắng)</label>
+                <input className="form-input" placeholder="Nguyên liệu thức ăn" value={settings.heroTitleMain || ''} onChange={e => update('heroTitleMain', e.target.value)} />
+              </div>
+              <div className="form-group">
+                <label className="form-label">Tiêu đề dòng 2 (Chữ xanh Highlight)</label>
+                <input className="form-input" placeholder="chăn nuôi chất lượng cao" value={settings.heroTitleSub || ''} onChange={e => update('heroTitleSub', e.target.value)} />
+              </div>
+            </div>
+          </div>
+
+          <div style={{ border: '1px solid var(--border-light)', borderRadius: 'var(--radius-md)', padding: '1rem', marginBottom: '1rem' }}>
+            <h4 style={{ margin: '0 0 0.75rem 0', fontSize: '0.9rem', color: 'var(--primary)' }}>English Title (EN)</h4>
+            <div className="form-group" style={{ marginBottom: '0.75rem' }}>
+              <label className="form-label">Top Badge (EN)</label>
+              <input className="form-input" placeholder="LEADING NUTRITIONAL SOLUTIONS" value={settings.heroBadgeEn || ''} onChange={e => update('heroBadgeEn', e.target.value)} />
+            </div>
+            <div className="form-row">
+              <div className="form-group">
+                <label className="form-label">Main Title Line 1 (EN)</label>
+                <input className="form-input" placeholder="High Quality Animal" value={settings.heroTitleMainEn || ''} onChange={e => update('heroTitleMainEn', e.target.value)} />
+              </div>
+              <div className="form-group">
+                <label className="form-label">Main Title Line 2 Highlight (EN)</label>
+                <input className="form-input" placeholder="Feed Ingredients" value={settings.heroTitleSubEn || ''} onChange={e => update('heroTitleSubEn', e.target.value)} />
+              </div>
+            </div>
+          </div>
+
+          <div style={{ border: '1px solid var(--border-light)', borderRadius: 'var(--radius-md)', padding: '1rem' }}>
+            <h4 style={{ margin: '0 0 0.75rem 0', fontSize: '0.9rem', color: 'var(--primary)' }}>中文标题 (ZH)</h4>
+            <div className="form-group" style={{ marginBottom: '0.75rem' }}>
+              <label className="form-label">顶部徽章 (ZH)</label>
+              <input className="form-input" placeholder="领先的营养解决方案" value={settings.heroBadgeZh || ''} onChange={e => update('heroBadgeZh', e.target.value)} />
+            </div>
+            <div className="form-row">
+              <div className="form-group">
+                <label className="form-label">主标题第一行 (ZH)</label>
+                <input className="form-input" placeholder="优质饲料" value={settings.heroTitleMainZh || ''} onChange={e => update('heroTitleMainZh', e.target.value)} />
+              </div>
+              <div className="form-group">
+                <label className="form-label">主标题第二行高亮 (ZH)</label>
+                <input className="form-input" placeholder="原料解决方案" value={settings.heroTitleSubZh || ''} onChange={e => update('heroTitleSubZh', e.target.value)} />
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* ============ HERO CERTIFICATIONS ============ */}
         <div className="settings-section">
           <h3>Chứng nhận hiển thị trên Banner (ISO, HACCP, GMP...)</h3>

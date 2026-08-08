@@ -62,11 +62,27 @@ export default function Home() {
           <div className="hero-content animate-fade-in-up">
             <div className="hero-badge">
               <Leaf size={14} />
-              <span>{t('hero.badge')}</span>
+              <span>
+                {language === 'en'
+                  ? (settings.heroBadgeEn || settings.heroBadge || t('hero.badge'))
+                  : language === 'zh'
+                    ? (settings.heroBadgeZh || settings.heroBadge || t('hero.badge'))
+                    : (settings.heroBadge || t('hero.badge'))}
+              </span>
             </div>
             <h1 className="hero-title">
-              {t('hero.titleMain')} <br />
-              <span className="hero-highlight">{t('hero.titleSub')}</span>
+              {language === 'en'
+                ? (settings.heroTitleMainEn || settings.heroTitleMain || t('hero.titleMain'))
+                : language === 'zh'
+                  ? (settings.heroTitleMainZh || settings.heroTitleMain || t('hero.titleMain'))
+                  : (settings.heroTitleMain || t('hero.titleMain'))} <br />
+              <span className="hero-highlight">
+                {language === 'en'
+                  ? (settings.heroTitleSubEn || settings.heroTitleSub || t('hero.titleSub'))
+                  : language === 'zh'
+                    ? (settings.heroTitleSubZh || settings.heroTitleSub || t('hero.titleSub'))
+                    : (settings.heroTitleSub || t('hero.titleSub'))}
+              </span>
             </h1>
             <p className="hero-desc">
               {language === 'vi' ? (settings.tagline || t('hero.desc')) : t('hero.desc')}
