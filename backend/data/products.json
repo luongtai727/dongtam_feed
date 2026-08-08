@@ -8,9 +8,7 @@
     "description": "Bột nội tạng mực là sản phẩm được chế biến từ toàn bộ nội tạng mực (bao gồm gan, ruột, tuyến sinh dục) qua quy trình sấy khô và nghiền mịn. Sản phẩm giàu Protein thô (≥ 55%), enzyme tiêu hóa tự nhiên (Protease, Lipase) và các acid amin thiết yếu.",
     "specs": {
       "protein": "≥ 55%",
-      "moisture": "≤ 10%",
-      "fat": "≤ 15%",
-      "ash": "≤ 12%"
+      "moisture": "≤ 10%"
     },
     "highlights": [
       "Nguồn nguyên liệu 100% từ mực biển đánh bắt tự nhiên",
@@ -91,9 +89,7 @@
     "description": "Dịch mực thủy phân là sản phẩm cao cấp được thủy phân từ nội tạng mực tươi nguyên chất. Sản phẩm giàu đạm hòa tan (≥ 50% Protein thô), amino acid tự do và peptide sinh học có hoạt tính cao.",
     "specs": {
       "protein": "≥ 50%",
-      "moisture": "≤ 8%",
-      "fat": "≤ 10%",
-      "ash": "≤ 15%"
+      "moisture": "≤ 8%"
     },
     "highlights": [
       "Dịch mực nguyên chất 100% thủy phân",
@@ -147,7 +143,6 @@
     "shortDesc": "Amino acid đậm đặc, hương umani mạnh. Cao chiết xuất từ gan mực, giàu DHA, EPA và Phospholipid tự nhiên.",
     "description": "Cao gan mực là sản phẩm chiết xuất đậm đặc từ gan mực tươi, giàu acid béo omega-3 (DHA, EPA), Phospholipid và Cholesterol tự nhiên.",
     "specs": {
-      "fat": "≥ 50%",
       "protein": "≥ 15%",
       "moisture": "≤ 5%"
     },
@@ -204,9 +199,7 @@
     "description": "Bột vỏ đầu tôm là sản phẩm được chế biến từ vỏ và đầu tôm tươi, sấy khô và nghiền mịn. Sản phẩm giàu Protein thô (≥45%), Chitin tự nhiên và các khoáng chất thiết yếu.",
     "specs": {
       "protein": "≥ 45%",
-      "moisture": "≤ 10%",
-      "fat": "≤ 5%",
-      "chitin": "15 - 20%"
+      "moisture": "≤ 10%"
     },
     "highlights": [
       "Giàu Protein thô ≥ 45%",
@@ -261,9 +254,7 @@
     "description": "Xác Mắm Khô là nguyên liệu thức ăn chăn nuôi được sản xuất từ xác mắm tươi thu gom tại các cơ sở chế biến thủy sản ở Bình Thuận.",
     "specs": {
       "protein": "≥ 30%",
-      "moisture": "≤ 12%",
-      "salt": "≤ 15%",
-      "sand": "≤ 2%"
+      "moisture": "≤ 12%"
     },
     "highlights": [
       "Nguồn nguyên liệu thủy sản ổn định, được kiểm soát chất lượng từ gốc.",
