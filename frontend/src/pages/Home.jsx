@@ -69,7 +69,7 @@ export default function Home() {
               <span className="hero-highlight">{t('hero.titleSub')}</span>
             </h1>
             <p className="hero-desc">
-              {t('hero.desc')}
+              {language === 'vi' ? (settings.tagline || t('hero.desc')) : t('hero.desc')}
             </p>
             <div className="hero-actions">
               <Link to="/san-pham" className="btn btn-primary btn-lg">

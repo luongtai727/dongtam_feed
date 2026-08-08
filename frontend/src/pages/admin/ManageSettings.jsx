@@ -103,10 +103,10 @@ export default function ManageSettings() {
               <label className="form-label">Mã số thuế (MST)</label>
               <input className="form-input" value={settings.taxCode || ''} onChange={e => update('taxCode', e.target.value)} placeholder="0316760462" />
             </div>
-            <div className="form-group">
-              <label className="form-label">Khẩu hiệu / Slogan</label>
-              <input className="form-input" value={settings.tagline || ''} onChange={e => update('tagline', e.target.value)} />
-            </div>
+          </div>
+          <div className="form-group">
+            <label className="form-label">Khẩu hiệu / Slogan ngắn (Hiển thị tại Banner Trang chủ, Chân trang & Giới thiệu)</label>
+            <textarea className="form-textarea" rows="2" value={settings.tagline || ''} onChange={e => update('tagline', e.target.value)} placeholder="Mô tả ngắn hiển thị ở banner trang chủ và chân trang..." />
           </div>
           <div className="form-group">
             <label className="form-label">Giới thiệu tổng quan về công ty</label>

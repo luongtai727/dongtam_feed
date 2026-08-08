@@ -41,7 +41,7 @@ export default function Footer() {
                 </div>
               </div>
               <p className="footer-desc">
-                {t('hero.desc')}
+                {language === 'vi' ? (settings.tagline || t('hero.desc')) : t('hero.desc')}
               </p>
               <div className="footer-social">
                 <a href={settings.facebook || '#'} target="_blank" rel="noopener noreferrer" className="social-link" aria-label="Facebook">
