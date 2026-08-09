@@ -22,8 +22,8 @@ export default function Navbar() {
   const langDropdownRef = useRef(null);
 
   useEffect(() => {
-    fetch(`${API}/api/settings`).then(r => r.json()).then(setSettings).catch(() => {});
-    fetch(`${API}/api/categories?type=product`).then(r => r.json()).then(setProductCategories).catch(() => {});
+    fetch(`${API}/api/settings?_t=${Date.now()}`, { cache: 'no-store' }).then(r => r.json()).then(setSettings).catch(() => {});
+    fetch(`${API}/api/categories?type=product&_t=${Date.now()}`, { cache: 'no-store' }).then(r => r.json()).then(setProductCategories).catch(() => {});
   }, []);
 
   useEffect(() => {
