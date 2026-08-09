@@ -43,8 +43,16 @@ export function LanguageProvider({ children }) {
   // Translate dynamic B2B products
   const tProduct = (product, fieldName) => {
     if (!product) return '';
+    
+    // When in Vietnamese, always prioritize real-time updated product data from Admin/DB
+    if (language === 'vi') {
+      if (product[fieldName] !== undefined && product[fieldName] !== null && product[fieldName] !== '') {
+        return product[fieldName];
+      }
+    }
+
     const slug = product.slug;
-    const prodTranslation = translations.productsData[slug];
+    const prodTranslation = translations.productsData ? translations.productsData[slug] : null;
     if (prodTranslation && prodTranslation[fieldName]) {
       const transValue = prodTranslation[fieldName];
       
