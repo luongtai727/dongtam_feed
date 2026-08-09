@@ -40,7 +40,7 @@ export default function About() {
   useEffect(() => {
     if (activeTab === 'hinh-anh') {
       setLoadingGallery(true);
-      fetch(`${API}/api/gallery`)
+      fetch(`${API}/api/gallery?_t=${Date.now()}`, { cache: 'no-store' })
         .then(r => r.json())
         .then(d => {
           setGallery(d);

@@ -15,7 +15,7 @@ export default function Contact() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    fetch(`${API}/api/settings`).then(r => r.json()).then(setSettings).catch(() => {});
+    fetch(`${API}/api/settings?_t=${Date.now()}`, { cache: 'no-store' }).then(r => r.json()).then(setSettings).catch(() => {});
   }, []);
 
   const handleSubmit = async (e) => {

@@ -15,8 +15,8 @@ export default function Products() {
 
   useEffect(() => {
     Promise.all([
-      fetch(`${API}/api/products`).then(r => r.json()),
-      fetch(`${API}/api/categories?type=product`).then(r => r.json())
+      fetch(`${API}/api/products?_t=${Date.now()}`, { cache: 'no-store' }).then(r => r.json()),
+      fetch(`${API}/api/categories?type=product&_t=${Date.now()}`, { cache: 'no-store' }).then(r => r.json())
     ]).then(([prods, cats]) => {
       setProducts(prods);
       setCategories(cats);

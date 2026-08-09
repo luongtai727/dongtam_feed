@@ -16,7 +16,7 @@ export default function News() {
   useEffect(() => {
     if (slug) {
       setLoading(true);
-      fetch(`${API}/api/news/${slug}`)
+      fetch(`${API}/api/news/${slug}?_t=${Date.now()}`, { cache: 'no-store' })
         .then(r => {
           if (!r.ok) throw new Error('Not found');
           return r.json();
@@ -25,7 +25,7 @@ export default function News() {
         .catch(() => { setArticle(null); setLoading(false); });
     } else {
       setLoading(true);
-      fetch(`${API}/api/news`)
+      fetch(`${API}/api/news?_t=${Date.now()}`, { cache: 'no-store' })
         .then(r => r.json())
         .then(d => { setNewsList(d); setLoading(false); })
         .catch(() => setLoading(false));
@@ -180,7 +180,7 @@ function SidebarLoader({ slug, tNews, language }) {
   const [articles, setArticles] = useState([]);
   useEffect(() => {
     const API = import.meta.env.VITE_API_URL || '';
-    fetch(`${API}/api/news`).then(r => r.json())
+    fetch(`${API}/api/news?_t=${Date.now()}`, { cache: 'no-store' }).then(r => r.json())
       .then(d => setArticles(d.filter(a => a.slug !== slug).slice(0, 5)))
       .catch(() => {});
   }, [slug]);

@@ -18,7 +18,7 @@ export default function ProductDetail() {
   useEffect(() => {
     setLoading(true);
     setCurrentSlide(0);
-    fetch(`${API}/api/products/${slug}`)
+    fetch(`${API}/api/products/${slug}?_t=${Date.now()}`, { cache: 'no-store' })
       .then(r => {
         if (!r.ok) throw new Error('Not found');
         return r.json();
