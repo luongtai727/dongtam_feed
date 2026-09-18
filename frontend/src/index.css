@@ -428,11 +428,12 @@ h1, h2, h3, h4, h5, h6 {
 
 .card-tag {
   display: inline-block;
-  padding: 0.25rem 0.75rem;
-  font-size: 0.75rem;
+  padding: 0.35rem 0.85rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  background: var(--green-50);
-  color: var(--green-700);
+  background: #fff7ed;
+  color: #ea580c;
+  border: 1px solid #ffedd5;
   border-radius: var(--radius-full);
   margin-bottom: 0.75rem;
 }
