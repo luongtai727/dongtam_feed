@@ -386,6 +386,32 @@ app.put('/api/products/:id', authMiddleware, upload.any(), (req, res) => {
     }
 
     writeData('products.json', products);
+
+    // Also sync updated Vietnamese fields to translations.json so both ManageProducts and ManageTranslations stay in sync
+    try {
+      const pSlug = products[idx].slug;
+      const translationsData = readData('translations.json');
+      if (translationsData && translationsData.productsData) {
+        if (!translationsData.productsData[pSlug]) {
+          translationsData.productsData[pSlug] = {};
+        }
+        const pTrans = translationsData.productsData[pSlug];
+        const fieldsToSync = ['name', 'category', 'shortDesc', 'description', 'ingredients', 'usage', 'usageNote', 'packaging', 'weight', 'storage', 'shelfLife', 'shippingStandard', 'qualityCommitment'];
+        fieldsToSync.forEach(field => {
+          if (products[idx][field] !== undefined) {
+            if (typeof pTrans[field] === 'object' && pTrans[field] !== null) {
+              pTrans[field].vi = products[idx][field];
+            } else {
+              pTrans[field] = { vi: products[idx][field], en: '', zh: '' };
+            }
+          }
+        });
+        writeData('translations.json', translationsData);
+      }
+    } catch(e) {
+      console.error('Error syncing translations.json:', e);
+    }
+
     res.json(products[idx]);
   } catch (err) {
     console.error('Update product error:', err);

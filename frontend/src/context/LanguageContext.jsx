@@ -43,54 +43,59 @@ export function LanguageProvider({ children }) {
   // Translate dynamic B2B products
   const tProduct = (product, fieldName) => {
     if (!product) return '';
-    
-    // When in Vietnamese, always prioritize real-time updated product data from Admin/DB
-    if (language === 'vi') {
-      if (product[fieldName] !== undefined && product[fieldName] !== null && product[fieldName] !== '') {
-        return product[fieldName];
-      }
-    }
-
     const slug = product.slug;
     const prodTranslation = translations.productsData ? translations.productsData[slug] : null;
-    if (prodTranslation && prodTranslation[fieldName]) {
+
+    if (prodTranslation && prodTranslation[fieldName] !== undefined) {
       const transValue = prodTranslation[fieldName];
-      
+
       // If it is a sensorySpecs or qualitySpecs array
       if (fieldName === 'sensorySpecs' || fieldName === 'qualitySpecs') {
-        return transValue.map(item => {
-          const newItem = { ...item };
-          if (item.indicator && typeof item.indicator === 'object') {
-            newItem.indicator = item.indicator[language] || item.indicator['vi'];
-          }
-          if (item.requirement && typeof item.requirement === 'object') {
-            newItem.requirement = item.requirement[language] || item.requirement['vi'];
-          }
-          if (item.value && typeof item.value === 'object') {
-            newItem.value = item.value[language] || item.value['vi'];
-          }
-          return newItem;
-        });
+        if (Array.isArray(transValue) && transValue.length > 0) {
+          return transValue.map(item => {
+            const newItem = { ...item };
+            if (item.indicator && typeof item.indicator === 'object') {
+              newItem.indicator = item.indicator[language] || item.indicator['vi'];
+            }
+            if (item.requirement && typeof item.requirement === 'object') {
+              newItem.requirement = item.requirement[language] || item.requirement['vi'];
+            }
+            if (item.value && typeof item.value === 'object') {
+              newItem.value = item.value[language] || item.value['vi'];
+            }
+            return newItem;
+          });
+        }
       }
-      
+
       // If it is an array of objects/strings (like highlights, uses or targets)
-      if (Array.isArray(transValue)) {
+      if (Array.isArray(transValue) && transValue.length > 0) {
         return transValue.map(item => {
-          if (typeof item === 'object' && item[language] !== undefined) {
+          if (typeof item === 'object' && item !== null && item[language] !== undefined) {
             return item[language] || item['vi'];
           }
           return item;
         });
       }
-      
-      // Regular translation dictionary lookup
-      if (typeof transValue === 'object' && transValue[language] !== undefined) {
-        return transValue[language] || transValue['vi'];
+
+      // Regular translation dictionary lookup { vi, en, zh }
+      if (typeof transValue === 'object' && transValue !== null) {
+        const val = transValue[language] !== undefined && transValue[language] !== ''
+          ? transValue[language]
+          : transValue['vi'];
+        if (val !== undefined && val !== null && val !== '') {
+          return val;
+        }
+      } else if (typeof transValue === 'string' && transValue.trim() !== '') {
+        return transValue;
       }
     }
-    
-    // Fallback to original database field
-    return product[fieldName];
+
+    // Fallback to original database field in product object
+    if (product[fieldName] !== undefined && product[fieldName] !== null) {
+      return product[fieldName];
+    }
+    return '';
   };
 
   // Translate dynamic News / Articles
