@@ -403,21 +403,22 @@ export default function ProductDetail() {
                         </p>
                       </div>
                     )}
-
-                    {tProduct(product, 'qualityCommitment') && (
-                      <div style={{ padding: '1.5rem', background: 'rgba(30,125,82,0.04)', borderRadius: 'var(--radius-lg)', border: '1px solid var(--green-200)' }}>
-                        <h3 style={{ color: 'var(--green-700)', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '0.5rem', fontSize: '1.1rem' }}>
-                          <span>★</span> {language === 'vi' ? 'Cam kết chất lượng từ Đồng Tâm' : language === 'en' ? 'Quality Commitment from Dong Tam' : '同心饲料质量承诺'}
-                        </h3>
-                        <p style={{ margin: 0, fontStyle: 'italic', lineHeight: 1.8, color: 'var(--text-secondary)' }}>
-                          {tProduct(product, 'qualityCommitment')}
-                        </p>
-                      </div>
-                    )}
                   </div>
                 </div>
               )}
             </div>
+
+            {/* Cam kết chất lượng từ Đồng Tâm - Hiển thị phía dưới 3 tab */}
+            {tProduct(product, 'qualityCommitment') && (
+              <div style={{ marginTop: '2rem', padding: '1.5rem', background: 'rgba(30,125,82,0.04)', borderRadius: 'var(--radius-lg)', border: '1px solid var(--green-200)' }}>
+                <h3 style={{ color: 'var(--green-700)', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '0.5rem', fontSize: '1.1rem' }}>
+                  <span>★</span> {language === 'vi' ? 'Cam kết chất lượng từ Đồng Tâm' : language === 'en' ? 'Quality Commitment from Dong Tam' : '同心饲料质量承诺'}
+                </h3>
+                <p style={{ margin: 0, fontStyle: 'italic', lineHeight: 1.8, color: 'var(--text-secondary)' }}>
+                  {tProduct(product, 'qualityCommitment')}
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </section>
