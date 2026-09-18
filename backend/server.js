@@ -761,7 +761,7 @@ app.all('/api/webhook/deploy', (req, res) => {
 
   const { exec } = require('child_process');
   const projectDir = path.join(__dirname, '..');
-  const cmd = `cd "${projectDir}" && git pull origin main && cd frontend && npm run build`;
+  const cmd = `cd "${projectDir}" && git pull origin main && cd frontend && npm run build && (pm2 restart all || npx pm2 restart all || true)`;
   
   console.log('🔄 Triggering automated VPS deployment:', cmd);
   exec(cmd, (err, stdout, stderr) => {
