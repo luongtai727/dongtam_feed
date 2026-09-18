@@ -261,8 +261,8 @@ export const translations = {
       weight: { vi: "25 kg/bao", en: "25 kg/bag", zh: "25 公斤/袋" },
       storage: { vi: "Bảo quản nơi khô ráo, nhiệt độ < 30°C.", en: "Store in a cool dry place, temp < 30°C.", zh: "储存于阴凉干燥处，温度低于30°C。" },
       shelfLife: { vi: "12 tháng kể từ ngày sản xuất", en: "12 months from manufacturing date", zh: "自生产之日起12个月" },
-      shippingStandard: { vi: "", en: "", zh: "" },
-      qualityCommitment: { vi: "", en: "", zh: "" },
+      shippingStandard: { vi: "Phương tiện vận chuyển sạch sẽ, khô ráo, có mái che.", en: "Clean, dry transport vehicles with protective tarpaulins.", zh: "运输车辆应清洁、干燥、有蓬盖。" },
+      qualityCommitment: { vi: "Đồng Tâm cam kết cung cấp sản phẩm có nguồn gốc rõ ràng, chất lượng ổn định.", en: "Dong Tam commits to supplying products of clear origin and stable quality.", zh: "同心承诺提供货源清晰、质量稳定的高品质产品。" },
       highlights: [
         { vi: "Dịch mực nguyên chất 100% thủy phân", en: "100% pure hydrolyzed squid paste", zh: "100%纯酶解鱿鱼膏" },
         { vi: "Giàu đạm hòa tan và peptide sinh học", en: "Rich in soluble proteins and bio-peptides", zh: "富含可溶性蛋白质和游离多肽" },
@@ -315,8 +315,8 @@ export const translations = {
       weight: { vi: "", en: "", zh: "" },
       storage: { vi: "Bảo quản nơi khô ráo, tránh ánh sáng, nhiệt độ < 25°C.", en: "Store in a cool dry place, away from light, temp < 25°C.", zh: "储存于阴凉避光处，温度低于25°C。" },
       shelfLife: { vi: "6 tháng kể từ ngày sản xuất", en: "6 months from manufacturing date", zh: "自生产之日起6个月" },
-      shippingStandard: { vi: "", en: "", zh: "" },
-      qualityCommitment: { vi: "", en: "", zh: "" },
+      shippingStandard: { vi: "Phương tiện vận chuyển sạch sẽ, khô ráo, có mái che.", en: "Clean, dry transport vehicles with protective tarpaulins.", zh: "运输车辆应清洁、干燥、有蓬盖。" },
+      qualityCommitment: { vi: "Đồng Tâm cam kết cung cấp sản phẩm có nguồn gốc rõ ràng, chất lượng ổn định.", en: "Dong Tam commits to supplying products of clear origin and stable quality.", zh: "同心承诺提供货源清晰、质量稳定的高品质产品。" },
       highlights: [
         { vi: "Amino acid đậm đặc, hương umani mạnh", en: "Concentrated amino acids, strong rich umami taste", zh: "高浓缩氨基酸，强烈的鲜味气味" },
         { vi: "Giàu DHA, EPA và Phospholipid tự nhiên", en: "Rich in DHA, EPA and natural Phospholipids", zh: "富含天然DHA、EPA和活性磷脂" },
@@ -369,8 +369,8 @@ export const translations = {
       weight: { vi: "25 kg hoặc 50 kg/bao", en: "25 kg or 50 kg/bag", zh: "25公斤 或 50公斤/袋" },
       storage: { vi: "Bảo quản nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp.", en: "Store in a cool, dry place away from direct sunlight.", zh: "储存于凉爽干燥处，避免阳光直射。" },
       shelfLife: { vi: "12 tháng kể từ ngày sản xuất", en: "12 months from manufacturing date", zh: "自生产之日起12个月" },
-      shippingStandard: { vi: "", en: "", zh: "" },
-      qualityCommitment: { vi: "", en: "", zh: "" },
+      shippingStandard: { vi: "Phương tiện vận chuyển sạch sẽ, khô ráo, có mái che.", en: "Clean, dry transport vehicles with protective tarpaulins.", zh: "运输车辆应清洁、干燥、有蓬盖。" },
+      qualityCommitment: { vi: "Đồng Tâm cam kết cung cấp sản phẩm có nguồn gốc rõ ràng, chất lượng ổn định.", en: "Dong Tam commits to supplying products of clear origin and stable quality.", zh: "同心承诺提供货源清晰、质量稳定的高品质产品。" },
       highlights: [
         { vi: "Giàu Protein thô ≥ 45%", en: "Rich in crude protein ≥ 45%", zh: "富含粗蛋白质 ≥ 45%" },
         { vi: "Chitin tự nhiên 15-20%", en: "Natural Chitin content 15-20%", zh: "天然甲壳素 15-20%" },

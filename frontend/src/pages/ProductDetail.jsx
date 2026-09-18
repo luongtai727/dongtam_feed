@@ -68,7 +68,7 @@ export default function ProductDetail() {
   const tabs = [
     { id: 'desc', label: language === 'vi' ? '1. Mô tả & Công dụng' : language === 'en' ? '1. Description & Uses' : '1. 产品描述与主要用途', icon: <Leaf size={16} /> },
     { id: 'specs', label: language === 'vi' ? '2. Thông số kỹ thuật & Tiêu chuẩn' : language === 'en' ? '2. Specifications & Standards' : '2. 规格指标与质量标准', icon: <Beaker size={16} /> },
-    { id: 'packaging', label: language === 'vi' ? '3. HD sử dụng, Đóng gói & Vận chuyển' : language === 'en' ? '3. Packaging & Logistics' : '3. 包装、储存与物流运输', icon: <Truck size={16} /> },
+    { id: 'packaging', label: language === 'vi' ? '3. HD sử dụng, Đóng gói & Vận chuyển' : language === 'en' ? '3. Usage Instructions, Packaging & Logistics' : '3. 使用说明、包装与物流', icon: <Truck size={16} /> },
   ];
 
   const specLabels = {
@@ -337,8 +337,25 @@ export default function ProductDetail() {
                 <div className="animate-fade-in-up">
                   {/* Rich details cards */}
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+                    {/* Hướng dẫn sử dụng & Khuyến nghị tỷ lệ phối trộn */}
+                    {tProduct(product, 'usage') && (
+                      <div style={{ padding: '1.5rem', background: 'var(--gray-50)', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border-light)' }}>
+                        <h3 style={{ marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '1.15rem' }}>
+                          <span>📖</span> {language === 'vi' ? 'Hướng dẫn sử dụng & Khuyến nghị phối trộn' : language === 'en' ? 'Directions & Usage Recommendations' : '使用说明与推荐添加量'}
+                        </h3>
+                        <p style={{ whiteSpace: 'pre-line', margin: 0, color: 'var(--text-secondary)', lineHeight: 1.8 }}>
+                          {tProduct(product, 'usage')}
+                        </p>
+                        {tProduct(product, 'usageNote') && (
+                          <div style={{ marginTop: '0.75rem', paddingTop: '0.75rem', borderTop: '1px dashed var(--border-default)', color: '#d97706', fontSize: '0.95rem' }}>
+                            <strong>* {language === 'vi' ? 'Lưu ý' : language === 'en' ? 'Note' : '注意事项'}:</strong> {tProduct(product, 'usageNote')}
+                          </div>
+                        )}
+                      </div>
+                    )}
+
                     <div className="packaging-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.5rem' }}>
-                      {product.packaging && (
+                      {tProduct(product, 'packaging') && (
                         <div className="pkg-card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '1.5rem' }}>
                           <Package size={28} />
                           <h4 style={{ fontWeight: '600', margin: '0.5rem 0' }}>
@@ -347,7 +364,7 @@ export default function ProductDetail() {
                           <p style={{ margin: 0 }}>{tProduct(product, 'packaging')}</p>
                         </div>
                       )}
-                      {product.weight && (
+                      {tProduct(product, 'weight') && (
                         <div className="pkg-card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '1.5rem' }}>
                           <Package size={28} style={{ color: 'var(--secondary)' }} />
                           <h4 style={{ fontWeight: '600', margin: '0.5rem 0' }}>
@@ -356,7 +373,7 @@ export default function ProductDetail() {
                           <p style={{ margin: 0 }}>{tProduct(product, 'weight')}</p>
                         </div>
                       )}
-                      {product.storage && (
+                      {tProduct(product, 'storage') && (
                         <div className="pkg-card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '1.5rem' }}>
                           <Truck size={28} />
                           <h4 style={{ fontWeight: '600', margin: '0.5rem 0' }}>
@@ -365,7 +382,7 @@ export default function ProductDetail() {
                           <p style={{ margin: 0 }}>{tProduct(product, 'storage')}</p>
                         </div>
                       )}
-                      {product.shelfLife && (
+                      {tProduct(product, 'shelfLife') && (
                         <div className="pkg-card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '1.5rem' }}>
                           <Truck size={28} style={{ color: 'var(--secondary)' }} />
                           <h4 style={{ fontWeight: '600', margin: '0.5rem 0' }}>
@@ -376,7 +393,7 @@ export default function ProductDetail() {
                       )}
                     </div>
 
-                    {product.shippingStandard && (
+                    {tProduct(product, 'shippingStandard') && (
                       <div>
                         <h3 style={{ marginBottom: '0.5rem' }}>
                           {language === 'vi' ? 'Tiêu chuẩn vận chuyển' : language === 'en' ? 'Transportation Standard' : '物流运输标准'}
@@ -387,7 +404,7 @@ export default function ProductDetail() {
                       </div>
                     )}
 
-                    {product.qualityCommitment && (
+                    {tProduct(product, 'qualityCommitment') && (
                       <div style={{ padding: '1.5rem', background: 'rgba(30,125,82,0.04)', borderRadius: 'var(--radius-lg)', border: '1px solid var(--green-200)' }}>
                         <h3 style={{ color: 'var(--green-700)', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '0.5rem', fontSize: '1.1rem' }}>
                           <span>★</span> {language === 'vi' ? 'Cam kết chất lượng từ Đồng Tâm' : language === 'en' ? 'Quality Commitment from Dong Tam' : '同心饲料质量承诺'}

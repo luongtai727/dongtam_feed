@@ -129,8 +129,8 @@
     "weight": "25 kg/bao",
     "storage": "Bảo quản nơi khô ráo, nhiệt độ < 30°C.",
     "shelfLife": "12 tháng kể từ ngày sản xuất",
-    "shippingStandard": "",
-    "qualityCommitment": "",
+    "shippingStandard": "Phương tiện vận chuyển sạch sẽ, khô ráo, có mái che.",
+    "qualityCommitment": "Đồng Tâm cam kết cung cấp sản phẩm có nguồn gốc rõ ràng, chất lượng ổn định.",
     "image": "",
     "featured": true,
     "createdAt": "2026-02-10T00:00:00.000Z"
@@ -184,8 +184,8 @@
     "weight": "",
     "storage": "Bảo quản nơi khô ráo, tránh ánh sáng, nhiệt độ < 25°C.",
     "shelfLife": "6 tháng kể từ ngày sản xuất",
-    "shippingStandard": "",
-    "qualityCommitment": "",
+    "shippingStandard": "Phương tiện vận chuyển sạch sẽ, khô ráo, có mái che.",
+    "qualityCommitment": "Đồng Tâm cam kết cung cấp sản phẩm có nguồn gốc rõ ràng, chất lượng ổn định.",
     "image": "",
     "featured": true,
     "createdAt": "2026-03-05T00:00:00.000Z"
@@ -239,8 +239,8 @@
     "weight": "25 kg hoặc 50 kg/bao",
     "storage": "Bảo quản nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp.",
     "shelfLife": "12 tháng kể từ ngày sản xuất",
-    "shippingStandard": "",
-    "qualityCommitment": "",
+    "shippingStandard": "Phương tiện vận chuyển sạch sẽ, khô ráo, có mái che.",
+    "qualityCommitment": "Đồng Tâm cam kết cung cấp sản phẩm có nguồn gốc rõ ràng, chất lượng ổn định.",
     "image": "",
     "featured": true,
     "createdAt": "2026-01-15T00:00:00.000Z"

@@ -2,7 +2,7 @@
   "nav": {
     "home": {
       "vi": "Trang chủ",
-      "en": "Home Page",
+      "en": "Home",
       "zh": "首页"
     },
     "about": {
@@ -699,12 +699,12 @@
         {
           "indicator": {
             "vi": "Trạng thái",
-            "en": "Form / Texture",
+            "en": "Physical State",
             "zh": "性状/状态"
           },
           "requirement": {
             "vi": "Chất bột, xay mịn, không vón cục",
-            "en": "Fine, dry powder, free-flowing",
+            "en": "Powder, finely ground, free-flowing without lumps",
             "zh": "粉末状，粉碎均匀，无结块"
           }
         },
@@ -829,14 +829,14 @@
         "zh": "自生产之日起12个月"
       },
       "shippingStandard": {
-        "vi": "",
-        "en": "",
-        "zh": ""
+        "vi": "Phương tiện vận chuyển sạch sẽ, khô ráo, có mái che.",
+        "en": "Clean, dry transport vehicles with protective tarpaulins.",
+        "zh": "运输车辆应清洁、干燥、有蓬盖。"
       },
       "qualityCommitment": {
-        "vi": "",
-        "en": "",
-        "zh": ""
+        "vi": "Đồng Tâm cam kết cung cấp sản phẩm có nguồn gốc rõ ràng, chất lượng ổn định.",
+        "en": "Dong Tam commits to supplying products of clear origin and stable quality.",
+        "zh": "同心承诺提供货源清晰、质量稳定的高品质产品。"
       },
       "highlights": [
         {
@@ -967,14 +967,14 @@
         "zh": "自生产之日起6个月"
       },
       "shippingStandard": {
-        "vi": "",
-        "en": "",
-        "zh": ""
+        "vi": "Phương tiện vận chuyển sạch sẽ, khô ráo, có mái che.",
+        "en": "Clean, dry transport vehicles with protective tarpaulins.",
+        "zh": "运输车辆应清洁、干燥、有蓬盖。"
       },
       "qualityCommitment": {
-        "vi": "",
-        "en": "",
-        "zh": ""
+        "vi": "Đồng Tâm cam kết cung cấp sản phẩm có nguồn gốc rõ ràng, chất lượng ổn định.",
+        "en": "Dong Tam commits to supplying products of clear origin and stable quality.",
+        "zh": "同心承诺提供货源清晰、质量稳定的高品质产品。"
       },
       "highlights": [
         {
@@ -1105,14 +1105,14 @@
         "zh": "自生产之日起12个月"
       },
       "shippingStandard": {
-        "vi": "",
-        "en": "",
-        "zh": ""
+        "vi": "Phương tiện vận chuyển sạch sẽ, khô ráo, có mái che.",
+        "en": "Clean, dry transport vehicles with protective tarpaulins.",
+        "zh": "运输车辆应清洁、干燥、有蓬盖。"
       },
       "qualityCommitment": {
-        "vi": "",
-        "en": "",
-        "zh": ""
+        "vi": "Đồng Tâm cam kết cung cấp sản phẩm có nguồn gốc rõ ràng, chất lượng ổn định.",
+        "en": "Dong Tam commits to supplying products of clear origin and stable quality.",
+        "zh": "同心承诺提供货源清晰、质量稳定的高品质产品。"
       },
       "highlights": [
         {
