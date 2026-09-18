@@ -432,6 +432,166 @@ export default function ManageTranslations() {
                   </tbody>
                 </table>
               </div>
+
+              {/* Tab 3: HD sử dụng, Đóng gói & Vận chuyển */}
+              <div className="settings-section">
+                <h3>Tab 3: HD sử dụng, Đóng gói & Vận chuyển</h3>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '1.5rem' }}>
+                  Chỉnh sửa bản dịch 3 ngôn ngữ (Tiếng Việt, Tiếng Anh, Tiếng Trung) cho HD sử dụng, quy cách bao bì, điều kiện bảo quản và vận chuyển
+                </p>
+
+                {/* 1. HD sử dụng & tỷ lệ phối trộn */}
+                <div className="form-group" style={{ marginBottom: '1.5rem' }}>
+                  <label className="form-label" style={{ fontWeight: 600 }}>1. HD sử dụng & Khuyến nghị tỷ lệ phối trộn (Usage Instructions)</label>
+                  <div className="form-grid-three" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem', marginTop: '0.5rem' }}>
+                    <div>
+                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Việt (VI):</span>
+                      <textarea className="form-textarea" rows="3" value={typeof pData.usage === 'object' ? (pData.usage?.vi || '') : (pData.usage || '')} onChange={e => updatePath(`productsData.${selectedProduct}.usage.vi`, e.target.value)} placeholder="HD sử dụng Tiếng Việt..." />
+                    </div>
+                    <div>
+                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Anh (EN):</span>
+                      <textarea className="form-textarea" rows="3" value={typeof pData.usage === 'object' ? (pData.usage?.en || '') : ''} onChange={e => updatePath(`productsData.${selectedProduct}.usage.en`, e.target.value)} placeholder="Usage instructions in English..." />
+                    </div>
+                    <div>
+                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Trung (ZH):</span>
+                      <textarea className="form-textarea" rows="3" value={typeof pData.usage === 'object' ? (pData.usage?.zh || '') : ''} onChange={e => updatePath(`productsData.${selectedProduct}.usage.zh`, e.target.value)} placeholder="使用说明 中文..." />
+                    </div>
+                  </div>
+                </div>
+
+                {/* 2. Lưu ý khi sử dụng */}
+                <div className="form-group" style={{ marginBottom: '1.5rem' }}>
+                  <label className="form-label" style={{ fontWeight: 600 }}>2. Lưu ý khi sử dụng (Usage Note)</label>
+                  <div className="form-grid-three" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem', marginTop: '0.5rem' }}>
+                    <div>
+                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Việt (VI):</span>
+                      <input className="form-input" value={typeof pData.usageNote === 'object' ? (pData.usageNote?.vi || '') : (pData.usageNote || '')} onChange={e => updatePath(`productsData.${selectedProduct}.usageNote.vi`, e.target.value)} placeholder="Lưu ý VI..." />
+                    </div>
+                    <div>
+                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Anh (EN):</span>
+                      <input className="form-input" value={typeof pData.usageNote === 'object' ? (pData.usageNote?.en || '') : ''} onChange={e => updatePath(`productsData.${selectedProduct}.usageNote.en`, e.target.value)} placeholder="Usage note EN..." />
+                    </div>
+                    <div>
+                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Trung (ZH):</span>
+                      <input className="form-input" value={typeof pData.usageNote === 'object' ? (pData.usageNote?.zh || '') : ''} onChange={e => updatePath(`productsData.${selectedProduct}.usageNote.zh`, e.target.value)} placeholder="注意事项 ZH..." />
+                    </div>
+                  </div>
+                </div>
+
+                {/* 3. Quy cách bao bì */}
+                <div className="form-group" style={{ marginBottom: '1.5rem' }}>
+                  <label className="form-label" style={{ fontWeight: 600 }}>3. Quy cách bao bì (Packaging Spec)</label>
+                  <div className="form-grid-three" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem', marginTop: '0.5rem' }}>
+                    <div>
+                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Việt (VI):</span>
+                      <input className="form-input" value={typeof pData.packaging === 'object' ? (pData.packaging?.vi || '') : (pData.packaging || '')} onChange={e => updatePath(`productsData.${selectedProduct}.packaging.vi`, e.target.value)} placeholder="Bao bì VI..." />
+                    </div>
+                    <div>
+                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Anh (EN):</span>
+                      <input className="form-input" value={typeof pData.packaging === 'object' ? (pData.packaging?.en || '') : ''} onChange={e => updatePath(`productsData.${selectedProduct}.packaging.en`, e.target.value)} placeholder="Packaging EN..." />
+                    </div>
+                    <div>
+                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Trung (ZH):</span>
+                      <input className="form-input" value={typeof pData.packaging === 'object' ? (pData.packaging?.zh || '') : ''} onChange={e => updatePath(`productsData.${selectedProduct}.packaging.zh`, e.target.value)} placeholder="包装规格 ZH..." />
+                    </div>
+                  </div>
+                </div>
+
+                {/* 4. Trọng lượng đóng bao */}
+                <div className="form-group" style={{ marginBottom: '1.5rem' }}>
+                  <label className="form-label" style={{ fontWeight: 600 }}>4. Trọng lượng đóng bao (Bag Weight)</label>
+                  <div className="form-grid-three" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem', marginTop: '0.5rem' }}>
+                    <div>
+                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Việt (VI):</span>
+                      <input className="form-input" value={typeof pData.weight === 'object' ? (pData.weight?.vi || '') : (pData.weight || '')} onChange={e => updatePath(`productsData.${selectedProduct}.weight.vi`, e.target.value)} placeholder="Trọng lượng VI..." />
+                    </div>
+                    <div>
+                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Anh (EN):</span>
+                      <input className="form-input" value={typeof pData.weight === 'object' ? (pData.weight?.en || '') : ''} onChange={e => updatePath(`productsData.${selectedProduct}.weight.en`, e.target.value)} placeholder="Bag weight EN..." />
+                    </div>
+                    <div>
+                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Trung (ZH):</span>
+                      <input className="form-input" value={typeof pData.weight === 'object' ? (pData.weight?.zh || '') : ''} onChange={e => updatePath(`productsData.${selectedProduct}.weight.zh`, e.target.value)} placeholder="包装净重 ZH..." />
+                    </div>
+                  </div>
+                </div>
+
+                {/* 5. Điều kiện bảo quản */}
+                <div className="form-group" style={{ marginBottom: '1.5rem' }}>
+                  <label className="form-label" style={{ fontWeight: 600 }}>5. Điều kiện bảo quản (Storage Conditions)</label>
+                  <div className="form-grid-three" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem', marginTop: '0.5rem' }}>
+                    <div>
+                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Việt (VI):</span>
+                      <input className="form-input" value={typeof pData.storage === 'object' ? (pData.storage?.vi || '') : (pData.storage || '')} onChange={e => updatePath(`productsData.${selectedProduct}.storage.vi`, e.target.value)} placeholder="Bảo quản VI..." />
+                    </div>
+                    <div>
+                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Anh (EN):</span>
+                      <input className="form-input" value={typeof pData.storage === 'object' ? (pData.storage?.en || '') : ''} onChange={e => updatePath(`productsData.${selectedProduct}.storage.en`, e.target.value)} placeholder="Storage EN..." />
+                    </div>
+                    <div>
+                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Trung (ZH):</span>
+                      <input className="form-input" value={typeof pData.storage === 'object' ? (pData.storage?.zh || '') : ''} onChange={e => updatePath(`productsData.${selectedProduct}.storage.zh`, e.target.value)} placeholder="储存条件 ZH..." />
+                    </div>
+                  </div>
+                </div>
+
+                {/* 6. Hạn sử dụng */}
+                <div className="form-group" style={{ marginBottom: '1.5rem' }}>
+                  <label className="form-label" style={{ fontWeight: 600 }}>6. Hạn sử dụng (Shelf Life)</label>
+                  <div className="form-grid-three" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem', marginTop: '0.5rem' }}>
+                    <div>
+                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Việt (VI):</span>
+                      <input className="form-input" value={typeof pData.shelfLife === 'object' ? (pData.shelfLife?.vi || '') : (pData.shelfLife || '')} onChange={e => updatePath(`productsData.${selectedProduct}.shelfLife.vi`, e.target.value)} placeholder="Hạn sử dụng VI..." />
+                    </div>
+                    <div>
+                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Anh (EN):</span>
+                      <input className="form-input" value={typeof pData.shelfLife === 'object' ? (pData.shelfLife?.en || '') : ''} onChange={e => updatePath(`productsData.${selectedProduct}.shelfLife.en`, e.target.value)} placeholder="Shelf life EN..." />
+                    </div>
+                    <div>
+                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Trung (ZH):</span>
+                      <input className="form-input" value={typeof pData.shelfLife === 'object' ? (pData.shelfLife?.zh || '') : ''} onChange={e => updatePath(`productsData.${selectedProduct}.shelfLife.zh`, e.target.value)} placeholder="保质期限 ZH..." />
+                    </div>
+                  </div>
+                </div>
+
+                {/* 7. Tiêu chuẩn vận chuyển */}
+                <div className="form-group" style={{ marginBottom: '1.5rem' }}>
+                  <label className="form-label" style={{ fontWeight: 600 }}>7. Tiêu chuẩn vận chuyển (Transportation Standard)</label>
+                  <div className="form-grid-three" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem', marginTop: '0.5rem' }}>
+                    <div>
+                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Việt (VI):</span>
+                      <textarea className="form-textarea" rows="2" value={typeof pData.shippingStandard === 'object' ? (pData.shippingStandard?.vi || '') : (pData.shippingStandard || '')} onChange={e => updatePath(`productsData.${selectedProduct}.shippingStandard.vi`, e.target.value)} placeholder="Vận chuyển VI..." />
+                    </div>
+                    <div>
+                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Anh (EN):</span>
+                      <textarea className="form-textarea" rows="2" value={typeof pData.shippingStandard === 'object' ? (pData.shippingStandard?.en || '') : ''} onChange={e => updatePath(`productsData.${selectedProduct}.shippingStandard.en`, e.target.value)} placeholder="Shipping standard EN..." />
+                    </div>
+                    <div>
+                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Trung (ZH):</span>
+                      <textarea className="form-textarea" rows="2" value={typeof pData.shippingStandard === 'object' ? (pData.shippingStandard?.zh || '') : ''} onChange={e => updatePath(`productsData.${selectedProduct}.shippingStandard.zh`, e.target.value)} placeholder="物流运输标准 ZH..." />
+                    </div>
+                  </div>
+                </div>
+
+                {/* 8. Cam kết chất lượng từ Đồng Tâm */}
+                <div className="form-group">
+                  <label className="form-label" style={{ fontWeight: 600 }}>8. Cam kết chất lượng (Quality Commitment)</label>
+                  <div className="form-grid-three" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem', marginTop: '0.5rem' }}>
+                    <div>
+                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Việt (VI):</span>
+                      <textarea className="form-textarea" rows="2" value={typeof pData.qualityCommitment === 'object' ? (pData.qualityCommitment?.vi || '') : (pData.qualityCommitment || '')} onChange={e => updatePath(`productsData.${selectedProduct}.qualityCommitment.vi`, e.target.value)} placeholder="Cam kết VI..." />
+                    </div>
+                    <div>
+                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Anh (EN):</span>
+                      <textarea className="form-textarea" rows="2" value={typeof pData.qualityCommitment === 'object' ? (pData.qualityCommitment?.en || '') : ''} onChange={e => updatePath(`productsData.${selectedProduct}.qualityCommitment.en`, e.target.value)} placeholder="Quality commitment EN..." />
+                    </div>
+                    <div>
+                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Trung (ZH):</span>
+                      <textarea className="form-textarea" rows="2" value={typeof pData.qualityCommitment === 'object' ? (pData.qualityCommitment?.zh || '') : ''} onChange={e => updatePath(`productsData.${selectedProduct}.qualityCommitment.zh`, e.target.value)} placeholder="质量承诺 ZH..." />
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           ) : (
             <p>Không có dữ liệu dịch cho sản phẩm này.</p>
