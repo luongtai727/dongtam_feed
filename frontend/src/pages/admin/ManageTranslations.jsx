@@ -105,6 +105,23 @@ export default function ManageTranslations() {
     });
   };
 
+  // Helper to update string object item in array [{ vi, en, zh }] (highlights, uses, targets)
+  const updateLangArrayItem = (fieldName, index, lang, value) => {
+    setTrans(prev => {
+      const copy = JSON.parse(JSON.stringify(prev));
+      if (!copy.productsData[selectedProduct][fieldName]) {
+        copy.productsData[selectedProduct][fieldName] = [];
+      }
+      const arr = copy.productsData[selectedProduct][fieldName];
+      if (!arr[index]) arr[index] = { vi: '', en: '', zh: '' };
+      if (typeof arr[index] === 'string') {
+        arr[index] = { vi: arr[index], en: '', zh: '' };
+      }
+      arr[index][lang] = value;
+      return copy;
+    });
+  };
+
   return (
     <div className="translations-manager">
       <div className="admin-page-header">
@@ -349,6 +366,81 @@ export default function ManageTranslations() {
                   <label className="form-label">Thành phần nguyên liệu (ZH)</label>
                   <input className="form-input" value={pData.ingredients?.zh || ''} onChange={e => updatePath(`productsData.${selectedProduct}.ingredients.zh`, e.target.value)} />
                 </div>
+              </div>
+
+              {/* Ưu điểm nổi bật */}
+              <div className="settings-section">
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                  <h3 style={{ margin: 0 }}>Ưu điểm nổi bật (Key Highlights)</h3>
+                  <button type="button" className="btn btn-sm btn-outline" onClick={() => addArrayItem('highlights', { vi: '', en: '', zh: '' })} style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', padding: '0.25rem 0.75rem', fontSize: '0.85rem' }}>
+                    <Plus size={14} /> Thêm ưu điểm
+                  </button>
+                </div>
+                {(pData.highlights || []).map((item, index) => {
+                  const viVal = typeof item === 'object' ? (item?.vi || '') : String(item || '');
+                  const enVal = typeof item === 'object' ? (item?.en || '') : '';
+                  const zhVal = typeof item === 'object' ? (item?.zh || '') : '';
+                  return (
+                    <div key={index} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 40px', gap: '0.75rem', marginBottom: '0.75rem', alignItems: 'center' }}>
+                      <input className="form-input" value={viVal} onChange={e => updateLangArrayItem('highlights', index, 'vi', e.target.value)} placeholder="Ưu điểm VI..." />
+                      <input className="form-input" value={enVal} onChange={e => updateLangArrayItem('highlights', index, 'en', e.target.value)} placeholder="Highlight EN..." />
+                      <input className="form-input" value={zhVal} onChange={e => updateLangArrayItem('highlights', index, 'zh', e.target.value)} placeholder="优势 ZH..." />
+                      <button type="button" className="btn-icon text-red" onClick={() => removeArrayItem('highlights', index)} style={{ justifySelf: 'center' }}>
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Công dụng */}
+              <div className="settings-section">
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                  <h3 style={{ margin: 0 }}>Công dụng (Product Application)</h3>
+                  <button type="button" className="btn btn-sm btn-outline" onClick={() => addArrayItem('uses', { vi: '', en: '', zh: '' })} style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', padding: '0.25rem 0.75rem', fontSize: '0.85rem' }}>
+                    <Plus size={14} /> Thêm công dụng
+                  </button>
+                </div>
+                {(pData.uses || []).map((item, index) => {
+                  const viVal = typeof item === 'object' ? (item?.vi || '') : String(item || '');
+                  const enVal = typeof item === 'object' ? (item?.en || '') : '';
+                  const zhVal = typeof item === 'object' ? (item?.zh || '') : '';
+                  return (
+                    <div key={index} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 40px', gap: '0.75rem', marginBottom: '0.75rem', alignItems: 'center' }}>
+                      <input className="form-input" value={viVal} onChange={e => updateLangArrayItem('uses', index, 'vi', e.target.value)} placeholder="Công dụng VI..." />
+                      <input className="form-input" value={enVal} onChange={e => updateLangArrayItem('uses', index, 'en', e.target.value)} placeholder="Use EN..." />
+                      <input className="form-input" value={zhVal} onChange={e => updateLangArrayItem('uses', index, 'zh', e.target.value)} placeholder="功效 ZH..." />
+                      <button type="button" className="btn-icon text-red" onClick={() => removeArrayItem('uses', index)} style={{ justifySelf: 'center' }}>
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Đối tượng sử dụng */}
+              <div className="settings-section">
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                  <h3 style={{ margin: 0 }}>Đối tượng sử dụng (Target Species)</h3>
+                  <button type="button" className="btn btn-sm btn-outline" onClick={() => addArrayItem('targets', { vi: '', en: '', zh: '' })} style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', padding: '0.25rem 0.75rem', fontSize: '0.85rem' }}>
+                    <Plus size={14} /> Thêm đối tượng
+                  </button>
+                </div>
+                {(pData.targets || []).map((item, index) => {
+                  const viVal = typeof item === 'object' ? (item?.vi || '') : String(item || '');
+                  const enVal = typeof item === 'object' ? (item?.en || '') : '';
+                  const zhVal = typeof item === 'object' ? (item?.zh || '') : '';
+                  return (
+                    <div key={index} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 40px', gap: '0.75rem', marginBottom: '0.75rem', alignItems: 'center' }}>
+                      <input className="form-input" value={viVal} onChange={e => updateLangArrayItem('targets', index, 'vi', e.target.value)} placeholder="Đối tượng VI..." />
+                      <input className="form-input" value={enVal} onChange={e => updateLangArrayItem('targets', index, 'en', e.target.value)} placeholder="Target EN..." />
+                      <input className="form-input" value={zhVal} onChange={e => updateLangArrayItem('targets', index, 'zh', e.target.value)} placeholder="适用对象 ZH..." />
+                      <button type="button" className="btn-icon text-red" onClick={() => removeArrayItem('targets', index)} style={{ justifySelf: 'center' }}>
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
+                  );
+                })}
               </div>
 
               {/* Quality Specifications */}
