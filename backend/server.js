@@ -399,13 +399,27 @@ app.put('/api/products/:id', authMiddleware, upload.any(), (req, res) => {
         const fieldsToSync = ['name', 'category', 'shortDesc', 'description', 'ingredients', 'usage', 'usageNote', 'packaging', 'weight', 'storage', 'shelfLife', 'shippingStandard', 'qualityCommitment'];
         fieldsToSync.forEach(field => {
           if (products[idx][field] !== undefined) {
-            if (typeof pTrans[field] === 'object' && pTrans[field] !== null) {
+            if (typeof pTrans[field] === 'object' && pTrans[field] !== null && !Array.isArray(pTrans[field])) {
               pTrans[field].vi = products[idx][field];
             } else {
               pTrans[field] = { vi: products[idx][field], en: '', zh: '' };
             }
           }
         });
+
+        const arrayFieldsToSync = ['highlights', 'uses', 'targets'];
+        arrayFieldsToSync.forEach(field => {
+          if (Array.isArray(products[idx][field])) {
+            pTrans[field] = products[idx][field].map((val, i) => {
+              const existingItem = Array.isArray(pTrans[field]) ? pTrans[field][i] : null;
+              if (existingItem && typeof existingItem === 'object' && existingItem !== null) {
+                return { ...existingItem, vi: val };
+              }
+              return { vi: val, en: '', zh: '' };
+            });
+          }
+        });
+
         writeData('translations.json', translationsData);
       }
     } catch(e) {

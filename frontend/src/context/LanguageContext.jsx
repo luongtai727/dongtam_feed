@@ -44,6 +44,20 @@ export function LanguageProvider({ children }) {
   const tProduct = (product, fieldName) => {
     if (!product) return '';
     const slug = product.slug;
+
+    // When in Vietnamese, always prioritize real-time updated data from Admin Products (/admin/products)
+    if (language === 'vi') {
+      if (product[fieldName] !== undefined && product[fieldName] !== null) {
+        if (Array.isArray(product[fieldName]) && product[fieldName].length > 0) {
+          return product[fieldName];
+        }
+        if (typeof product[fieldName] === 'string' && product[fieldName].trim() !== '') {
+          return product[fieldName];
+        }
+      }
+    }
+
+    // Lookup translations from translations.json for EN/ZH or fallback
     const prodTranslation = translations.productsData ? translations.productsData[slug] : null;
 
     if (prodTranslation && prodTranslation[fieldName] !== undefined) {
@@ -72,7 +86,7 @@ export function LanguageProvider({ children }) {
       if (Array.isArray(transValue) && transValue.length > 0) {
         return transValue.map(item => {
           if (typeof item === 'object' && item !== null && item[language] !== undefined) {
-            return item[language] || item['vi'];
+            return item[language] || item['vi'] || '';
           }
           return item;
         });
