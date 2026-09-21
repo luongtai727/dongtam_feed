@@ -10,6 +10,7 @@ export default function ManageTranslations() {
   const { token } = useAuth();
   const { setTranslations } = useLanguage();
   const [trans, setTrans] = useState(null);
+  const [productsList, setProductsList] = useState([]);
   const [activeTab, setActiveTab] = useState('general');
   const [selectedProduct, setSelectedProduct] = useState('bot-noi-tang-muc');
   const [saving, setSaving] = useState(false);
@@ -19,6 +20,13 @@ export default function ManageTranslations() {
     fetch(`${API}/api/translations`)
       .then(r => r.json())
       .then(setTrans)
+      .catch(() => {});
+
+    fetch(`${API}/api/products`)
+      .then(r => r.json())
+      .then(data => {
+        if (Array.isArray(data)) setProductsList(data);
+      })
       .catch(() => {});
   }, []);
 
@@ -68,8 +76,9 @@ export default function ManageTranslations() {
   };
 
   const pData = getProductData();
+  const rawProd = productsList.find(p => p.slug === selectedProduct || p.id === selectedProduct) || null;
 
-  // Helper to add dynamic array row (highlights, sensorySpecs, qualitySpecs)
+  // Helper to add dynamic array row
   const addArrayItem = (fieldName, defaultItem) => {
     setTrans(prev => {
       const copy = JSON.parse(JSON.stringify(prev));
@@ -105,7 +114,7 @@ export default function ManageTranslations() {
     });
   };
 
-  // Helper to update string object item in array [{ vi, en, zh }] (highlights, uses, targets)
+  // Helper to update string object item in array [{ vi, en, zh }]
   const updateLangArrayItem = (fieldName, index, lang, value) => {
     setTrans(prev => {
       const copy = JSON.parse(JSON.stringify(prev));
@@ -120,6 +129,47 @@ export default function ManageTranslations() {
       arr[index][lang] = value;
       return copy;
     });
+  };
+
+  // Helper renderer for Tab 3 / B2B string fields
+  const renderFieldWithViRef = (label, fieldKey, isTextarea = false, rows = 2) => {
+    const rawVi = rawProd?.[fieldKey] || (typeof pData?.[fieldKey] === 'object' ? pData[fieldKey]?.vi : pData?.[fieldKey]) || '';
+    const enVal = typeof pData?.[fieldKey] === 'object' ? (pData[fieldKey]?.en || '') : '';
+    const zhVal = typeof pData?.[fieldKey] === 'object' ? (pData[fieldKey]?.zh || '') : '';
+
+    return (
+      <div style={{ marginBottom: '1.25rem' }}>
+        <label className="form-label" style={{ fontWeight: 600, color: '#334155', marginBottom: '0.4rem' }}>{label}</label>
+        
+        {/* Read-only Vietnamese Reference Box */}
+        <div style={{ background: '#f8fafc', border: '1px solid #cbd5e1', borderRadius: '6px', padding: '0.6rem 0.8rem', color: '#0f172a', fontSize: '0.9rem', marginBottom: '0.6rem', whiteSpace: 'pre-wrap' }}>
+          <span style={{ fontSize: '0.75rem', fontWeight: 600, color: '#0284c7', display: 'block', marginBottom: '2px' }}>
+            🇻🇳 Tiếng Việt (gốc từ Quản lý Sản phẩm):
+          </span>
+          {rawVi || '(Trống)'}
+        </div>
+
+        {/* Translation inputs for EN and ZH */}
+        <div className="form-grid-two" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+          <div>
+            <span style={{ fontSize: '0.8rem', color: '#475569', fontWeight: 600, display: 'block', marginBottom: '0.2rem' }}>🇬🇧 Tiếng Anh (EN):</span>
+            {isTextarea ? (
+              <textarea className="form-textarea" rows={rows} value={enVal} onChange={e => updatePath(`productsData.${selectedProduct}.${fieldKey}.en`, e.target.value)} placeholder="English translation..." />
+            ) : (
+              <input className="form-input" value={enVal} onChange={e => updatePath(`productsData.${selectedProduct}.${fieldKey}.en`, e.target.value)} placeholder="English translation..." />
+            )}
+          </div>
+          <div>
+            <span style={{ fontSize: '0.8rem', color: '#475569', fontWeight: 600, display: 'block', marginBottom: '0.2rem' }}>🇨🇳 Tiếng Trung (ZH):</span>
+            {isTextarea ? (
+              <textarea className="form-textarea" rows={rows} value={zhVal} onChange={e => updatePath(`productsData.${selectedProduct}.${fieldKey}.zh`, e.target.value)} placeholder="中文翻译..." />
+            ) : (
+              <input className="form-input" value={zhVal} onChange={e => updatePath(`productsData.${selectedProduct}.${fieldKey}.zh`, e.target.value)} placeholder="中文翻译..." />
+            )}
+          </div>
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -276,17 +326,28 @@ export default function ManageTranslations() {
         </div>
       )}
 
-      {/* TAB 2: PRODUCT TRANSLATIONS */}
+      {/* TAB 2: PRODUCT TRANSLATIONS (EN & ZH focus, VI read-only reference) */}
       {activeTab === 'products' && (
         <div className="product-translations-form">
+          <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: '8px', padding: '1rem', marginBottom: '1.5rem', color: '#166534', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <Globe size={22} style={{ color: '#16a34a', flexShrink: 0 }} />
+            <div>
+              <strong>Chế độ Dịch B2B Tiếng Anh & Tiếng Trung:</strong> Nội dung <strong>Tiếng Việt (VI)</strong> được tự động tham chiếu từ mục <em>Quản lý Sản phẩm</em>. Bạn chỉ cần nhập dịch sang <strong>Tiếng Anh (EN)</strong> và <strong>Tiếng Trung (ZH)</strong> mà không cần sửa lại tiếng Việt.
+            </div>
+          </div>
+
           <div className="settings-section" style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
             <label className="form-label" style={{ margin: 0, fontWeight: 700 }}>Chọn sản phẩm cần dịch:</label>
-            <select className="form-input" value={selectedProduct} onChange={e => setSelectedProduct(e.target.value)} style={{ width: '300px' }}>
-              {Object.keys(trans.productsData || {}).map(slug => (
-                <option key={slug} value={slug}>
-                  {trans.productsData[slug]?.name?.vi || slug}
-                </option>
-              ))}
+            <select className="form-input" value={selectedProduct} onChange={e => setSelectedProduct(e.target.value)} style={{ width: '320px', fontWeight: 600 }}>
+              {Object.keys(trans.productsData || {}).map(slug => {
+                const match = productsList.find(p => p.slug === slug || p.id === slug);
+                const labelName = match?.name || trans.productsData[slug]?.name?.vi || slug;
+                return (
+                  <option key={slug} value={slug}>
+                    {labelName}
+                  </option>
+                );
+              })}
             </select>
           </div>
 
@@ -294,95 +355,37 @@ export default function ManageTranslations() {
             <div className="settings-form">
               {/* Product Basic Name & Category */}
               <div className="settings-section">
-                <h3>Tên & Nhóm sản phẩm</h3>
-                <div className="form-grid-three" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem', marginBottom: '1.5rem' }}>
-                  <div className="form-group">
-                    <label className="form-label">Tên Tiếng Việt</label>
-                    <input className="form-input" value={pData.name?.vi || ''} onChange={e => updatePath(`productsData.${selectedProduct}.name.vi`, e.target.value)} />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label">Tên Tiếng Anh</label>
-                    <input className="form-input" value={pData.name?.en || ''} onChange={e => updatePath(`productsData.${selectedProduct}.name.en`, e.target.value)} />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label">Tên Tiếng Trung</label>
-                    <input className="form-input" value={pData.name?.zh || ''} onChange={e => updatePath(`productsData.${selectedProduct}.name.zh`, e.target.value)} />
-                  </div>
-                </div>
-                <div className="form-grid-three" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem' }}>
-                  <div className="form-group">
-                    <label className="form-label">Danh mục (VI)</label>
-                    <input className="form-input" value={pData.category?.vi || ''} onChange={e => updatePath(`productsData.${selectedProduct}.category.vi`, e.target.value)} />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label">Danh mục (EN)</label>
-                    <input className="form-input" value={pData.category?.en || ''} onChange={e => updatePath(`productsData.${selectedProduct}.category.en`, e.target.value)} />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label">Danh mục (ZH)</label>
-                    <input className="form-input" value={pData.category?.zh || ''} onChange={e => updatePath(`productsData.${selectedProduct}.category.zh`, e.target.value)} />
-                  </div>
-                </div>
+                <h3>1. Tên & Nhóm sản phẩm</h3>
+                {renderFieldWithViRef('Tên sản phẩm', 'name', false)}
+                {renderFieldWithViRef('Danh mục sản phẩm', 'category', false)}
               </div>
 
               {/* Descriptions & Ingredients */}
               <div className="settings-section">
-                <h3>Mô tả & Chi tiết</h3>
-                <div className="form-group">
-                  <label className="form-label">Mô tả ngắn (VI)</label>
-                  <input className="form-input" value={pData.shortDesc?.vi || ''} onChange={e => updatePath(`productsData.${selectedProduct}.shortDesc.vi`, e.target.value)} />
-                </div>
-                <div className="form-group">
-                  <label className="form-label">Mô tả ngắn (EN)</label>
-                  <input className="form-input" value={pData.shortDesc?.en || ''} onChange={e => updatePath(`productsData.${selectedProduct}.shortDesc.en`, e.target.value)} />
-                </div>
-                <div className="form-group" style={{ marginBottom: '1.5rem' }}>
-                  <label className="form-label">Mô tả ngắn (ZH)</label>
-                  <input className="form-input" value={pData.shortDesc?.zh || ''} onChange={e => updatePath(`productsData.${selectedProduct}.shortDesc.zh`, e.target.value)} />
-                </div>
-
-                <div className="form-group">
-                  <label className="form-label">Mô tả chi tiết (VI)</label>
-                  <textarea className="form-textarea" rows="3" value={pData.description?.vi || ''} onChange={e => updatePath(`productsData.${selectedProduct}.description.vi`, e.target.value)} />
-                </div>
-                <div className="form-group">
-                  <label className="form-label">Mô tả chi tiết (EN)</label>
-                  <textarea className="form-textarea" rows="3" value={pData.description?.en || ''} onChange={e => updatePath(`productsData.${selectedProduct}.description.en`, e.target.value)} />
-                </div>
-                <div className="form-group" style={{ marginBottom: '1.5rem' }}>
-                  <label className="form-label">Mô tả chi tiết (ZH)</label>
-                  <textarea className="form-textarea" rows="3" value={pData.description?.zh || ''} onChange={e => updatePath(`productsData.${selectedProduct}.description.zh`, e.target.value)} />
-                </div>
-
-                <div className="form-group">
-                  <label className="form-label">Thành phần nguyên liệu (VI)</label>
-                  <input className="form-input" value={pData.ingredients?.vi || ''} onChange={e => updatePath(`productsData.${selectedProduct}.ingredients.vi`, e.target.value)} />
-                </div>
-                <div className="form-group">
-                  <label className="form-label">Thành phần nguyên liệu (EN)</label>
-                  <input className="form-input" value={pData.ingredients?.en || ''} onChange={e => updatePath(`productsData.${selectedProduct}.ingredients.en`, e.target.value)} />
-                </div>
-                <div className="form-group">
-                  <label className="form-label">Thành phần nguyên liệu (ZH)</label>
-                  <input className="form-input" value={pData.ingredients?.zh || ''} onChange={e => updatePath(`productsData.${selectedProduct}.ingredients.zh`, e.target.value)} />
-                </div>
+                <h3>2. Mô tả & Chi tiết</h3>
+                {renderFieldWithViRef('Mô tả ngắn (Short Description)', 'shortDesc', true, 2)}
+                {renderFieldWithViRef('Mô tả chi tiết (Detailed Description)', 'description', true, 3)}
+                {renderFieldWithViRef('Thành phần nguyên liệu (Ingredients)', 'ingredients', false)}
               </div>
 
               {/* Ưu điểm nổi bật */}
               <div className="settings-section">
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                  <h3 style={{ margin: 0 }}>Ưu điểm nổi bật (Key Highlights)</h3>
+                  <h3 style={{ margin: 0 }}>3. Ưu điểm nổi bật (Key Highlights)</h3>
                   <button type="button" className="btn btn-sm btn-outline" onClick={() => addArrayItem('highlights', { vi: '', en: '', zh: '' })} style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', padding: '0.25rem 0.75rem', fontSize: '0.85rem' }}>
                     <Plus size={14} /> Thêm ưu điểm
                   </button>
                 </div>
                 {(pData.highlights || []).map((item, index) => {
-                  const viVal = typeof item === 'object' ? (item?.vi || '') : String(item || '');
+                  const rawVi = rawProd?.highlights?.[index] || (typeof item === 'object' ? item?.vi : item) || '';
                   const enVal = typeof item === 'object' ? (item?.en || '') : '';
                   const zhVal = typeof item === 'object' ? (item?.zh || '') : '';
                   return (
-                    <div key={index} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 40px', gap: '0.75rem', marginBottom: '0.75rem', alignItems: 'center' }}>
-                      <input className="form-input" value={viVal} onChange={e => updateLangArrayItem('highlights', index, 'vi', e.target.value)} placeholder="Ưu điểm VI..." />
+                    <div key={index} style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr 1fr 40px', gap: '0.75rem', marginBottom: '0.75rem', alignItems: 'center' }}>
+                      <div style={{ background: '#f8fafc', border: '1px solid #cbd5e1', borderRadius: '6px', padding: '0.45rem 0.75rem', fontSize: '0.85rem', color: '#1e293b', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={rawVi}>
+                        <span style={{ fontSize: '0.7rem', fontWeight: 600, color: '#0284c7', display: 'block' }}>VI (gốc):</span>
+                        {rawVi || '(Trống)'}
+                      </div>
                       <input className="form-input" value={enVal} onChange={e => updateLangArrayItem('highlights', index, 'en', e.target.value)} placeholder="Highlight EN..." />
                       <input className="form-input" value={zhVal} onChange={e => updateLangArrayItem('highlights', index, 'zh', e.target.value)} placeholder="优势 ZH..." />
                       <button type="button" className="btn-icon text-red" onClick={() => removeArrayItem('highlights', index)} style={{ justifySelf: 'center' }}>
@@ -396,18 +399,21 @@ export default function ManageTranslations() {
               {/* Công dụng */}
               <div className="settings-section">
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                  <h3 style={{ margin: 0 }}>Công dụng (Product Application)</h3>
+                  <h3 style={{ margin: 0 }}>4. Công dụng (Product Application)</h3>
                   <button type="button" className="btn btn-sm btn-outline" onClick={() => addArrayItem('uses', { vi: '', en: '', zh: '' })} style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', padding: '0.25rem 0.75rem', fontSize: '0.85rem' }}>
                     <Plus size={14} /> Thêm công dụng
                   </button>
                 </div>
                 {(pData.uses || []).map((item, index) => {
-                  const viVal = typeof item === 'object' ? (item?.vi || '') : String(item || '');
+                  const rawVi = rawProd?.uses?.[index] || (typeof item === 'object' ? item?.vi : item) || '';
                   const enVal = typeof item === 'object' ? (item?.en || '') : '';
                   const zhVal = typeof item === 'object' ? (item?.zh || '') : '';
                   return (
-                    <div key={index} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 40px', gap: '0.75rem', marginBottom: '0.75rem', alignItems: 'center' }}>
-                      <input className="form-input" value={viVal} onChange={e => updateLangArrayItem('uses', index, 'vi', e.target.value)} placeholder="Công dụng VI..." />
+                    <div key={index} style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr 1fr 40px', gap: '0.75rem', marginBottom: '0.75rem', alignItems: 'center' }}>
+                      <div style={{ background: '#f8fafc', border: '1px solid #cbd5e1', borderRadius: '6px', padding: '0.45rem 0.75rem', fontSize: '0.85rem', color: '#1e293b', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={rawVi}>
+                        <span style={{ fontSize: '0.7rem', fontWeight: 600, color: '#0284c7', display: 'block' }}>VI (gốc):</span>
+                        {rawVi || '(Trống)'}
+                      </div>
                       <input className="form-input" value={enVal} onChange={e => updateLangArrayItem('uses', index, 'en', e.target.value)} placeholder="Use EN..." />
                       <input className="form-input" value={zhVal} onChange={e => updateLangArrayItem('uses', index, 'zh', e.target.value)} placeholder="功效 ZH..." />
                       <button type="button" className="btn-icon text-red" onClick={() => removeArrayItem('uses', index)} style={{ justifySelf: 'center' }}>
@@ -421,18 +427,21 @@ export default function ManageTranslations() {
               {/* Đối tượng sử dụng */}
               <div className="settings-section">
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                  <h3 style={{ margin: 0 }}>Đối tượng sử dụng (Target Species)</h3>
+                  <h3 style={{ margin: 0 }}>5. Đối tượng sử dụng (Target Species)</h3>
                   <button type="button" className="btn btn-sm btn-outline" onClick={() => addArrayItem('targets', { vi: '', en: '', zh: '' })} style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', padding: '0.25rem 0.75rem', fontSize: '0.85rem' }}>
                     <Plus size={14} /> Thêm đối tượng
                   </button>
                 </div>
                 {(pData.targets || []).map((item, index) => {
-                  const viVal = typeof item === 'object' ? (item?.vi || '') : String(item || '');
+                  const rawVi = rawProd?.targets?.[index] || (typeof item === 'object' ? item?.vi : item) || '';
                   const enVal = typeof item === 'object' ? (item?.en || '') : '';
                   const zhVal = typeof item === 'object' ? (item?.zh || '') : '';
                   return (
-                    <div key={index} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 40px', gap: '0.75rem', marginBottom: '0.75rem', alignItems: 'center' }}>
-                      <input className="form-input" value={viVal} onChange={e => updateLangArrayItem('targets', index, 'vi', e.target.value)} placeholder="Đối tượng VI..." />
+                    <div key={index} style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr 1fr 40px', gap: '0.75rem', marginBottom: '0.75rem', alignItems: 'center' }}>
+                      <div style={{ background: '#f8fafc', border: '1px solid #cbd5e1', borderRadius: '6px', padding: '0.45rem 0.75rem', fontSize: '0.85rem', color: '#1e293b', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={rawVi}>
+                        <span style={{ fontSize: '0.7rem', fontWeight: 600, color: '#0284c7', display: 'block' }}>VI (gốc):</span>
+                        {rawVi || '(Trống)'}
+                      </div>
                       <input className="form-input" value={enVal} onChange={e => updateLangArrayItem('targets', index, 'en', e.target.value)} placeholder="Target EN..." />
                       <input className="form-input" value={zhVal} onChange={e => updateLangArrayItem('targets', index, 'zh', e.target.value)} placeholder="适用对象 ZH..." />
                       <button type="button" className="btn-icon text-red" onClick={() => removeArrayItem('targets', index)} style={{ justifySelf: 'center' }}>
@@ -445,8 +454,8 @@ export default function ManageTranslations() {
 
               {/* Quality Specifications */}
               <div className="settings-section">
-                <div style={{ display: 'flex', justifyContent: 'between', alignItems: 'center', marginBottom: '1rem' }}>
-                  <h3 style={{ margin: 0 }}>Chỉ tiêu chất lượng (Lý hóa)</h3>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                  <h3 style={{ margin: 0 }}>6. Chỉ tiêu chất lượng (Lý hóa)</h3>
                   <button type="button" className="btn btn-sm btn-outline" onClick={() => addArrayItem('qualitySpecs', { indicator: { vi: 'Chỉ tiêu mới', en: 'New indicator', zh: '新指标' }, unit: '%', value: '10' })} style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', padding: '0.25rem 0.75rem', fontSize: '0.85rem' }}>
                     <Plus size={14} /> Thêm chỉ tiêu chất lượng
                   </button>
@@ -454,41 +463,53 @@ export default function ManageTranslations() {
                 <table className="admin-table" style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '1.5rem' }}>
                   <thead>
                     <tr style={{ background: 'var(--bg-secondary)', borderBottom: '1px solid var(--border-color)' }}>
-                      <th style={{ padding: '0.5rem', textAlign: 'left' }}>Chỉ tiêu (VI - EN - ZH)</th>
-                      <th style={{ padding: '0.5rem', textAlign: 'left', width: '120px' }}>Đơn vị</th>
-                      <th style={{ padding: '0.5rem', textAlign: 'left' }}>Mức yêu cầu / Giá trị</th>
-                      <th style={{ padding: '0.5rem', width: '50px' }}></th>
+                      <th style={{ padding: '0.5rem', textAlign: 'left' }}>Chỉ tiêu VI (Gốc)</th>
+                      <th style={{ padding: '0.5rem', textAlign: 'left' }}>Tên EN</th>
+                      <th style={{ padding: '0.5rem', textAlign: 'left' }}>Tên ZH</th>
+                      <th style={{ padding: '0.5rem', textAlign: 'left', width: '90px' }}>Đơn vị</th>
+                      <th style={{ padding: '0.5rem', textAlign: 'left', width: '120px' }}>Giá trị</th>
+                      <th style={{ padding: '0.5rem', width: '40px' }}></th>
                     </tr>
                   </thead>
                   <tbody>
-                    {(pData.qualitySpecs || []).map((spec, index) => (
-                      <tr key={index} style={{ borderBottom: '1px solid var(--border-color)' }}>
-                        <td style={{ padding: '0.5rem' }}>
-                          <input className="form-input" value={spec.indicator?.vi || ''} onChange={e => updateArrayItem('qualitySpecs', index, 'indicator', 'vi', e.target.value)} placeholder="Tên VI" style={{ marginBottom: '0.25rem' }} />
-                          <input className="form-input" value={spec.indicator?.en || ''} onChange={e => updateArrayItem('qualitySpecs', index, 'indicator', 'en', e.target.value)} placeholder="Tên EN" style={{ marginBottom: '0.25rem' }} />
-                          <input className="form-input" value={spec.indicator?.zh || ''} onChange={e => updateArrayItem('qualitySpecs', index, 'indicator', 'zh', e.target.value)} placeholder="Tên ZH" />
-                        </td>
-                        <td style={{ padding: '0.5rem' }}>
-                          <input className="form-input" value={spec.unit || ''} onChange={e => updateArrayItem('qualitySpecs', index, 'unit', null, e.target.value)} />
-                        </td>
-                        <td style={{ padding: '0.5rem' }}>
-                          <input className="form-input" value={spec.value || ''} onChange={e => updateArrayItem('qualitySpecs', index, 'value', null, e.target.value)} />
-                        </td>
-                        <td style={{ padding: '0.5rem', textAlign: 'center' }}>
-                          <button type="button" className="btn-icon text-red" onClick={() => removeArrayItem('qualitySpecs', index)}>
-                            <Trash2 size={16} />
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
+                    {(pData.qualitySpecs || []).map((spec, index) => {
+                      const rawSpec = rawProd?.qualitySpecs?.[index];
+                      const viInd = rawSpec?.indicator || spec.indicator?.vi || '';
+                      return (
+                        <tr key={index} style={{ borderBottom: '1px solid var(--border-color)' }}>
+                          <td style={{ padding: '0.5rem' }}>
+                            <div style={{ background: '#f8fafc', border: '1px solid #cbd5e1', borderRadius: '4px', padding: '0.4rem 0.6rem', fontSize: '0.85rem', color: '#1e293b', fontWeight: 600 }}>
+                              {viInd || '(Trống)'}
+                            </div>
+                          </td>
+                          <td style={{ padding: '0.5rem' }}>
+                            <input className="form-input" value={spec.indicator?.en || ''} onChange={e => updateArrayItem('qualitySpecs', index, 'indicator', 'en', e.target.value)} placeholder="Name EN" />
+                          </td>
+                          <td style={{ padding: '0.5rem' }}>
+                            <input className="form-input" value={spec.indicator?.zh || ''} onChange={e => updateArrayItem('qualitySpecs', index, 'indicator', 'zh', e.target.value)} placeholder="Name ZH" />
+                          </td>
+                          <td style={{ padding: '0.5rem' }}>
+                            <input className="form-input" value={spec.unit || ''} onChange={e => updateArrayItem('qualitySpecs', index, 'unit', null, e.target.value)} />
+                          </td>
+                          <td style={{ padding: '0.5rem' }}>
+                            <input className="form-input" value={spec.value || ''} onChange={e => updateArrayItem('qualitySpecs', index, 'value', null, e.target.value)} />
+                          </td>
+                          <td style={{ padding: '0.5rem', textAlign: 'center' }}>
+                            <button type="button" className="btn-icon text-red" onClick={() => removeArrayItem('qualitySpecs', index)}>
+                              <Trash2 size={16} />
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
 
               {/* Sensory Specifications */}
               <div className="settings-section">
-                <div style={{ display: 'flex', justifyContent: 'between', alignItems: 'center', marginBottom: '1rem' }}>
-                  <h3 style={{ margin: 0 }}>Chỉ tiêu cảm quan</h3>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                  <h3 style={{ margin: 0 }}>7. Chỉ tiêu cảm quan</h3>
                   <button type="button" className="btn btn-sm btn-outline" onClick={() => addArrayItem('sensorySpecs', { indicator: { vi: 'Màu sắc', en: 'Color', zh: '颜色' }, requirement: { vi: 'Nâu nhạt', en: 'Light brown', zh: '浅褐色' } })} style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', padding: '0.25rem 0.75rem', fontSize: '0.85rem' }}>
                     <Plus size={14} /> Thêm chỉ tiêu cảm quan
                   </button>
@@ -496,193 +517,71 @@ export default function ManageTranslations() {
                 <table className="admin-table" style={{ width: '100%', borderCollapse: 'collapse' }}>
                   <thead>
                     <tr style={{ background: 'var(--bg-secondary)', borderBottom: '1px solid var(--border-color)' }}>
-                      <th style={{ padding: '0.5rem', textAlign: 'left' }}>Chỉ tiêu cảm quan (VI - EN - ZH)</th>
-                      <th style={{ padding: '0.5rem', textAlign: 'left' }}>Yêu cầu cảm quan (VI - EN - ZH)</th>
-                      <th style={{ padding: '0.5rem', width: '50px' }}></th>
+                      <th style={{ padding: '0.5rem', textAlign: 'left' }}>Chỉ tiêu VI (Gốc)</th>
+                      <th style={{ padding: '0.5rem', textAlign: 'left' }}>Tên EN</th>
+                      <th style={{ padding: '0.5rem', textAlign: 'left' }}>Tên ZH</th>
+                      <th style={{ padding: '0.5rem', textAlign: 'left' }}>Yêu cầu VI (Gốc)</th>
+                      <th style={{ padding: '0.5rem', textAlign: 'left' }}>Yêu cầu EN</th>
+                      <th style={{ padding: '0.5rem', textAlign: 'left' }}>Yêu cầu ZH</th>
+                      <th style={{ padding: '0.5rem', width: '40px' }}></th>
                     </tr>
                   </thead>
                   <tbody>
-                    {(pData.sensorySpecs || []).map((spec, index) => (
-                      <tr key={index} style={{ borderBottom: '1px solid var(--border-color)' }}>
-                        <td style={{ padding: '0.5rem' }}>
-                          <input className="form-input" value={spec.indicator?.vi || ''} onChange={e => updateArrayItem('sensorySpecs', index, 'indicator', 'vi', e.target.value)} placeholder="VI" style={{ marginBottom: '0.25rem' }} />
-                          <input className="form-input" value={spec.indicator?.en || ''} onChange={e => updateArrayItem('sensorySpecs', index, 'indicator', 'en', e.target.value)} placeholder="EN" style={{ marginBottom: '0.25rem' }} />
-                          <input className="form-input" value={spec.indicator?.zh || ''} onChange={e => updateArrayItem('sensorySpecs', index, 'indicator', 'zh', e.target.value)} placeholder="ZH" />
-                        </td>
-                        <td style={{ padding: '0.5rem' }}>
-                          <input className="form-input" value={spec.requirement?.vi || ''} onChange={e => updateArrayItem('sensorySpecs', index, 'requirement', 'vi', e.target.value)} placeholder="Yêu cầu VI" style={{ marginBottom: '0.25rem' }} />
-                          <input className="form-input" value={spec.requirement?.en || ''} onChange={e => updateArrayItem('sensorySpecs', index, 'requirement', 'en', e.target.value)} placeholder="Yêu cầu EN" style={{ marginBottom: '0.25rem' }} />
-                          <input className="form-input" value={spec.requirement?.zh || ''} onChange={e => updateArrayItem('sensorySpecs', index, 'requirement', 'zh', e.target.value)} placeholder="Yêu cầu ZH" />
-                        </td>
-                        <td style={{ padding: '0.5rem', textAlign: 'center' }}>
-                          <button type="button" className="btn-icon text-red" onClick={() => removeArrayItem('sensorySpecs', index)}>
-                            <Trash2 size={16} />
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
+                    {(pData.sensorySpecs || []).map((spec, index) => {
+                      const rawSpec = rawProd?.sensorySpecs?.[index];
+                      const viInd = rawSpec?.indicator || spec.indicator?.vi || '';
+                      const viReq = rawSpec?.requirement || spec.requirement?.vi || '';
+                      return (
+                        <tr key={index} style={{ borderBottom: '1px solid var(--border-color)' }}>
+                          <td style={{ padding: '0.5rem' }}>
+                            <div style={{ background: '#f8fafc', border: '1px solid #cbd5e1', borderRadius: '4px', padding: '0.4rem 0.6rem', fontSize: '0.85rem', color: '#1e293b', fontWeight: 600 }}>
+                              {viInd || '(Trống)'}
+                            </div>
+                          </td>
+                          <td style={{ padding: '0.5rem' }}>
+                            <input className="form-input" value={spec.indicator?.en || ''} onChange={e => updateArrayItem('sensorySpecs', index, 'indicator', 'en', e.target.value)} placeholder="EN" />
+                          </td>
+                          <td style={{ padding: '0.5rem' }}>
+                            <input className="form-input" value={spec.indicator?.zh || ''} onChange={e => updateArrayItem('sensorySpecs', index, 'indicator', 'zh', e.target.value)} placeholder="ZH" />
+                          </td>
+                          <td style={{ padding: '0.5rem' }}>
+                            <div style={{ background: '#f8fafc', border: '1px solid #cbd5e1', borderRadius: '4px', padding: '0.4rem 0.6rem', fontSize: '0.85rem', color: '#1e293b' }}>
+                              {viReq || '(Trống)'}
+                            </div>
+                          </td>
+                          <td style={{ padding: '0.5rem' }}>
+                            <input className="form-input" value={spec.requirement?.en || ''} onChange={e => updateArrayItem('sensorySpecs', index, 'requirement', 'en', e.target.value)} placeholder="Requirement EN" />
+                          </td>
+                          <td style={{ padding: '0.5rem' }}>
+                            <input className="form-input" value={spec.requirement?.zh || ''} onChange={e => updateArrayItem('sensorySpecs', index, 'requirement', 'zh', e.target.value)} placeholder="Yêu cầu ZH" />
+                          </td>
+                          <td style={{ padding: '0.5rem', textAlign: 'center' }}>
+                            <button type="button" className="btn-icon text-red" onClick={() => removeArrayItem('sensorySpecs', index)}>
+                              <Trash2 size={16} />
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
 
               {/* Tab 3: HD sử dụng, Đóng gói & Vận chuyển */}
               <div className="settings-section">
-                <h3>Tab 3: HD sử dụng, Đóng gói & Vận chuyển</h3>
-                <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '1.5rem' }}>
-                  Chỉnh sửa bản dịch 3 ngôn ngữ (Tiếng Việt, Tiếng Anh, Tiếng Trung) cho HD sử dụng, quy cách bao bì, điều kiện bảo quản và vận chuyển
+                <h3>8. Thông số HD sử dụng, Đóng gói & Vận chuyển</h3>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '1.25rem' }}>
+                  Xem nội dung Tiếng Việt gốc và nhập dịch sang Tiếng Anh & Tiếng Trung
                 </p>
 
-                {/* 1. HD sử dụng & tỷ lệ phối trộn */}
-                <div className="form-group" style={{ marginBottom: '1.5rem' }}>
-                  <label className="form-label" style={{ fontWeight: 600 }}>1. HD sử dụng & Khuyến nghị tỷ lệ phối trộn (Usage Instructions)</label>
-                  <div className="form-grid-three" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem', marginTop: '0.5rem' }}>
-                    <div>
-                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Việt (VI):</span>
-                      <textarea className="form-textarea" rows="3" value={typeof pData.usage === 'object' ? (pData.usage?.vi || '') : (pData.usage || '')} onChange={e => updatePath(`productsData.${selectedProduct}.usage.vi`, e.target.value)} placeholder="HD sử dụng Tiếng Việt..." />
-                    </div>
-                    <div>
-                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Anh (EN):</span>
-                      <textarea className="form-textarea" rows="3" value={typeof pData.usage === 'object' ? (pData.usage?.en || '') : ''} onChange={e => updatePath(`productsData.${selectedProduct}.usage.en`, e.target.value)} placeholder="Usage instructions in English..." />
-                    </div>
-                    <div>
-                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Trung (ZH):</span>
-                      <textarea className="form-textarea" rows="3" value={typeof pData.usage === 'object' ? (pData.usage?.zh || '') : ''} onChange={e => updatePath(`productsData.${selectedProduct}.usage.zh`, e.target.value)} placeholder="使用说明 中文..." />
-                    </div>
-                  </div>
-                </div>
-
-                {/* 2. Lưu ý khi sử dụng */}
-                <div className="form-group" style={{ marginBottom: '1.5rem' }}>
-                  <label className="form-label" style={{ fontWeight: 600 }}>2. Lưu ý khi sử dụng (Usage Note)</label>
-                  <div className="form-grid-three" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem', marginTop: '0.5rem' }}>
-                    <div>
-                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Việt (VI):</span>
-                      <input className="form-input" value={typeof pData.usageNote === 'object' ? (pData.usageNote?.vi || '') : (pData.usageNote || '')} onChange={e => updatePath(`productsData.${selectedProduct}.usageNote.vi`, e.target.value)} placeholder="Lưu ý VI..." />
-                    </div>
-                    <div>
-                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Anh (EN):</span>
-                      <input className="form-input" value={typeof pData.usageNote === 'object' ? (pData.usageNote?.en || '') : ''} onChange={e => updatePath(`productsData.${selectedProduct}.usageNote.en`, e.target.value)} placeholder="Usage note EN..." />
-                    </div>
-                    <div>
-                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Trung (ZH):</span>
-                      <input className="form-input" value={typeof pData.usageNote === 'object' ? (pData.usageNote?.zh || '') : ''} onChange={e => updatePath(`productsData.${selectedProduct}.usageNote.zh`, e.target.value)} placeholder="注意事项 ZH..." />
-                    </div>
-                  </div>
-                </div>
-
-                {/* 3. Quy cách bao bì */}
-                <div className="form-group" style={{ marginBottom: '1.5rem' }}>
-                  <label className="form-label" style={{ fontWeight: 600 }}>3. Quy cách bao bì (Packaging Spec)</label>
-                  <div className="form-grid-three" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem', marginTop: '0.5rem' }}>
-                    <div>
-                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Việt (VI):</span>
-                      <input className="form-input" value={typeof pData.packaging === 'object' ? (pData.packaging?.vi || '') : (pData.packaging || '')} onChange={e => updatePath(`productsData.${selectedProduct}.packaging.vi`, e.target.value)} placeholder="Bao bì VI..." />
-                    </div>
-                    <div>
-                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Anh (EN):</span>
-                      <input className="form-input" value={typeof pData.packaging === 'object' ? (pData.packaging?.en || '') : ''} onChange={e => updatePath(`productsData.${selectedProduct}.packaging.en`, e.target.value)} placeholder="Packaging EN..." />
-                    </div>
-                    <div>
-                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Trung (ZH):</span>
-                      <input className="form-input" value={typeof pData.packaging === 'object' ? (pData.packaging?.zh || '') : ''} onChange={e => updatePath(`productsData.${selectedProduct}.packaging.zh`, e.target.value)} placeholder="包装规格 ZH..." />
-                    </div>
-                  </div>
-                </div>
-
-                {/* 4. Trọng lượng đóng bao */}
-                <div className="form-group" style={{ marginBottom: '1.5rem' }}>
-                  <label className="form-label" style={{ fontWeight: 600 }}>4. Trọng lượng đóng bao (Bag Weight)</label>
-                  <div className="form-grid-three" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem', marginTop: '0.5rem' }}>
-                    <div>
-                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Việt (VI):</span>
-                      <input className="form-input" value={typeof pData.weight === 'object' ? (pData.weight?.vi || '') : (pData.weight || '')} onChange={e => updatePath(`productsData.${selectedProduct}.weight.vi`, e.target.value)} placeholder="Trọng lượng VI..." />
-                    </div>
-                    <div>
-                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Anh (EN):</span>
-                      <input className="form-input" value={typeof pData.weight === 'object' ? (pData.weight?.en || '') : ''} onChange={e => updatePath(`productsData.${selectedProduct}.weight.en`, e.target.value)} placeholder="Bag weight EN..." />
-                    </div>
-                    <div>
-                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Trung (ZH):</span>
-                      <input className="form-input" value={typeof pData.weight === 'object' ? (pData.weight?.zh || '') : ''} onChange={e => updatePath(`productsData.${selectedProduct}.weight.zh`, e.target.value)} placeholder="包装净重 ZH..." />
-                    </div>
-                  </div>
-                </div>
-
-                {/* 5. Điều kiện bảo quản */}
-                <div className="form-group" style={{ marginBottom: '1.5rem' }}>
-                  <label className="form-label" style={{ fontWeight: 600 }}>5. Điều kiện bảo quản (Storage Conditions)</label>
-                  <div className="form-grid-three" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem', marginTop: '0.5rem' }}>
-                    <div>
-                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Việt (VI):</span>
-                      <input className="form-input" value={typeof pData.storage === 'object' ? (pData.storage?.vi || '') : (pData.storage || '')} onChange={e => updatePath(`productsData.${selectedProduct}.storage.vi`, e.target.value)} placeholder="Bảo quản VI..." />
-                    </div>
-                    <div>
-                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Anh (EN):</span>
-                      <input className="form-input" value={typeof pData.storage === 'object' ? (pData.storage?.en || '') : ''} onChange={e => updatePath(`productsData.${selectedProduct}.storage.en`, e.target.value)} placeholder="Storage EN..." />
-                    </div>
-                    <div>
-                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Trung (ZH):</span>
-                      <input className="form-input" value={typeof pData.storage === 'object' ? (pData.storage?.zh || '') : ''} onChange={e => updatePath(`productsData.${selectedProduct}.storage.zh`, e.target.value)} placeholder="储存条件 ZH..." />
-                    </div>
-                  </div>
-                </div>
-
-                {/* 6. Hạn sử dụng */}
-                <div className="form-group" style={{ marginBottom: '1.5rem' }}>
-                  <label className="form-label" style={{ fontWeight: 600 }}>6. Hạn sử dụng (Shelf Life)</label>
-                  <div className="form-grid-three" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem', marginTop: '0.5rem' }}>
-                    <div>
-                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Việt (VI):</span>
-                      <input className="form-input" value={typeof pData.shelfLife === 'object' ? (pData.shelfLife?.vi || '') : (pData.shelfLife || '')} onChange={e => updatePath(`productsData.${selectedProduct}.shelfLife.vi`, e.target.value)} placeholder="Hạn sử dụng VI..." />
-                    </div>
-                    <div>
-                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Anh (EN):</span>
-                      <input className="form-input" value={typeof pData.shelfLife === 'object' ? (pData.shelfLife?.en || '') : ''} onChange={e => updatePath(`productsData.${selectedProduct}.shelfLife.en`, e.target.value)} placeholder="Shelf life EN..." />
-                    </div>
-                    <div>
-                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Trung (ZH):</span>
-                      <input className="form-input" value={typeof pData.shelfLife === 'object' ? (pData.shelfLife?.zh || '') : ''} onChange={e => updatePath(`productsData.${selectedProduct}.shelfLife.zh`, e.target.value)} placeholder="保质期限 ZH..." />
-                    </div>
-                  </div>
-                </div>
-
-                {/* 7. Tiêu chuẩn vận chuyển */}
-                <div className="form-group" style={{ marginBottom: '1.5rem' }}>
-                  <label className="form-label" style={{ fontWeight: 600 }}>7. Tiêu chuẩn vận chuyển (Transportation Standard)</label>
-                  <div className="form-grid-three" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem', marginTop: '0.5rem' }}>
-                    <div>
-                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Việt (VI):</span>
-                      <textarea className="form-textarea" rows="2" value={typeof pData.shippingStandard === 'object' ? (pData.shippingStandard?.vi || '') : (pData.shippingStandard || '')} onChange={e => updatePath(`productsData.${selectedProduct}.shippingStandard.vi`, e.target.value)} placeholder="Vận chuyển VI..." />
-                    </div>
-                    <div>
-                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Anh (EN):</span>
-                      <textarea className="form-textarea" rows="2" value={typeof pData.shippingStandard === 'object' ? (pData.shippingStandard?.en || '') : ''} onChange={e => updatePath(`productsData.${selectedProduct}.shippingStandard.en`, e.target.value)} placeholder="Shipping standard EN..." />
-                    </div>
-                    <div>
-                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Trung (ZH):</span>
-                      <textarea className="form-textarea" rows="2" value={typeof pData.shippingStandard === 'object' ? (pData.shippingStandard?.zh || '') : ''} onChange={e => updatePath(`productsData.${selectedProduct}.shippingStandard.zh`, e.target.value)} placeholder="物流运输标准 ZH..." />
-                    </div>
-                  </div>
-                </div>
-
-                {/* 8. Cam kết chất lượng từ Đồng Tâm */}
-                <div className="form-group">
-                  <label className="form-label" style={{ fontWeight: 600 }}>8. Cam kết chất lượng (Quality Commitment)</label>
-                  <div className="form-grid-three" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem', marginTop: '0.5rem' }}>
-                    <div>
-                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Việt (VI):</span>
-                      <textarea className="form-textarea" rows="2" value={typeof pData.qualityCommitment === 'object' ? (pData.qualityCommitment?.vi || '') : (pData.qualityCommitment || '')} onChange={e => updatePath(`productsData.${selectedProduct}.qualityCommitment.vi`, e.target.value)} placeholder="Cam kết VI..." />
-                    </div>
-                    <div>
-                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Anh (EN):</span>
-                      <textarea className="form-textarea" rows="2" value={typeof pData.qualityCommitment === 'object' ? (pData.qualityCommitment?.en || '') : ''} onChange={e => updatePath(`productsData.${selectedProduct}.qualityCommitment.en`, e.target.value)} placeholder="Quality commitment EN..." />
-                    </div>
-                    <div>
-                      <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tiếng Trung (ZH):</span>
-                      <textarea className="form-textarea" rows="2" value={typeof pData.qualityCommitment === 'object' ? (pData.qualityCommitment?.zh || '') : ''} onChange={e => updatePath(`productsData.${selectedProduct}.qualityCommitment.zh`, e.target.value)} placeholder="质量承诺 ZH..." />
-                    </div>
-                  </div>
-                </div>
+                {renderFieldWithViRef('1. HD sử dụng & Khuyến nghị tỷ lệ phối trộn (Usage Instructions)', 'usage', true, 3)}
+                {renderFieldWithViRef('2. Lưu ý khi sử dụng (Usage Note)', 'usageNote', false)}
+                {renderFieldWithViRef('3. Quy cách bao bì (Packaging Spec)', 'packaging', false)}
+                {renderFieldWithViRef('4. Trọng lượng đóng bao (Bag Weight)', 'weight', false)}
+                {renderFieldWithViRef('5. Điều kiện bảo quản (Storage Conditions)', 'storage', false)}
+                {renderFieldWithViRef('6. Hạn sử dụng (Shelf Life)', 'shelfLife', false)}
+                {renderFieldWithViRef('7. Tiêu chuẩn vận chuyển (Transportation Standard)', 'shippingStandard', true, 2)}
+                {renderFieldWithViRef('8. Cam kết chất lượng từ Đồng Tâm (Quality Commitment)', 'qualityCommitment', true, 2)}
               </div>
             </div>
           ) : (
