@@ -71,12 +71,48 @@ export default function ManageTranslations() {
   };
 
   const getProductData = () => {
-    if (!trans.productsData || !trans.productsData[selectedProduct]) return null;
+    if (!trans || !selectedProduct) return null;
+    if (!trans.productsData) trans.productsData = {};
+    if (!trans.productsData[selectedProduct]) {
+      const rawProd = productsList.find(p => p.slug === selectedProduct || p.id === selectedProduct) || null;
+      trans.productsData[selectedProduct] = {
+        name: { vi: rawProd?.name || '', en: '', zh: '' },
+        category: { vi: rawProd?.category || '', en: '', zh: '' },
+        shortDesc: { vi: rawProd?.shortDesc || '', en: '', zh: '' },
+        description: { vi: rawProd?.description || '', en: '', zh: '' },
+        ingredients: { vi: rawProd?.ingredients || '', en: '', zh: '' },
+        highlights: (rawProd?.highlights || []).map(h => (typeof h === 'string' ? { vi: h, en: '', zh: '' } : h)),
+        uses: (rawProd?.uses || []).map(u => (typeof u === 'string' ? { vi: u, en: '', zh: '' } : u)),
+        targets: (rawProd?.targets || []).map(t => (typeof t === 'string' ? { vi: t, en: '', zh: '' } : t)),
+        qualitySpecs: (rawProd?.qualitySpecs || []).map(qs => ({ indicator: { vi: qs.indicator || '', en: '', zh: '' }, unit: qs.unit || '', value: qs.value || '' })),
+        sensorySpecs: (rawProd?.sensorySpecs || []).map(ss => ({ indicator: { vi: ss.indicator || '', en: '', zh: '' }, requirement: { vi: ss.requirement || '', en: '', zh: '' } })),
+        usage: { vi: rawProd?.usage || '', en: '', zh: '' },
+        usageNote: { vi: rawProd?.usageNote || '', en: '', zh: '' },
+        packaging: { vi: rawProd?.packaging || '', en: '', zh: '' },
+        weight: { vi: rawProd?.weight || '', en: '', zh: '' },
+        storage: { vi: rawProd?.storage || '', en: '', zh: '' },
+        shelfLife: { vi: rawProd?.shelfLife || '', en: '', zh: '' },
+        shippingStandard: { vi: rawProd?.shippingStandard || '', en: '', zh: '' },
+        qualityCommitment: { vi: rawProd?.qualityCommitment || '', en: '', zh: '' }
+      };
+    }
     return trans.productsData[selectedProduct];
   };
 
   const pData = getProductData();
   const rawProd = productsList.find(p => p.slug === selectedProduct || p.id === selectedProduct) || null;
+
+  // Build product options from productsList (products.json) plus any keys in trans.productsData
+  const productOptionsMap = new Map();
+  productsList.forEach(p => {
+    productOptionsMap.set(p.slug, { slug: p.slug, name: p.name });
+  });
+  Object.keys(trans?.productsData || {}).forEach(slug => {
+    if (!productOptionsMap.has(slug)) {
+      productOptionsMap.set(slug, { slug, name: trans.productsData[slug]?.name?.vi || slug });
+    }
+  });
+  const productOptions = Array.from(productOptionsMap.values());
 
   // Helper to add dynamic array row
   const addArrayItem = (fieldName, defaultItem) => {
@@ -339,15 +375,11 @@ export default function ManageTranslations() {
           <div className="settings-section" style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
             <label className="form-label" style={{ margin: 0, fontWeight: 700 }}>Chọn sản phẩm cần dịch:</label>
             <select className="form-input" value={selectedProduct} onChange={e => setSelectedProduct(e.target.value)} style={{ width: '320px', fontWeight: 600 }}>
-              {Object.keys(trans.productsData || {}).map(slug => {
-                const match = productsList.find(p => p.slug === slug || p.id === slug);
-                const labelName = match?.name || trans.productsData[slug]?.name?.vi || slug;
-                return (
-                  <option key={slug} value={slug}>
-                    {labelName}
-                  </option>
-                );
-              })}
+              {productOptions.map(opt => (
+                <option key={opt.slug} value={opt.slug}>
+                  {opt.name}
+                </option>
+              ))}
             </select>
           </div>
 

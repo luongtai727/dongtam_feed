@@ -324,6 +324,38 @@ app.post('/api/products', authMiddleware, upload.any(), (req, res) => {
 
     products.push(newProduct);
     writeData('products.json', products);
+
+    // Auto-create translation entry in translations.json for newly created product
+    try {
+      const translations = readData('translations.json');
+      if (!translations.productsData) translations.productsData = {};
+      if (!translations.productsData[newProduct.slug]) {
+        translations.productsData[newProduct.slug] = {
+          name: { vi: newProduct.name, en: '', zh: '' },
+          category: { vi: newProduct.category, en: '', zh: '' },
+          shortDesc: { vi: newProduct.shortDesc, en: '', zh: '' },
+          description: { vi: newProduct.description, en: '', zh: '' },
+          ingredients: { vi: newProduct.ingredients, en: '', zh: '' },
+          highlights: (newProduct.highlights || []).map(h => ({ vi: typeof h === 'string' ? h : (h?.vi || ''), en: '', zh: '' })),
+          uses: (newProduct.uses || []).map(u => ({ vi: typeof u === 'string' ? u : (u?.vi || ''), en: '', zh: '' })),
+          targets: (newProduct.targets || []).map(t => ({ vi: typeof t === 'string' ? t : (t?.vi || ''), en: '', zh: '' })),
+          qualitySpecs: (newProduct.qualitySpecs || []).map(qs => ({ indicator: { vi: qs.indicator || '', en: '', zh: '' }, unit: qs.unit || '', value: qs.value || '' })),
+          sensorySpecs: (newProduct.sensorySpecs || []).map(ss => ({ indicator: { vi: ss.indicator || '', en: '', zh: '' }, requirement: { vi: ss.requirement || '', en: '', zh: '' } })),
+          usage: { vi: newProduct.usage, en: '', zh: '' },
+          usageNote: { vi: newProduct.usageNote, en: '', zh: '' },
+          packaging: { vi: newProduct.packaging, en: '', zh: '' },
+          weight: { vi: newProduct.weight, en: '', zh: '' },
+          storage: { vi: newProduct.storage, en: '', zh: '' },
+          shelfLife: { vi: newProduct.shelfLife, en: '', zh: '' },
+          shippingStandard: { vi: newProduct.shippingStandard, en: '', zh: '' },
+          qualityCommitment: { vi: newProduct.qualityCommitment, en: '', zh: '' }
+        };
+        writeData('translations.json', translations);
+      }
+    } catch (e) {
+      console.error('Failed to sync translation for new product:', e);
+    }
+
     res.status(201).json(newProduct);
   } catch (err) {
     console.error('Create product error:', err);
