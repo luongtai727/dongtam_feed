@@ -167,7 +167,11 @@ export default function Home() {
               <span className="section-label">{t('aboutPreview.sectionLabel')}</span>
               <h2 className="about-title">{t('aboutPreview.title')}</h2>
               <p className="about-text">
-                {language === 'vi' ? (settings.aboutCompany || t('aboutPreview.desc')) : t('aboutPreview.desc')}
+                {language === 'en'
+                  ? (settings.aboutCompanyEn || t('aboutPreview.desc'))
+                  : language === 'zh'
+                    ? (settings.aboutCompanyZh || t('aboutPreview.desc'))
+                    : (settings.aboutCompany || t('aboutPreview.desc'))}
               </p>
               <div className="about-features">
                 {strengths.slice(0, 3).map((s, i) => (

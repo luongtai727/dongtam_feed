@@ -103,7 +103,13 @@ export default function About() {
                     {language === 'vi' ? 'VỀ ĐỒNG TÂM FEED' : language === 'en' ? 'ABOUT DONG TAM FEED' : '关于同心饲料'}
                   </span>
                   <h2>{t('aboutPreview.title')}</h2>
-                  <p>{language === 'vi' ? (settings.aboutCompany || t('aboutPreview.desc')) : t('aboutPreview.desc')}</p>
+                  <p>
+                    {language === 'en'
+                      ? (settings.aboutCompanyEn || t('aboutPreview.desc'))
+                      : language === 'zh'
+                        ? (settings.aboutCompanyZh || t('aboutPreview.desc'))
+                        : (settings.aboutCompany || t('aboutPreview.desc'))}
+                  </p>
 
                   <div className="vision-mission-grid">
                     <div className="vm-card">

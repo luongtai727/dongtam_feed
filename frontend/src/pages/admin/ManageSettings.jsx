@@ -108,9 +108,19 @@ export default function ManageSettings() {
             <label className="form-label">Khẩu hiệu / Slogan ngắn (Hiển thị tại Banner Trang chủ, Chân trang & Giới thiệu)</label>
             <textarea className="form-textarea" rows="2" value={settings.tagline || ''} onChange={e => update('tagline', e.target.value)} placeholder="Mô tả ngắn hiển thị ở banner trang chủ và chân trang..." />
           </div>
-          <div className="form-group">
-            <label className="form-label">Giới thiệu tổng quan về công ty</label>
-            <textarea className="form-textarea" rows="4" value={settings.aboutCompany || ''} onChange={e => update('aboutCompany', e.target.value)} />
+          <div className="form-group" style={{ marginBottom: '1rem' }}>
+            <label className="form-label">Giới thiệu tổng quan về công ty (Tiếng Việt)</label>
+            <textarea className="form-textarea" rows="4" value={settings.aboutCompany || ''} onChange={e => update('aboutCompany', e.target.value)} placeholder="Nội dung giới thiệu công ty tiếng Việt..." />
+          </div>
+          <div className="form-row" style={{ marginBottom: '1.5rem' }}>
+            <div className="form-group">
+              <label className="form-label">Giới thiệu công ty (Tiếng Anh - EN)</label>
+              <textarea className="form-textarea" rows="4" value={settings.aboutCompanyEn || ''} onChange={e => update('aboutCompanyEn', e.target.value)} placeholder="Company overview in English..." />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Giới thiệu công ty (Tiếng Trung - ZH)</label>
+              <textarea className="form-textarea" rows="4" value={settings.aboutCompanyZh || ''} onChange={e => update('aboutCompanyZh', e.target.value)} placeholder="公司简介中文..." />
+            </div>
           </div>
           <div className="form-row">
             <div className="form-group">

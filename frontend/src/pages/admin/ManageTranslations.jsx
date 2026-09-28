@@ -359,6 +359,84 @@ export default function ManageTranslations() {
               <textarea className="form-textarea" rows="3" value={trans.hero?.desc?.zh || ''} onChange={e => updatePath('hero.desc.zh', e.target.value)} />
             </div>
           </div>
+
+          {/* Section: About Us Preview */}
+          <div className="settings-section">
+            <h3>Phần Giới thiệu Về Chúng Tôi (Trang chủ & Trang Giới thiệu)</h3>
+            <div className="form-grid-three" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem', marginBottom: '1.5rem' }}>
+              <div className="form-group">
+                <label className="form-label">Tiêu đề chính (VI)</label>
+                <input className="form-input" value={trans.aboutPreview?.title?.vi || ''} onChange={e => updatePath('aboutPreview.title.vi', e.target.value)} />
+              </div>
+              <div className="form-group">
+                <label className="form-label">Tiêu đề chính (EN)</label>
+                <input className="form-input" value={trans.aboutPreview?.title?.en || ''} onChange={e => updatePath('aboutPreview.title.en', e.target.value)} />
+              </div>
+              <div className="form-group">
+                <label className="form-label">Tiêu đề chính (ZH)</label>
+                <input className="form-input" value={trans.aboutPreview?.title?.zh || ''} onChange={e => updatePath('aboutPreview.title.zh', e.target.value)} />
+              </div>
+            </div>
+            
+            <div className="form-group" style={{ marginBottom: '1rem' }}>
+              <label className="form-label">Đoạn văn giới thiệu Công ty (VI)</label>
+              <textarea className="form-textarea" rows="4" value={trans.aboutPreview?.desc?.vi || ''} onChange={e => updatePath('aboutPreview.desc.vi', e.target.value)} placeholder="Đoạn văn giới thiệu tiếng Việt..." />
+            </div>
+            <div className="form-group" style={{ marginBottom: '1rem' }}>
+              <label className="form-label">Đoạn văn giới thiệu Công ty (EN)</label>
+              <textarea className="form-textarea" rows="4" value={trans.aboutPreview?.desc?.en || ''} onChange={e => updatePath('aboutPreview.desc.en', e.target.value)} placeholder="Company introduction paragraph in English..." />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Đoạn văn giới thiệu Công ty (ZH)</label>
+              <textarea className="form-textarea" rows="4" value={trans.aboutPreview?.desc?.zh || ''} onChange={e => updatePath('aboutPreview.desc.zh', e.target.value)} placeholder="公司简介中文段落..." />
+            </div>
+          </div>
+
+          {/* Section: Strengths */}
+          <div className="settings-section">
+            <h3>3 Ưu điểm bên dưới phần Về chúng tôi (Key Strengths)</h3>
+            <div className="form-group" style={{ marginBottom: '1.5rem' }}>
+              <label className="form-label" style={{ fontWeight: 600 }}>1. Ưu điểm 1 (Chất lượng)</label>
+              <div className="form-grid-three" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem' }}>
+                <input className="form-input" value={trans.strengths?.item1Title?.vi || ''} onChange={e => updatePath('strengths.item1Title.vi', e.target.value)} placeholder="Têu đề VI" />
+                <input className="form-input" value={trans.strengths?.item1Title?.en || ''} onChange={e => updatePath('strengths.item1Title.en', e.target.value)} placeholder="Title EN" />
+                <input className="form-input" value={trans.strengths?.item1Title?.zh || ''} onChange={e => updatePath('strengths.item1Title.zh', e.target.value)} placeholder="Title ZH" />
+              </div>
+              <div className="form-grid-three" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem', marginTop: '0.5rem' }}>
+                <textarea className="form-textarea" rows="2" value={trans.strengths?.item1Desc?.vi || ''} onChange={e => updatePath('strengths.item1Desc.vi', e.target.value)} placeholder="Mô tả VI" />
+                <textarea className="form-textarea" rows="2" value={trans.strengths?.item1Desc?.en || ''} onChange={e => updatePath('strengths.item1Desc.en', e.target.value)} placeholder="Desc EN" />
+                <textarea className="form-textarea" rows="2" value={trans.strengths?.item1Desc?.zh || ''} onChange={e => updatePath('strengths.item1Desc.zh', e.target.value)} placeholder="Desc ZH" />
+              </div>
+            </div>
+
+            <div className="form-group" style={{ marginBottom: '1.5rem' }}>
+              <label className="form-label" style={{ fontWeight: 600 }}>2. Ưu điểm 2 (Dinh dưỡng)</label>
+              <div className="form-grid-three" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem' }}>
+                <input className="form-input" value={trans.strengths?.item2Title?.vi || ''} onChange={e => updatePath('strengths.item2Title.vi', e.target.value)} placeholder="Tiêu đề VI" />
+                <input className="form-input" value={trans.strengths?.item2Title?.en || ''} onChange={e => updatePath('strengths.item2Title.en', e.target.value)} placeholder="Title EN" />
+                <input className="form-input" value={trans.strengths?.item2Title?.zh || ''} onChange={e => updatePath('strengths.item2Title.zh', e.target.value)} placeholder="Title ZH" />
+              </div>
+              <div className="form-grid-three" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem', marginTop: '0.5rem' }}>
+                <textarea className="form-textarea" rows="2" value={trans.strengths?.item2Desc?.vi || ''} onChange={e => updatePath('strengths.item2Desc.vi', e.target.value)} placeholder="Mô tả VI" />
+                <textarea className="form-textarea" rows="2" value={trans.strengths?.item2Desc?.en || ''} onChange={e => updatePath('strengths.item2Desc.en', e.target.value)} placeholder="Desc EN" />
+                <textarea className="form-textarea" rows="2" value={trans.strengths?.item2Desc?.zh || ''} onChange={e => updatePath('strengths.item2Desc.zh', e.target.value)} placeholder="Desc ZH" />
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label className="form-label" style={{ fontWeight: 600 }}>3. Ưu điểm 3 (Tính dẫn dụ)</label>
+              <div className="form-grid-three" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem' }}>
+                <input className="form-input" value={trans.strengths?.item3Title?.vi || ''} onChange={e => updatePath('strengths.item3Title.vi', e.target.value)} placeholder="Tiêu đề VI" />
+                <input className="form-input" value={trans.strengths?.item3Title?.en || ''} onChange={e => updatePath('strengths.item3Title.en', e.target.value)} placeholder="Title EN" />
+                <input className="form-input" value={trans.strengths?.item3Title?.zh || ''} onChange={e => updatePath('strengths.item3Title.zh', e.target.value)} placeholder="Title ZH" />
+              </div>
+              <div className="form-grid-three" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem', marginTop: '0.5rem' }}>
+                <textarea className="form-textarea" rows="2" value={trans.strengths?.item3Desc?.vi || ''} onChange={e => updatePath('strengths.item3Desc.vi', e.target.value)} placeholder="Mô tả VI" />
+                <textarea className="form-textarea" rows="2" value={trans.strengths?.item3Desc?.en || ''} onChange={e => updatePath('strengths.item3Desc.en', e.target.value)} placeholder="Desc EN" />
+                <textarea className="form-textarea" rows="2" value={trans.strengths?.item3Desc?.zh || ''} onChange={e => updatePath('strengths.item3Desc.zh', e.target.value)} placeholder="Desc ZH" />
+              </div>
+            </div>
+          </div>
         </div>
       )}
 
